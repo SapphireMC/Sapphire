@@ -1,0 +1,32 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 3 Dec 2021 19:05:44 +0500
+Subject: [PATCH] Change default permissions
+
+
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
+index 6cc517b394bafefce50d877761e5b2eee8e14c78..d4042edc989154503b51c7fe77c5397e16979f20 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
+@@ -30,7 +30,7 @@ public final class CommandPermissions {
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "effect", "Allows the user to add/remove effects on players", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "selector", "Allows the use of selectors", PermissionDefault.OP, commands);
+-        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "trigger", "Allows the use of the trigger command", PermissionDefault.TRUE, commands);
++        DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "trigger", "Allows the use of the trigger command", PermissionDefault.FALSE, commands);
+         // Paper start
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "attribute", "Allows the user to query, add, remove or set an entity attribute", PermissionDefault.OP, commands);
+         DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "advancement", "Allows the user to give, remove, or check player advancements", PermissionDefault.OP, commands);
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
+index cb75827316fe6c22ec900efea800d35d40573380..90dac6ce31e88b6c027fab1a4a5b9f9742c584e1 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
+@@ -13,7 +13,7 @@ public final class CraftDefaultPermissions {
+         CommandPermissions.registerPermissions(parent);
+         // Spigot start
+         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".nbt.place", "Gives the user the ability to place restricted blocks with NBT in creative", org.bukkit.permissions.PermissionDefault.OP, parent);
+-        DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".nbt.copy", "Gives the user the ability to copy NBT in creative", org.bukkit.permissions.PermissionDefault.TRUE, parent);
++        DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".nbt.copy", "Gives the user the ability to copy NBT in creative", org.bukkit.permissions.PermissionDefault.FALSE, parent);
+         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".debugstick", "Gives the user the ability to use the debug stick in creative", org.bukkit.permissions.PermissionDefault.OP, parent);
+         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".debugstick.always", "Gives the user the ability to use the debug stick in all game modes", org.bukkit.permissions.PermissionDefault.FALSE, parent);
+         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".commandblock", "Gives the user the ability to use command blocks.", org.bukkit.permissions.PermissionDefault.OP, parent); // Paper

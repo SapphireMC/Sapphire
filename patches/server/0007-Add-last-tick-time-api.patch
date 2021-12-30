@@ -1,0 +1,77 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sat, 4 Dec 2021 00:02:37 +0500
+Subject: [PATCH] Add last tick time api
+
+
+diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
+index c9b0bd81f83b1e38c8a1d31beb73d3180e6a618b..be61c3c2f6d70038bffcac73cd8bb15c13291e44 100644
+--- a/src/main/java/net/minecraft/server/MinecraftServer.java
++++ b/src/main/java/net/minecraft/server/MinecraftServer.java
+@@ -1188,6 +1188,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+     // Paper End
+     // Spigot End
+ 
++    public static java.time.Duration lastTickTime = java.time.Duration.ZERO; // Sapphire
++
+     protected void runServer() {
+         try {
+             long serverStartTime = Util.getNanos(); // Paper
+@@ -1253,7 +1255,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                     this.nextTickTime += 50L;
+                     this.startMetricsRecordingTick();
+                     this.profiler.push("tick");
++                    long tickStart = System.nanoTime(); // Sapphire
+                     this.tickServer(this::haveTime);
++                    lastTickTime = java.time.Duration.ofNanos(System.nanoTime() - tickStart);
+                     this.profiler.popPush("nextTickWait");
+                     this.mayHaveDelayedTasks = true;
+                     this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
+diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+index 4ebeda7a7740f09ff44424ba01747bf505d1c3e4..bd99a806df07e1e5a01f2b4791a58ae3475ff1b9 100644
+--- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
++++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
+@@ -2824,4 +2824,12 @@ public final class CraftServer implements Server {
+     }
+ 
+     // Paper end
++
++    // Sapphire start
++    @Override
++    @org.jetbrains.annotations.NotNull
++    public java.time.Duration getLastTickTime() {
++        return net.minecraft.server.MinecraftServer.lastTickTime;
++    }
++    // Sapphire end
+ }
+diff --git a/src/main/java/org/spigotmc/TicksPerSecondCommand.java b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
+index 9bede6a26c08ede063c7a38f1149c811df14b258..8a1c89ecde2ad3421b4652e33e52ea42fa8bab83 100644
+--- a/src/main/java/org/spigotmc/TicksPerSecondCommand.java
++++ b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
+@@ -32,6 +32,8 @@ public class TicksPerSecondCommand extends Command
+             tpsAvg[i] = TicksPerSecondCommand.format( tps[i] );
+         }
+         sender.sendMessage(ChatColor.GOLD + "TPS from last 1m, 5m, 15m: " + org.apache.commons.lang.StringUtils.join(tpsAvg, ", "));
++        java.time.Duration lastTickTime = org.bukkit.Bukkit.getLastTickTime();
++        sender.sendMessage(ChatColor.GOLD + "Last tick: " + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.MILLISECONDS ) + " (" + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.NANOSECONDS ) + ")");
+         if (args.length > 0 && args[0].equals("mem") && sender.hasPermission("bukkit.command.tpsmemory")) {
+             sender.sendMessage(ChatColor.GOLD + "Current Memory Usage: " + ChatColor.GREEN + ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "/" + (Runtime.getRuntime().totalMemory() / (1024 * 1024)) + " mb (Max: " + (Runtime.getRuntime().maxMemory() / (1024 * 1024)) + " mb)");
+             if (!hasShownMemoryWarning) {
+@@ -50,4 +52,17 @@ public class TicksPerSecondCommand extends Command
+         return ( ( tps > 18.0 ) ? ChatColor.GREEN : ( tps > 16.0 ) ? ChatColor.YELLOW : ChatColor.RED ).toString()
+                 + ( ( tps > 21.0 ) ? "*" : "" ) + Math.min( Math.round( tps * 100.0 ) / 100.0, 20.0 ); // Paper - only print * at 21, we commonly peak to 20.02 as the tick sleep is not accurate enough, stop the noise
+     }
++
++    // Sapphire start
++    public static String formatLastTickTime(java.time.Duration duration, java.util.concurrent.TimeUnit unit)
++    {
++        java.util.concurrent.TimeUnit nanosUnit = java.util.concurrent.TimeUnit.NANOSECONDS;
++
++        long nanos = duration.toNanos();
++        long toAskedUnit = unit.convert( nanos, nanosUnit );
++        long ms = nanosUnit.toMillis( nanos );
++
++        ChatColor startingColor = ms < 40 ? ChatColor.GREEN : ( ms < 50 ) ? ChatColor.YELLOW : ChatColor.RED;
++        return startingColor.toString() + toAskedUnit + ChatColor.GOLD + io.sapphiremc.sapphire.utils.TimeUtils.getFriendlyName( unit );
++    }
+ }

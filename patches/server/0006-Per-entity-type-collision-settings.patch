@@ -1,0 +1,198 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 3 Dec 2021 23:29:13 +0500
+Subject: [PATCH] Per entity type collision settings
+
+
+diff --git a/src/main/java/io/sapphiremc/sapphire/EntityFilter.java b/src/main/java/io/sapphiremc/sapphire/EntityFilter.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..bb4d50c1aa0fb76bc3413b49e2cc21f7df174b7f
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/EntityFilter.java
+@@ -0,0 +1,119 @@
++package io.sapphiremc.sapphire;
++
++import net.minecraft.world.entity.Entity;
++import net.minecraft.world.entity.EntitySelector;
++import net.minecraft.world.entity.EntityType;
++import net.minecraft.world.entity.MobCategory;
++import net.minecraft.world.scores.Team;
++
++import java.util.function.Predicate;
++
++public class EntityFilter {
++
++    public static Predicate<Entity> pushable(Entity entity, boolean ignoreClimbing) {
++        if (SapphireConfig.allCollisionsEnabled) {
++            return EntitySelector.pushable(entity, ignoreClimbing);
++        }
++
++        Team entityTeam = entity.getTeam();
++        Team.CollisionRule entityCollision = entityTeam == null ?
++            Team.CollisionRule.ALWAYS : entityTeam.getCollisionRule();
++
++        if (entityCollision == Team.CollisionRule.NEVER || entity.level.isClientSide || entity.isSpectator()) {
++            return tested -> false;
++        }
++
++        Predicate<Entity> ret = (tested) -> {
++            if (!tested.isCollidable(ignoreClimbing) || !tested.canCollideWith(entity) || !entity.canCollideWith(tested)) {
++                return false;
++            }
++
++            Team testedTeam = tested.getTeam();
++            Team.CollisionRule testedCollision = testedTeam == null ?
++                Team.CollisionRule.ALWAYS : testedTeam.getCollisionRule();
++
++            if (testedCollision == Team.CollisionRule.NEVER) {
++                return false;
++            }
++
++            if (testedTeam != null && entityTeam != null) {
++                boolean allied = entityTeam.isAlliedTo(testedTeam);
++
++                if ((entityCollision == Team.CollisionRule.PUSH_OWN_TEAM || testedCollision == Team.CollisionRule.PUSH_OWN_TEAM) && allied) {
++                    return false;
++                }
++
++                return (entityCollision != Team.CollisionRule.PUSH_OTHER_TEAMS && testedCollision != Team.CollisionRule.PUSH_OTHER_TEAMS) || allied;
++            } else {
++                return entityCollision == Team.CollisionRule.ALWAYS && testedCollision == Team.CollisionRule.ALWAYS;
++            }
++        };
++
++        ret = ret.and((tested) -> {
++            if (tested.getType() == EntityType.PLAYER && SapphireConfig.playerCollisions) {
++                return true;
++            }
++            if (tested.getType().getCategory() == MobCategory.CREATURE && SapphireConfig.animalCollisions) {
++                return true;
++            }
++            if (tested.getType().getCategory() == MobCategory.AMBIENT && SapphireConfig.ambientCollisions) {
++                return true;
++            }
++            if (tested.getType().getCategory() == MobCategory.MONSTER) {
++                if (SapphireConfig.monsterCollisions) {
++                    if (SapphireConfig.pillagerCollisions) {
++                        return true;
++                    } else {
++                        return tested.getType() != EntityType.PILLAGER;
++                    }
++                } else {
++                    if (SapphireConfig.pillagerCollisions) {
++                        return tested.getType() == EntityType.PILLAGER;
++                    } else {
++                        return false;
++                    }
++                }
++            }
++            if (tested.getType().getCategory() == MobCategory.MISC) {
++                if (SapphireConfig.miscCollisions) {
++                    if (SapphireConfig.villagerCollisions && SapphireConfig.ironGolemCollisions && SapphireConfig.itemCollisions) {
++                        return true;
++                    }
++                    if (!SapphireConfig.villagerCollisions) {
++                        if (tested.getType() == EntityType.VILLAGER) {
++                            return false;
++                        }
++                    }
++                    if (!SapphireConfig.ironGolemCollisions) {
++                        if (tested.getType() == EntityType.IRON_GOLEM) {
++                            return false;
++                        }
++                    }
++                    if (!SapphireConfig.itemCollisions) {
++                        return tested.getType() != EntityType.ITEM;
++                    }
++                    return true;
++                } else {
++                    if (tested.getType() == EntityType.VILLAGER && SapphireConfig.villagerCollisions) {
++                        return true;
++                    }
++                    if (tested.getType() == EntityType.IRON_GOLEM && SapphireConfig.ironGolemCollisions) {
++                        return true;
++                    }
++                    return tested.getType() == EntityType.ITEM && SapphireConfig.itemCollisions;
++                }
++            }
++            if (tested.getType().getCategory() == MobCategory.WATER_AMBIENT && SapphireConfig.waterAmbientCollisions) {
++                return true;
++            }
++            if (tested.getType().getCategory() == MobCategory.WATER_CREATURE && SapphireConfig.waterCreatureCillisions) {
++                return true;
++            }
++            if (tested.getType().getCategory() == MobCategory.UNDERGROUND_WATER_CREATURE && SapphireConfig.undergroundWaterCreatureCollisions) {
++                return true;
++            }
++            return tested.getType().getCategory() == MobCategory.AXOLOTLS && SapphireConfig.axolotlCollisions;
++        });
++        return ret;
++    }
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+index 537df5f067c84ee2563ba871cf13ec1c39ab7b12..4e16aaf928af74021ffdd863a2f02e0d3543b9ec 100644
+--- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
++++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+@@ -31,6 +31,10 @@ public class SapphireConfig {
+ 
+     public static void init(File configFile) {
+         CONFIG_FILE = configFile;
++        load();
++    }
++
++    public static void load() {
+         config = new YamlConfiguration();
+         try {
+             config.load(CONFIG_FILE);
+@@ -162,4 +166,38 @@ public class SapphireConfig {
+     private static void settings() {
+         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
+     }
++
++    public static boolean playerCollisions = true;
++    public static boolean animalCollisions = true;
++    public static boolean ambientCollisions = true;
++    public static boolean monsterCollisions = true;
++    public static boolean villagerCollisions = true;
++    public static boolean pillagerCollisions = true;
++    public static boolean ironGolemCollisions = true;
++    public static boolean miscCollisions = true;
++    public static boolean itemCollisions = true;
++    public static boolean waterAmbientCollisions = true;
++    public static boolean waterCreatureCillisions = true;
++    public static boolean undergroundWaterCreatureCollisions = true;
++    public static boolean axolotlCollisions = true;
++    public static boolean allCollisionsEnabled = false;
++    private static void collisionSettings() {
++        playerCollisions = getBoolean("collisions.players", pillagerCollisions);
++        animalCollisions = getBoolean("collisions.animals", animalCollisions);
++        ambientCollisions = getBoolean("collisions.ambient", ambientCollisions);
++        monsterCollisions = getBoolean("collisions.monsters", monsterCollisions);
++        villagerCollisions = getBoolean("collisions.villagers", villagerCollisions);
++        pillagerCollisions = getBoolean("collisions.pillagers", pillagerCollisions);
++        ironGolemCollisions = getBoolean("collisions.iron-golems", ironGolemCollisions);
++        miscCollisions = getBoolean("collisions.misc", miscCollisions);
++        itemCollisions = getBoolean("collisions.items", itemCollisions);
++        waterAmbientCollisions = getBoolean("collisions.water-ambient", waterAmbientCollisions);
++        waterCreatureCillisions = getBoolean("collisions.water-creatures", waterCreatureCillisions);
++        undergroundWaterCreatureCollisions = getBoolean("collisions.underground-water-creatures", undergroundWaterCreatureCollisions);
++        axolotlCollisions = getBoolean("collisions.axolotls", ambientCollisions);
++
++        allCollisionsEnabled = playerCollisions && animalCollisions && ambientCollisions && monsterCollisions
++            && villagerCollisions && pillagerCollisions && ironGolemCollisions && miscCollisions && itemCollisions
++            && waterAmbientCollisions && waterCreatureCillisions && undergroundWaterCreatureCollisions && axolotlCollisions;
++    }
+ }
+diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+index 93b3721442af45a6c7815030f656dc644d7f6b34..bc536430648156d62994ae4dbd503ea5ea8c6ab0 100644
+--- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
++++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
+@@ -3390,7 +3390,7 @@ public abstract class LivingEntity extends Entity {
+             return;
+         }
+         // Paper end - don't run getEntities if we're not going to use its result
+-        List<Entity> list = this.level.getEntities((Entity) this, this.getBoundingBox(), EntitySelector.pushable(this, level.paperConfig.fixClimbingBypassingCrammingRule)); // Paper - fix climbing bypassing cramming rule
++        List<Entity> list = this.level.getEntities(this, this.getBoundingBox(), io.sapphiremc.sapphire.EntityFilter.pushable(this, level.paperConfig.fixClimbingBypassingCrammingRule)); // Paper - fix climbing bypassing cramming rule // Sapphire - per entity type collision settings
+ 
+         if (!list.isEmpty()) {
+             // Paper - move up

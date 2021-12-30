@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sat, 4 Dec 2021 00:02:38 +0500
+Subject: [PATCH] Add last tick time api
+
+
+diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
+index 53c4e5ca208ee17c7c244e416c537c7b63edf194..94bbc7c7431f0c8f8e2dba19e9a487528424413f 100644
+--- a/src/main/java/org/bukkit/Bukkit.java
++++ b/src/main/java/org/bukkit/Bukkit.java
+@@ -2181,4 +2181,27 @@ public final class Bukkit {
+     public static Server.Spigot spigot() {
+         return server.spigot();
+     }
++
++    // Sapphire start
++    /**
++     * Returns the time of the last tick took in milliseconds.
++     *
++     * @return long time value
++     * @deprecated never method with java's Duration and a possibility to convert it from millis to something else
++     */
++    @Deprecated
++    public static long getLastTickMs() {
++        return server.getLastTickMs();
++    }
++
++    /**
++     * Returns the time of the last tick took in {@link java.time.Duration}
++     *
++     * @return duration time value
++     */
++    @NotNull
++    public static java.time.Duration getLastTickTime() {
++        return server.getLastTickTime();
++    }
++    // Sapphire end
+ }
+diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
+index 1a97793c61ccb468fc8514efdb7ea9d5cf339b52..6346f0dddf3d4a980e6de5887475e6bab9e76245 100644
+--- a/src/main/java/org/bukkit/Server.java
++++ b/src/main/java/org/bukkit/Server.java
+@@ -1896,4 +1896,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+     @NotNull
+     io.papermc.paper.datapack.DatapackManager getDatapackManager();
+     // Paper end
++
++    // Sapphire start
++    /**
++     * Returns the time of the last tick took in milliseconds.
++     *
++     * @return long time value
++     * @deprecated never method with java's Duration and a possibility to convert it from millis to something else
++     */
++    @Deprecated
++    default long getLastTickMs() {
++        return getLastTickTime().toMillis();
++    }
++
++    /**
++     * Returns the time of the last tick took in {@link java.time.Duration}
++     *
++     * @return duration time value
++     */
++    @NotNull
++    java.time.Duration getLastTickTime();
++    // Sapphire end
+ }

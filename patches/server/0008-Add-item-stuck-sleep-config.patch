@@ -1,0 +1,34 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sat, 4 Dec 2021 00:08:30 +0500
+Subject: [PATCH] Add item stuck sleep config
+
+
+diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+index 4e16aaf928af74021ffdd863a2f02e0d3543b9ec..d35a150ef6790b15edfedeae7eee854fe28b503a 100644
+--- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
++++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+@@ -163,8 +163,10 @@ public class SapphireConfig {
+     }
+ 
+     public static boolean disableEntityStuckChecks = false;
++    public static int itemStuckSleepTicks = 1;
+     private static void settings() {
+         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
++        itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
+     }
+ 
+     public static boolean playerCollisions = true;
+diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+index f09db211f6f789ced85f7bf716428cd04bb41378..07637013a428d016bf5b142a6e40e4f11e53b612 100644
+--- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
++++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
+@@ -127,7 +127,7 @@ public class ItemEntity extends Entity {
+ 
+             if (this.level.isClientSide) {
+                 this.noPhysics = false;
+-            } else {
++            } else if (!this.onGround || this.noPhysics || this.age * io.sapphiremc.sapphire.SapphireConfig.itemStuckSleepTicks == 0) { // Sapphire
+                 this.noPhysics = !this.level.noCollision(this, this.getBoundingBox().deflate(1.0E-7D));
+                 if (this.noPhysics) {
+                     this.moveTowardsClosestSpace(this.getX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getZ());

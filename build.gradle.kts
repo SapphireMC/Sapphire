@@ -3,8 +3,8 @@ import io.papermc.paperweight.util.constants.*
 plugins {
     java
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "7.1.0" apply false
-    id("io.papermc.paperweight.patcher") version "1.3.1"
+    id("com.github.johnrengelman.shadow") version "7.1.1" apply false
+    id("io.papermc.paperweight.patcher") version "1.3.3"
 }
 
 repositories {
@@ -79,7 +79,7 @@ tasks.generateDevelopmentBundle {
             "https://libraries.minecraft.net/",
             "https://papermc.io/repo/repository/maven-public/",
             "https://maven.quiltmc.org/repository/release/",
-            // "https://my.repo/", // This should be a repo hosting your API (in this example, 'com.example.paperfork:forktest-api')
+            "http://repo.denaryworld.ru/snapshots/", // This should be a repo hosting your API (in this example, 'com.example.paperfork:forktest-api')
         )
     )
 }
@@ -90,10 +90,9 @@ allprojects {
     publishing {
         repositories {
             maven {
-                name = "myRepoSnapshots"
-                url = uri("https://my.repo/")
-                // See Gradle docs for how to provide credentials to PasswordCredentials
-                // https://docs.gradle.org/current/samples/sample_publishing_credentials.html
+                name = "SapphireMC"
+                url = uri("http://repo.denaryworld.ru/snapshots/")
+                isAllowInsecureProtocol = true
                 credentials(PasswordCredentials::class)
             }
         }

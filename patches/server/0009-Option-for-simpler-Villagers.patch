@@ -1,0 +1,150 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sat, 4 Dec 2021 00:33:11 +0500
+Subject: [PATCH] Option for simpler Villagers
+
+
+diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+index d35a150ef6790b15edfedeae7eee854fe28b503a..85551acfa98b8e430bffc1042a75e33f7bbd1c14 100644
+--- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
++++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
+@@ -169,6 +169,13 @@ public class SapphireConfig {
+         itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
+     }
+ 
++    public static boolean simplerVillagersBehavior = false;
++    public static boolean villagersHideAtNight = false;
++    private static void villagersSettings() {
++        simplerVillagersBehavior = getBoolean("settings.villagers.simpler-behavior", simplerVillagersBehavior);
++        villagersHideAtNight = getBoolean("settings.villagers.hide-at-night", villagersHideAtNight);
++    }
++
+     public static boolean playerCollisions = true;
+     public static boolean animalCollisions = true;
+     public static boolean ambientCollisions = true;
+diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
+index 0ac3d6b25857bc5af0a4909a70053eeb86ea48ea..58c3629932356719629011eaa1f52bb1eab96127 100644
+--- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
++++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
+@@ -98,6 +98,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;
+ 
+ public class Villager extends AbstractVillager implements ReputationEventHandler, VillagerDataHolder {
+ 
++    private final boolean simplerVillagersBehavior = io.sapphiremc.sapphire.SapphireConfig.simplerVillagersBehavior;
+     private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.VILLAGER_DATA);
+     public static final int BREEDING_FOOD_THRESHOLD = 12;
+     public static final Map<Item, Integer> FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
+@@ -145,12 +146,47 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     public Villager(EntityType<? extends Villager> entityType, Level world, VillagerType type) {
+         super(entityType, world);
+         this.gossips = new GossipContainer();
+-        ((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
+-        this.getNavigation().setCanFloat(true);
++        // Sapphire start
++        if (simplerVillagersBehavior) {
++            initPathfinder();
++        } else {
++            ((GroundPathNavigation) this.getNavigation()).setCanOpenDoors(true);
++            this.getNavigation().setCanFloat(true);
++        }
++        // Sapphire end
+         this.setCanPickUpLoot(true);
+         this.setVillagerData(this.getVillagerData().setType(type).setProfession(VillagerProfession.NONE));
+     }
+ 
++    // Sapphire start
++    protected void initPathfinder() {
++        if (!simplerVillagersBehavior) return;
++
++        this.goalSelector.addGoal(0, new net.minecraft.world.entity.ai.goal.FloatGoal(this));
++
++        if (io.sapphiremc.sapphire.SapphireConfig.villagersHideAtNight) {
++            this.goalSelector.addGoal(0, new net.minecraft.world.entity.ai.goal.UseItemGoal<>(this, net.minecraft.world.item.alchemy.PotionUtils.setPotion(new ItemStack(Items.POTION), net.minecraft.world.item.alchemy.Potions.INVISIBILITY), SoundEvents.WANDERING_TRADER_DISAPPEARED, (villager) -> !this.level.isDay() && !villager.isInvisible()));
++            this.goalSelector.addGoal(0, new net.minecraft.world.entity.ai.goal.UseItemGoal<>(this, new ItemStack(Items.MILK_BUCKET), SoundEvents.WANDERING_TRADER_REAPPEARED, (villager) -> this.level.isDay() && villager.isInvisible()));
++        }
++
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.TradeWithPlayerGoal(this));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Zombie.class, 8.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Evoker.class, 12.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Vindicator.class, 8.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Vex.class, 8.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Pillager.class, 15.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.AvoidEntityGoal<>(this, net.minecraft.world.entity.monster.Illusioner.class, 12.0F, 0.5D, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.PanicGoal(this, 0.5D));
++        this.goalSelector.addGoal(1, new net.minecraft.world.entity.ai.goal.LookAtTradingPlayerGoal(this));
++        this.goalSelector.addGoal(2, new net.minecraft.world.entity.ai.goal.GolemRandomStrollInVillageGoal(this, 0.6D));
++        this.goalSelector.addGoal(3, new net.minecraft.world.entity.ai.goal.MoveThroughVillageGoal(this, 0.6D, false, 4, () -> false));
++        this.goalSelector.addGoal(4, new net.minecraft.world.entity.ai.goal.MoveTowardsRestrictionGoal(this, 0.35D));
++        this.goalSelector.addGoal(8, new net.minecraft.world.entity.ai.goal.RandomStrollGoal(this, 0.35D));
++        this.goalSelector.addGoal(9, new net.minecraft.world.entity.ai.goal.InteractGoal(this, Player.class, 3.0F, 1.0F));
++        this.goalSelector.addGoal(10, new net.minecraft.world.entity.ai.goal.LookAtPlayerGoal(this, Player.class, 8.0F));
++    }
++    // Sapphire end
++
+     @Override
+     public Brain<Villager> getBrain() {
+         return (Brain<Villager>) super.getBrain(); // CraftBukkit - decompile error
+@@ -163,6 +199,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+ 
+     @Override
+     protected Brain<?> makeBrain(Dynamic<?> dynamic) {
++        if (simplerVillagersBehavior) return super.makeBrain(dynamic); // Sapphire
+         Brain<Villager> behaviorcontroller = this.brainProvider().makeBrain(dynamic);
+ 
+         this.registerBrainGoals(behaviorcontroller);
+@@ -241,10 +278,39 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     }
+     // Spigot End
+ 
++    // Sapphire start
++    private VillagerProfession getRandomProfession() {
++        int type = random.nextInt(13);
++        return switch (type) {
++            case 0 -> VillagerProfession.ARMORER;
++            case 1 -> VillagerProfession.BUTCHER;
++            case 2 -> VillagerProfession.CARTOGRAPHER;
++            case 3 -> VillagerProfession.CLERIC;
++            case 4 -> VillagerProfession.FARMER;
++            case 5 -> VillagerProfession.FISHERMAN;
++            case 6 -> VillagerProfession.FLETCHER;
++            case 7 -> VillagerProfession.LEATHERWORKER;
++            case 8 -> VillagerProfession.LIBRARIAN;
++            case 9 -> VillagerProfession.MASON;
++            case 10 -> VillagerProfession.SHEPHERD;
++            case 11 -> VillagerProfession.TOOLSMITH;
++            case 12 -> VillagerProfession.WEAPONSMITH;
++            default -> VillagerProfession.FARMER;
++        };
++    }
++    // Sapphire end
++
+     @Override
+     protected void customServerAiStep() { mobTick(false); }
+     protected void mobTick(boolean inactive) {
+         this.level.getProfiler().push("villagerBrain");
++        // Sapphire start
++        if (simplerVillagersBehavior && this.getVillagerData().getProfession() == VillagerProfession.NONE) {
++            this.setVillagerData(this.getVillagerData().setProfession(getRandomProfession()));
++        }
++        if (simplerVillagersBehavior & canRestock()) catchUpDemand();
++        if (simplerVillagersBehavior) return;
++        // Sapphire end
+         if (!inactive) this.getBrain().tick((ServerLevel) this.level, this); // Paper
+         this.level.getProfiler().pop();
+         if (this.assignProfessionWhenSpawned) {
+@@ -678,6 +744,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     }
+ 
+     private void tellWitnessesThatIWasMurdered(Entity killer) {
++        if (simplerVillagersBehavior) return; // Sapphire
+         Level world = this.level;
+ 
+         if (world instanceof ServerLevel) {
+@@ -696,6 +763,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     }
+ 
+     public void releasePoi(MemoryModuleType<GlobalPos> memorymoduletype) {
++        if (simplerVillagersBehavior) return; // Sapphire
+         if (this.level instanceof ServerLevel) {
+             MinecraftServer minecraftserver = ((ServerLevel) this.level).getServer();
+ 

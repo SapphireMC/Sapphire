@@ -1,0 +1,64 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 3 Dec 2021 21:18:54 +0500
+Subject: [PATCH] Add GameProfileLookupEvent
+
+
+diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+index 84551164b76bc8f064a3a0c030c3a1b47f567b6f..c8a4bfaa25b9d9e584261bd57fa77e6b43a994f4 100644
+--- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
++++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
+@@ -188,12 +188,23 @@ public class CraftPlayerProfile implements PlayerProfile {
+ 
+         boolean isCompleteFromCache = this.completeFromCache(true, onlineMode);
+         if (onlineMode && (!isCompleteFromCache || textures && !hasTextures())) {
+-            GameProfile result = server.getSessionService().fillProfileProperties(profile, true);
+-            if (result != null) {
+-                copyProfileProperties(result, this.profile, true);
+-            }
+-            if (this.profile.isComplete()) {
+-                server.getProfileCache().add(this.profile);
++            // Sapphire start - call GameProfileLookupEvent
++            io.sapphiremc.sapphire.api.event.GameProfileLookupEvent event = new io.sapphiremc.sapphire.api.event.GameProfileLookupEvent(
++                !org.bukkit.Bukkit.isPrimaryThread(), profile.getId(), profile.getName()
++            );
++            org.bukkit.Bukkit.getPluginManager().callEvent(event);
++            GameProfile eventProfile = event.getGameProfile();
++            if (eventProfile != null) {
++                this.profile = eventProfile;
++            } else {
++                GameProfile result = server.getSessionService().fillProfileProperties(profile, true);
++                if (result != null) {
++                    copyProfileProperties(result, this.profile, true);
++                }
++                if (this.profile.isComplete()) {
++                    server.getProfileCache().add(this.profile);
++                }
++                // Sapphire end
+             }
+         }
+         return profile.isComplete() && (!onlineMode || !textures || hasTextures());
+diff --git a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
+index 118472b83a21a250f398c088c91ac4560c19c749..b7e40c253d74489838f0feb9a95a555ab612c894 100644
+--- a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
++++ b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
+@@ -152,7 +152,18 @@ public class SkullBlockEntity extends BlockEntity {
+                     Util.ifElse(profile, (profilex) -> {
+                         Property property = Iterables.getFirst(profilex.getProperties().get("textures"), (Property)null);
+                         if (property == null) {
+-                            profilex = sessionService.fillProfileProperties(profilex, true);
++                            // Sapphire start - call GameProfileLookupEvent
++                            io.sapphiremc.sapphire.api.event.GameProfileLookupEvent event = new io.sapphiremc.sapphire.api.event.GameProfileLookupEvent(
++                                !org.bukkit.Bukkit.isPrimaryThread(), profilex.getId(), profilex.getName()
++                            );
++                            org.bukkit.Bukkit.getPluginManager().callEvent(event);
++                            GameProfile eventProfile = event.getGameProfile();
++                            if (eventProfile != null) {
++                                profilex = eventProfile;
++                            } else {
++                                profilex = sessionService.fillProfileProperties(profilex, true);
++                            }
++                            // Sapphire end
+                         }
+ 
+                         GameProfile gameProfile = profilex;

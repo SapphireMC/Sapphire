@@ -1,0 +1,126 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 3 Dec 2021 19:17:37 +0500
+Subject: [PATCH] Utilities
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 68f7dec631103cab7eba2f3fbace58172b8f8145..3f6f428faa621b750e95feef807368e803e48e3f 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -36,6 +36,7 @@ dependencies {
+     implementation("org.apache.logging.log4j:log4j-slf4j18-impl:2.17.1") // Paper
+     implementation("org.ow2.asm:asm:9.2")
+     implementation("org.ow2.asm:asm-commons:9.2") // Paper - ASM event executor generation
++    implementation("org.apache.commons:commons-rng-core:1.4") // Sapphire
+     runtimeOnly("org.xerial:sqlite-jdbc:3.36.0.3")
+     runtimeOnly("mysql:mysql-connector-java:8.0.27")
+     runtimeOnly("com.lmax:disruptor:3.4.4") // Paper
+diff --git a/src/main/java/io/sapphiremc/sapphire/utils/Constants.java b/src/main/java/io/sapphiremc/sapphire/utils/Constants.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..1360f10e3e83d274253927ef3d05e0e52afe8ceb
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/utils/Constants.java
+@@ -0,0 +1,7 @@
++package io.sapphiremc.sapphire.utils;
++
++public class Constants {
++
++    public static final int[] EMPTY_ARRAY = new int[0];
++    public static final int[] ZERO_ARRAY = new int[]{0};
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/utils/FastRandom.java b/src/main/java/io/sapphiremc/sapphire/utils/FastRandom.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..cf097e03082c02a445913ef9223e555512385d55
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/utils/FastRandom.java
+@@ -0,0 +1,64 @@
++package io.sapphiremc.sapphire.utils;
++
++import org.apache.commons.rng.core.source64.XoRoShiRo128PlusPlus;
++
++import java.util.Random;
++import java.util.SplittableRandom;
++
++public class FastRandom extends Random {
++
++    private XoRoShiRo128PlusPlus random;
++
++    public FastRandom() {
++        super();
++        SplittableRandom randomseed = new SplittableRandom();
++        this.random = new XoRoShiRo128PlusPlus(randomseed.nextLong(), randomseed.nextLong());
++    }
++
++    public FastRandom(long seed) {
++        super(seed);
++        SplittableRandom randomseed = new SplittableRandom(seed);
++        this.random = new XoRoShiRo128PlusPlus(randomseed.nextLong(), randomseed.nextLong());
++    }
++
++    @Override
++    public boolean nextBoolean() {
++        return random.nextBoolean();
++    }
++
++    @Override
++    public int nextInt() {
++        return random.nextInt();
++    }
++
++    @Override
++    public int nextInt(int bound) {
++        return random.nextInt(bound);
++    }
++
++    @Override
++    public long nextLong() {
++        return random.nextLong();
++    }
++
++    @Override
++    public float nextFloat() {
++        return random.nextFloat();
++    }
++
++    @Override
++    public double nextDouble() {
++        return random.nextDouble();
++    }
++
++    @Override
++    public void nextBytes(byte[] bytes) {
++        random.nextBytes(bytes);
++    }
++
++    @Override
++    public synchronized void setSeed(long seed) {
++        SplittableRandom randomSeed = new SplittableRandom(seed);
++        this.random = new XoRoShiRo128PlusPlus(randomSeed.nextLong(), randomSeed.nextLong());
++    }
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java b/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..1be5eb65ec2d605a31f1ec9607296d1b8732dea7
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java
+@@ -0,0 +1,19 @@
++package io.sapphiremc.sapphire.utils;
++
++import java.util.concurrent.TimeUnit;
++
++public class TimeUtils {
++
++    public static String getFriendlyName(TimeUnit unit) {
++        return switch (unit) {
++            case NANOSECONDS -> "ns";
++            case MICROSECONDS -> "micros";
++            case MILLISECONDS -> "ms";
++            case SECONDS -> "s";
++            case MINUTES -> "m";
++            case HOURS -> "h";
++            default -> throw new AssertionError();
++        };
++    }
++
++}
