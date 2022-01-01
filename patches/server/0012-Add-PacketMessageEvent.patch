@@ -1,0 +1,176 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 31 Dec 2021 03:37:11 +0500
+Subject: [PATCH] Add PacketMessageEvent
+
+
+diff --git a/src/main/java/net/minecraft/network/protocol/game/ClientboundChatPacket.java b/src/main/java/net/minecraft/network/protocol/game/ClientboundChatPacket.java
+index 72734f37e5642f8c391aae7b18d6414dcfb0fd2a..61dc42113a1a6ed1eb8bf532d541bb5959ec856d 100644
+--- a/src/main/java/net/minecraft/network/protocol/game/ClientboundChatPacket.java
++++ b/src/main/java/net/minecraft/network/protocol/game/ClientboundChatPacket.java
+@@ -15,6 +15,7 @@ public class ClientboundChatPacket implements Packet<ClientGamePacketListener> {
+     public net.md_5.bungee.api.chat.BaseComponent[] components; // Spigot
+     private final ChatType type;
+     private final UUID sender;
++    public UUID target; // Sapphire
+ 
+     public ClientboundChatPacket(Component message, ChatType type, UUID sender) {
+         this.message = message;
+@@ -22,6 +23,15 @@ public class ClientboundChatPacket implements Packet<ClientGamePacketListener> {
+         this.sender = sender != null ? sender : net.minecraft.Util.NIL_UUID;
+     }
+ 
++    // Sapphire start - this need for PacketMessageEvent
++    public ClientboundChatPacket(Component message, ChatType type, UUID sender, UUID target) {
++        this.message = message;
++        this.type = type;
++        this.sender = sender != null ? sender : net.minecraft.Util.NIL_UUID;
++        this.target = target != null ? target : net.minecraft.Util.NIL_UUID;
++    }
++    // Sapphire end
++
+     public ClientboundChatPacket(FriendlyByteBuf buf) {
+         this.message = buf.readComponent();
+         this.type = ChatType.getForIndex(buf.readByte());
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+index 7b23535a680d2a8534dcb8dd87770f66fb982c13..8615d470cf22050fba012cb89722c45d03031101 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+@@ -1858,13 +1858,13 @@ public class ServerPlayer extends Player {
+ 
+     public void sendMessage(Component message, ChatType type, UUID sender) {
+         if (this.acceptsChat(type)) {
+-            this.connection.send(new ClientboundChatPacket(message, type, sender), (future) -> {
++            this.connection.send(new ClientboundChatPacket(message, type, sender, getBukkitEntity().getUniqueId()), (future) -> { // Sapphire
+                 if (!future.isSuccess() && (type == ChatType.GAME_INFO || type == ChatType.SYSTEM) && this.acceptsChat(ChatType.SYSTEM)) {
+                     boolean flag = true;
+                     String s = message.getString(256);
+                     MutableComponent ichatmutablecomponent = (new TextComponent(s)).withStyle(ChatFormatting.YELLOW);
+ 
+-                    this.connection.send(new ClientboundChatPacket((new TranslatableComponent("multiplayer.message_not_delivered", new Object[]{ichatmutablecomponent})).withStyle(ChatFormatting.RED), ChatType.SYSTEM, sender));
++                    this.connection.send(new ClientboundChatPacket((new TranslatableComponent("multiplayer.message_not_delivered", new Object[]{ichatmutablecomponent})).withStyle(ChatFormatting.RED), ChatType.SYSTEM, sender, getBukkitEntity().getUniqueId())); // Sapphire
+                 }
+ 
+             });
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index b9e0dc98243bee3de7eb291dd3fb25049c0a8f2b..a8b0f2e6a372a612012bcfc9a0c7957182abf9f6 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -2002,6 +2002,41 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+         }
+         // CraftBukkit end
+ 
++        // Sapphire start - call PluginSendMessageEvent
++        if (packet instanceof net.minecraft.network.protocol.game.ClientboundChatPacket chatPacket) {
++            net.kyori.adventure.text.Component message;
++            if (chatPacket.adventure$message != null) {
++                message = chatPacket.adventure$message;
++            } else {
++                String json;
++                if (chatPacket.components != null) {
++                    json = net.md_5.bungee.chat.ComponentSerializer.toString(chatPacket.components);
++                } else {
++                    json = Component.Serializer.toJson(chatPacket.getMessage());
++                }
++                message = net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().deserialize(json);
++            }
++
++            if (message != null && !message.equals(net.kyori.adventure.text.Component.empty())) {
++                io.sapphiremc.sapphire.api.event.PacketMessageEvent event;
++                java.util.UUID sender = chatPacket.getSender();
++                java.util.UUID target = chatPacket.target;
++                if (sender.equals(Util.NIL_UUID)) {
++                    event = new io.sapphiremc.sapphire.api.event.PacketMessageEvent(
++                        !org.bukkit.Bukkit.isPrimaryThread(), target, message, io.sapphiremc.sapphire.api.event.PacketMessageEvent.MessageType.valueOf(chatPacket.getType().name())
++                    );
++                } else {
++                    event = new io.sapphiremc.sapphire.api.event.PacketMessageEvent(
++                        !org.bukkit.Bukkit.isPrimaryThread(), sender, target, message, io.sapphiremc.sapphire.api.event.PacketMessageEvent.MessageType.valueOf(chatPacket.getType().name())
++                    );
++                }
++                org.bukkit.Bukkit.getPluginManager().callEvent(event);
++
++                chatPacket.adventure$message = event.getMessageComponent();
++            }
++        }
++        // Sapphire end
++
+         try {
+             this.connection.send(packet, listener);
+         } catch (Throwable throwable) {
+@@ -2069,7 +2104,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+ 
+     private void handleChat(TextFilter.FilteredText message) {
+         if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
+-            this.send(new ClientboundChatPacket((new TranslatableComponent("chat.disabled.options")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID));
++            this.send(new ClientboundChatPacket((new TranslatableComponent("chat.disabled.options")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID, getCraftPlayer().getUniqueId())); // Sapphire
+         } else {
+             this.player.resetLastActionTime();
+             String s = message.getRaw();
+@@ -2094,7 +2129,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+                     }
+                 });
+             } else if (this.player.getChatVisibility() == ChatVisiblity.SYSTEM) { // Re-add "Command Only" flag check
+-                this.send(new ClientboundChatPacket((new TranslatableComponent("chat.cannotSend")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID));
++                this.send(new ClientboundChatPacket((new TranslatableComponent("chat.cannotSend")).withStyle(ChatFormatting.RED), ChatType.SYSTEM, Util.NIL_UUID, getCraftPlayer().getUniqueId())); // Sapphire
+             } else if (true) {
+                 this.chat(s, true);
+                 // CraftBukkit end - the below is for reference. :)
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index 8de4ad9f2120d22b78202981624abd1d2fc70148..16c7ac443182bd210a2d51150a599398786f2bdc 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -232,7 +232,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         if (this.getHandle().connection == null) return;
+ 
+         for (Component component : CraftChatMessage.fromString(message)) {
+-            this.getHandle().connection.send(new ClientboundChatPacket(component, ChatType.SYSTEM, Util.NIL_UUID));
++            this.getHandle().connection.send(new ClientboundChatPacket(component, ChatType.SYSTEM, Util.NIL_UUID, this.getUniqueId())); // Sapphire
+         }
+     }
+ 
+@@ -241,7 +241,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         if (this.getHandle().connection == null) return;
+ 
+         for (Component component : CraftChatMessage.fromString(message)) {
+-            this.getHandle().connection.send(new ClientboundChatPacket(component, ChatType.CHAT, (sender == null) ? Util.NIL_UUID : sender));
++            this.getHandle().connection.send(new ClientboundChatPacket(component, ChatType.CHAT, (sender == null) ? Util.NIL_UUID : sender, this.getUniqueId())); // Sapphire
+         }
+     }
+ 
+@@ -2294,7 +2294,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     @Override
+     public void sendMessage(final net.kyori.adventure.identity.Identity identity, final net.kyori.adventure.text.Component message, final net.kyori.adventure.audience.MessageType type) {
+         if (getHandle().connection == null) return;
+-        final ClientboundChatPacket packet = new ClientboundChatPacket(null, type == net.kyori.adventure.audience.MessageType.CHAT ? net.minecraft.network.chat.ChatType.CHAT : net.minecraft.network.chat.ChatType.SYSTEM, identity.uuid());
++        final ClientboundChatPacket packet = new ClientboundChatPacket(null, type == net.kyori.adventure.audience.MessageType.CHAT ? net.minecraft.network.chat.ChatType.CHAT : net.minecraft.network.chat.ChatType.SYSTEM, identity.uuid(), this.getUniqueId()); // Sapphire
+         packet.adventure$message = message;
+         this.getHandle().connection.send(packet);
+     }
+@@ -2545,7 +2545,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         public void sendMessage(BaseComponent... components) {
+            if ( CraftPlayer.this.getHandle().connection == null ) return;
+ 
+-            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.SYSTEM, Util.NIL_UUID);
++            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.SYSTEM, Util.NIL_UUID, getUniqueId()); // Sapphire
+             packet.components = components;
+             CraftPlayer.this.getHandle().connection.send(packet);
+         }
+@@ -2569,7 +2569,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         public void sendMessage(net.md_5.bungee.api.ChatMessageType position, BaseComponent... components) {
+             if ( CraftPlayer.this.getHandle().connection == null ) return;
+ 
+-            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.getForIndex((byte) position.ordinal()), Util.NIL_UUID);
++            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.getForIndex((byte) position.ordinal()), Util.NIL_UUID, getUniqueId()); // Sapphire
+             packet.components = components;
+             CraftPlayer.this.getHandle().connection.send(packet);
+         }
+@@ -2583,7 +2583,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         public void sendMessage(net.md_5.bungee.api.ChatMessageType position, UUID sender, BaseComponent... components) {
+             if ( CraftPlayer.this.getHandle().connection == null ) return;
+ 
+-            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.getForIndex((byte) position.ordinal()), sender == null ? Util.NIL_UUID : sender);
++            ClientboundChatPacket packet = new ClientboundChatPacket(null, net.minecraft.network.chat.ChatType.getForIndex((byte) position.ordinal()), sender == null ? Util.NIL_UUID : sender, getUniqueId()); // Sapphire
+             packet.components = components;
+             CraftPlayer.this.getHandle().connection.send(packet);
+         }
