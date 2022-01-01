@@ -20,10 +20,10 @@ index 5e3b7fb2e0b7608610555cd23e7ad25a05883181..06049bde725534e92665a1d68e3a4088
          new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..537df5f067c84ee2563ba871cf13ec1c39ab7b12
+index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb7f4fc9ab
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -0,0 +1,165 @@
+@@ -0,0 +1,167 @@
 +package io.sapphiremc.sapphire;
 +
 +import com.google.common.base.Throwables;
@@ -62,7 +62,7 @@ index 0000000000000000000000000000000000000000..537df5f067c84ee2563ba871cf13ec1c
 +            config.load(CONFIG_FILE);
 +        } catch (IOException ignored) {
 +        } catch (InvalidConfigurationException ex) {
-+            Bukkit.getLogger().log(Level.SEVERE, "Could not load yatopia.yml, please correct your syntax errors", ex);
++            Bukkit.getLogger().log(Level.SEVERE, "Could not load sapphire.yml, please correct your syntax errors", ex);
 +            throw Throwables.propagate(ex);
 +        }
 +        config.options().header(HEADER);
@@ -179,9 +179,11 @@ index 0000000000000000000000000000000000000000..537df5f067c84ee2563ba871cf13ec1c
 +        return config.getString(path, config.getString(path));
 +    }
 +
++    public static boolean debug = false;
 +    public static String serverModName = "Sapphire";
-+    private static void serverModName() {
-+        serverModName = getString("server-mod-name", serverModName);
++    private static void general() {
++        debug = getBoolean("general.debug", debug);
++        serverModName = getString("general.server-mod-name", serverModName);
 +    }
 +
 +    public static boolean disableEntityStuckChecks = false;

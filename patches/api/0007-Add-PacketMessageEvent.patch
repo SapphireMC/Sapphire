@@ -18,15 +18,16 @@ index 68e0a556b026c0a32049de14dfbc005b6712c0f8..9a983e007e8fe15982f4c2b0a3bb690c
      api("com.mojang:authlib:2.3.31")
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bb64a43073a39f880d9c0e6d063bab636ad28882
+index 0000000000000000000000000000000000000000..63e40225a3748f2162fb241fa6d46ec4230b3206
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
-@@ -0,0 +1,159 @@
+@@ -0,0 +1,164 @@
 +package io.sapphiremc.sapphire.api.event;
 +
 +import java.util.UUID;
 +import net.kyori.adventure.text.Component;
 +import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
++import org.bukkit.Bukkit;
 +import org.bukkit.event.Cancellable;
 +import org.bukkit.event.Event;
 +import org.bukkit.event.HandlerList;
@@ -51,7 +52,9 @@ index 0000000000000000000000000000000000000000..bb64a43073a39f880d9c0e6d063bab63
 +        this.target = target;
 +        this.message = message;
 +        this.type = type;
-+        org.bukkit.Bukkit.getLogger().info("[Sapphire] Calling PacketMessageEvent (sender = null, target = " + target + ", message = " + getMessage() + ", type = " + getMessageType().name() + ")");
++        if (Bukkit.getServer().spigot().getSapphireConfig().getBoolean("general.debug", false)) {
++            org.bukkit.Bukkit.getLogger().info("[Sapphire] Calling PacketMessageEvent (sender = null, target = " + target + ", message = " + getMessage() + ", type = " + getMessageType().name() + ")");
++        }
 +    }
 +
 +    public PacketMessageEvent(boolean async, @NotNull UUID sender, @NotNull UUID target, @NotNull Component message, @NotNull MessageType type) {
@@ -60,7 +63,9 @@ index 0000000000000000000000000000000000000000..bb64a43073a39f880d9c0e6d063bab63
 +        this.target = target;
 +        this.message = message;
 +        this.type = type;
-+        org.bukkit.Bukkit.getLogger().info("[Sapphire] Calling PacketMessageEvent (sender = " + sender + ", target = " + target + ", message = " + getMessage() + ", type = " + getMessageType().name() + ")");
++        if (Bukkit.getServer().spigot().getSapphireConfig().getBoolean("general.debug", false)) {
++            org.bukkit.Bukkit.getLogger().info("[Sapphire] Calling PacketMessageEvent (sender = " + sender + ", target = " + target + ", message = " + getMessage() + ", type = " + getMessageType().name() + ")");
++        }
 +    }
 +
 +    /**

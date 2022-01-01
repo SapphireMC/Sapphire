@@ -5,10 +5,10 @@ Subject: [PATCH] Option for simpler Villagers
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index d35a150ef6790b15edfedeae7eee854fe28b503a..85551acfa98b8e430bffc1042a75e33f7bbd1c14 100644
+index aee4d53f86211ae4f8201b376e39d8dc8b7ad501..6c772868182ea268826e5fe028a18671978998d4 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -169,6 +169,13 @@ public class SapphireConfig {
+@@ -171,6 +171,13 @@ public class SapphireConfig {
          itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
      }
  
