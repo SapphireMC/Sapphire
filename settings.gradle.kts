@@ -8,3 +8,6 @@ pluginManagement {
 rootProject.name = "sapphire"
 
 include("sapphire-api", "sapphire-server")
+
+// Uncomment to enable the test plugin module
+//include(":test-plugin")
