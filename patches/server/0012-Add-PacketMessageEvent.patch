@@ -53,10 +53,10 @@ index 7b23535a680d2a8534dcb8dd87770f66fb982c13..8615d470cf22050fba012cb89722c45d
  
              });
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b9e0dc98243bee3de7eb291dd3fb25049c0a8f2b..a8b0f2e6a372a612012bcfc9a0c7957182abf9f6 100644
+index 926d0a80cbb55184955ac6720948d2e86683cc57..86797860d345b46b7bdf8cf299a28405b4ecdfd2 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2002,6 +2002,41 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2016,6 +2016,41 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          }
          // CraftBukkit end
  
@@ -98,7 +98,7 @@ index b9e0dc98243bee3de7eb291dd3fb25049c0a8f2b..a8b0f2e6a372a612012bcfc9a0c79571
          try {
              this.connection.send(packet, listener);
          } catch (Throwable throwable) {
-@@ -2069,7 +2104,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2083,7 +2118,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private void handleChat(TextFilter.FilteredText message) {
          if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
@@ -107,7 +107,7 @@ index b9e0dc98243bee3de7eb291dd3fb25049c0a8f2b..a8b0f2e6a372a612012bcfc9a0c79571
          } else {
              this.player.resetLastActionTime();
              String s = message.getRaw();
-@@ -2094,7 +2129,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2108,7 +2143,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                      }
                  });
              } else if (this.player.getChatVisibility() == ChatVisiblity.SYSTEM) { // Re-add "Command Only" flag check
