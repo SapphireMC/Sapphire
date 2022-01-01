@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.testing.logging.TestExceptionFormat
+import org.gradle.api.tasks.testing.logging.TestLogEvent
 import io.papermc.paperweight.util.constants.*
 
 plugins {
@@ -24,6 +26,9 @@ allprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
 
+    group = project.group
+    version = project.version
+
     java {
         toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
@@ -42,6 +47,14 @@ subprojects {
     tasks.withType<ProcessResources> {
         filteringCharset = Charsets.UTF_8.name()
     }
+    tasks.withType<Test> {
+        testLogging {
+            showStackTraces = true
+            exceptionFormat = TestExceptionFormat.FULL
+            events(TestLogEvent.STANDARD_OUT)
+        }
+    }
+
 
     repositories {
         mavenCentral()

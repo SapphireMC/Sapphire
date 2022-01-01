@@ -1,7 +1,7 @@
 name: Sapphire-Test-Plugin
 version: ${version}
-main: io.sapphiremc.sapphire.testplugin.TestPlugin
+main: io.sapphiremc.sapphire.test.SapphireTestPlugin
 description: Plugin for testing sapphire features
 author: SapphireMC
-api-version: ${apiversion}
+api-version: ${apiVersion}
 load: STARTUP
