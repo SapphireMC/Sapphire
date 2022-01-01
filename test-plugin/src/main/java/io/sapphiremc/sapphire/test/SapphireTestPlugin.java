@@ -17,9 +17,7 @@
  */
 package io.sapphiremc.sapphire.test;
 
-import io.papermc.paper.event.player.AsyncChatEvent;
 import io.sapphiremc.sapphire.api.event.PacketMessageEvent;
-import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -33,7 +31,7 @@ import org.bukkit.plugin.java.JavaPlugin;
  *
  * @author DenaryDev
  */
-public class SapphireTestPlugin extends JavaPlugin implements Listener {
+public class SapphireTestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
@@ -41,6 +39,7 @@ public class SapphireTestPlugin extends JavaPlugin implements Listener {
         this.getServer().getLogger().info(prefix + "Hello World!");
 
         final SapphireTestPlugin plugin = this;
+        // This need for testing PacketMessageEvent
         this.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
@@ -53,14 +52,11 @@ public class SapphireTestPlugin extends JavaPlugin implements Listener {
                 if (event.getMessageType().equals(PacketMessageEvent.MessageType.SYSTEM)) {
                     String message = event.getMessage();
                     if (message.contains("%server-brand%")) {
-                        event.setMessage(message.replace("%server-brand%", Bukkit.getServer().getName()));
+                        message = message.replace("%server-brand%", Bukkit.getServer().getName());
+                        event.setMessage(message);
+                        plugin.getLogger().info(message);
                     }
                 }
-            }
-
-            @EventHandler
-            public void onChatMessage(AsyncChatEvent event) {
-                plugin.getLogger().info(PlainTextComponentSerializer.plainText().serialize(event.message()));
             }
         }, this);
     }
