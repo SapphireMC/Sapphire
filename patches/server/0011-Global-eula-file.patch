@@ -5,7 +5,7 @@ Subject: [PATCH] Global eula file
 
 
 diff --git a/src/main/java/net/minecraft/server/Eula.java b/src/main/java/net/minecraft/server/Eula.java
-index a1d5c0f8fe2adb2ee56f3217e089211ec7c61eb0..b005f3df0d037375459ba880286588dbbcef9552 100644
+index a1d5c0f8fe2adb2ee56f3217e089211ec7c61eb0..b095ec320661202ea2bd012077653ac52a1ffb1a 100644
 --- a/src/main/java/net/minecraft/server/Eula.java
 +++ b/src/main/java/net/minecraft/server/Eula.java
 @@ -16,12 +16,24 @@ public class Eula {
@@ -23,7 +23,7 @@ index a1d5c0f8fe2adb2ee56f3217e089211ec7c61eb0..b005f3df0d037375459ba880286588db
 +        if (globalEula.exists()) {
 +            return this.readFile(globalEula.toPath());
 +        } else {
-+            System.out.println("No global eula found at " + globalEula.getAbsolutePath());
++            LOGGER.info("No global eula found at " + globalEula.getAbsolutePath());
 +        }
 +        return false;
 +    }
