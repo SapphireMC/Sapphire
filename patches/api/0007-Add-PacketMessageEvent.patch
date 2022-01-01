@@ -4,18 +4,29 @@ Date: Fri, 31 Dec 2021 03:37:12 +0500
 Subject: [PATCH] Add PacketMessageEvent
 
 
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 68e0a556b026c0a32049de14dfbc005b6712c0f8..9a983e007e8fe15982f4c2b0a3bb690cf32655f0 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -42,6 +42,7 @@ dependencies {
+     apiAndDocs("net.kyori:adventure-text-serializer-gson")
+     apiAndDocs("net.kyori:adventure-text-serializer-legacy")
+     apiAndDocs("net.kyori:adventure-text-serializer-plain")
++    apiAndDocs("net.kyori:adventure-text-serializer-bungeecord:4.0.1") // Sapphire
+     api("org.apache.logging.log4j:log4j-api:2.17.1")
+     api("org.slf4j:slf4j-api:1.8.0-beta4")
+     api("com.mojang:authlib:2.3.31")
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bc3e8a1418058031b09dfb2925452f7b40cedd55
+index 0000000000000000000000000000000000000000..bb64a43073a39f880d9c0e6d063bab636ad28882
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
-@@ -0,0 +1,163 @@
+@@ -0,0 +1,159 @@
 +package io.sapphiremc.sapphire.api.event;
 +
-+import java.util.Objects;
 +import java.util.UUID;
 +import net.kyori.adventure.text.Component;
-+import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
++import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 +import org.bukkit.event.Cancellable;
 +import org.bukkit.event.Event;
 +import org.bukkit.event.HandlerList;
@@ -86,12 +97,10 @@ index 0000000000000000000000000000000000000000..bc3e8a1418058031b09dfb2925452f7b
 +     * Returns a message in text format.
 +     *
 +     * @return message text
-+     * @deprecated use {@link PacketMessageEvent#getMessageComponent()}
 +     */
 +    @NotNull
-+    @Deprecated
 +    public String getMessage() {
-+        return PlainTextComponentSerializer.plainText().serialize(message);
++        return LegacyComponentSerializer.builder().extractUrls().hexColors().build().serialize(message);
 +    }
 +
 +    /**
@@ -100,7 +109,7 @@ index 0000000000000000000000000000000000000000..bc3e8a1418058031b09dfb2925452f7b
 +     *
 +     * @param message new message component
 +     */
-+    public void setMessage(@NotNull Component message) {
++    public void setMessageComponent(@NotNull Component message) {
 +        this.message = message;
 +    }
 +
@@ -110,9 +119,8 @@ index 0000000000000000000000000000000000000000..bc3e8a1418058031b09dfb2925452f7b
 +     *
 +     * @param message new message text
 +     */
-+    @Deprecated
 +    public void setMessage(@NotNull String message) {
-+        this.message = Component.text(message);
++        this.message = LegacyComponentSerializer.builder().extractUrls().hexColors().build().deserialize(message);
 +    }
 +
 +    /**

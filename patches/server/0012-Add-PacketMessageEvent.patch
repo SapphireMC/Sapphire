@@ -53,26 +53,24 @@ index 7b23535a680d2a8534dcb8dd87770f66fb982c13..8615d470cf22050fba012cb89722c45d
  
              });
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 926d0a80cbb55184955ac6720948d2e86683cc57..86797860d345b46b7bdf8cf299a28405b4ecdfd2 100644
+index 926d0a80cbb55184955ac6720948d2e86683cc57..97629ec2af3c64b8fe7b44c4872786fa3a541f3e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -2016,6 +2016,41 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2016,6 +2016,39 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
          }
          // CraftBukkit end
  
-+        // Sapphire start - call PluginSendMessageEvent
++        // Sapphire start - call PacketMessageEvent
 +        if (packet instanceof net.minecraft.network.protocol.game.ClientboundChatPacket chatPacket) {
 +            net.kyori.adventure.text.Component message;
 +            if (chatPacket.adventure$message != null) {
 +                message = chatPacket.adventure$message;
 +            } else {
-+                String json;
 +                if (chatPacket.components != null) {
-+                    json = net.md_5.bungee.chat.ComponentSerializer.toString(chatPacket.components);
++                    message = net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer.get().deserialize(chatPacket.components);
 +                } else {
-+                    json = Component.Serializer.toJson(chatPacket.getMessage());
++                    message = net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().deserialize(Component.Serializer.toJson(chatPacket.getMessage()));
 +                }
-+                message = net.kyori.adventure.text.serializer.gson.GsonComponentSerializer.gson().deserialize(json);
 +            }
 +
 +            if (message != null && !message.equals(net.kyori.adventure.text.Component.empty())) {
@@ -98,7 +96,7 @@ index 926d0a80cbb55184955ac6720948d2e86683cc57..86797860d345b46b7bdf8cf299a28405
          try {
              this.connection.send(packet, listener);
          } catch (Throwable throwable) {
-@@ -2083,7 +2118,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2083,7 +2116,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private void handleChat(TextFilter.FilteredText message) {
          if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
@@ -107,7 +105,7 @@ index 926d0a80cbb55184955ac6720948d2e86683cc57..86797860d345b46b7bdf8cf299a28405
          } else {
              this.player.resetLastActionTime();
              String s = message.getRaw();
-@@ -2108,7 +2143,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2108,7 +2141,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                      }
                  });
              } else if (this.player.getChatVisibility() == ChatVisiblity.SYSTEM) { // Re-add "Command Only" flag check
