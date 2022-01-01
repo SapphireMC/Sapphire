@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 028f6a1795ceb99d1760c73b0980238677b4b8bc..68f7dec631103cab7eba2f3fbace58172b8f8145 100644
+index 028f6a1795ceb99d1760c73b0980238677b4b8bc..a82bf21d32d6d2e1a829aa7a1c4a8a924cbbe7ce 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -18,8 +18,8 @@ repositories {
@@ -28,6 +28,34 @@ index 028f6a1795ceb99d1760c73b0980238677b4b8bc..68f7dec631103cab7eba2f3fbace5817
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
+@@ -156,11 +156,11 @@ fun TaskContainer.registerRunTask(
+     name: String,
+     block: JavaExec.() -> Unit
+ ): TaskProvider<JavaExec> = register<JavaExec>(name) {
+-    group = "paper"
++    group = "sapphire" // Sapphire
+     mainClass.set("org.bukkit.craftbukkit.Main")
+     standardInput = System.`in`
+     workingDir = rootProject.layout.projectDirectory
+-        .dir(providers.gradleProperty("paper.runWorkDir").forUseAtConfigurationTime().getOrElse("run"))
++        .dir(providers.gradleProperty("sapphire.runWorkDir").forUseAtConfigurationTime().getOrElse("run")) // Sapphire
+         .asFile
+     javaLauncher.set(project.javaToolchains.defaultJavaLauncher(project))
+ 
+@@ -172,11 +172,11 @@ fun TaskContainer.registerRunTask(
+ 
+     args("--nogui")
+     systemProperty("net.kyori.adventure.text.warnWhenLegacyFormattingDetected", true)
+-    if (providers.gradleProperty("paper.runDisableWatchdog").getOrElse("false") == "true") {
++    if (providers.gradleProperty("sapphire.runDisableWatchdog").getOrElse("false") == "true") { // Sapphire
+         systemProperty("disable.watchdog", true)
+     }
+ 
+-    val memoryGb = providers.gradleProperty("paper.runMemoryGb").forUseAtConfigurationTime().getOrElse("2")
++    val memoryGb = providers.gradleProperty("sapphire.runMemoryGb").forUseAtConfigurationTime().getOrElse("2") // Sapphire
+     val modifiedJvmArgs = jvmArgs ?: arrayListOf()
+     modifiedJvmArgs.addAll(listOf("-Xms${memoryGb}G", "-Xmx${memoryGb}G"))
+     jvmArgs = modifiedJvmArgs
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
 index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..a5cb6b84959536bfe38586f3714d24bfb22ddec1 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
