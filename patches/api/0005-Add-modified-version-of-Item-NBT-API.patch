@@ -58,7 +58,7 @@ index 0000000000000000000000000000000000000000..d956f1c635c62d89f6cea1e8ab952a10
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f8ece1945043ef88e3683be7f49a93431e44abdf
+index 0000000000000000000000000000000000000000..19021e236614f19c5bb98472c7d6f996d9acf933
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java
 @@ -0,0 +1,641 @@
@@ -462,7 +462,7 @@ index 0000000000000000000000000000000000000000..f8ece1945043ef88e3683be7f49a9343
 +			NBTReflectionUtil.addNBTTagCompound(this, name);
 +			NBTCompound comp = getCompound(name);
 +			if (comp == null)
-+				throw new NbtApiException("Error while adding Compound, got null!");
++				throw new NBTException("Error while adding Compound, got null!");
 +			saveCompound();
 +			return comp;
 +		} finally {
@@ -705,7 +705,7 @@ index 0000000000000000000000000000000000000000..f8ece1945043ef88e3683be7f49a9343
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ccfe96887ad295dc7b8cc7b301193529e972549f
+index 0000000000000000000000000000000000000000..ad14aa09a97d4c70584b79c8146a4b920fec956c
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java
 @@ -0,0 +1,90 @@
@@ -747,7 +747,7 @@ index 0000000000000000000000000000000000000000..ccfe96887ad295dc7b8cc7b301193529
 +			}
 +			return listcomp;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -767,14 +767,14 @@ index 0000000000000000000000000000000000000000..ccfe96887ad295dc7b8cc7b301193529
 +	@Override
 +	public void add(int index, NBTListCompound element) {
 +		if (element != null) {
-+			throw new NbtApiException("You need to pass null! ListCompounds from other lists won't work.");
++			throw new NBTException("You need to pass null! ListCompounds from other lists won't work.");
 +		}
 +		try {
 +			Object compound = ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz().newInstance();
 +			ReflectionMethod.LIST_ADD.run(listObject, index, compound);
 +			super.getParent().saveCompound();
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -784,13 +784,13 @@ index 0000000000000000000000000000000000000000..ccfe96887ad295dc7b8cc7b301193529
 +			Object compound = ReflectionMethod.LIST_GET_COMPOUND.run(listObject, index);
 +			return new NBTListCompound(this, compound);
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
 +	@Override
 +	public NBTListCompound set(int index, NBTListCompound element) {
-+		throw new NbtApiException("This method doesn't work in the ListCompound context.");
++		throw new NBTException("This method doesn't work in the ListCompound context.");
 +	}
 +
 +	@Override
@@ -801,7 +801,7 @@ index 0000000000000000000000000000000000000000..ccfe96887ad295dc7b8cc7b301193529
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..abed4e519297a2e14b102962e487760e2e27be3f
+index 0000000000000000000000000000000000000000..fd038ebd61f72e848d1565111dd773a59e076af0
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java
 @@ -0,0 +1,73 @@
@@ -838,7 +838,7 @@ index 0000000000000000000000000000000000000000..abed4e519297a2e14b102962e487760e
 +			throw new NullPointerException("The NBT-Object can't be null!");
 +		}
 +		if (!ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz().isAssignableFrom(nbt.getClass())) {
-+			throw new NbtApiException("The object '" + nbt.getClass() + "' is not a valid NBT-Object!");
++			throw new NBTException("The object '" + nbt.getClass() + "' is not a valid NBT-Object!");
 +		}
 +		this.nbt = nbt;
 +	}
@@ -853,7 +853,7 @@ index 0000000000000000000000000000000000000000..abed4e519297a2e14b102962e487760e
 +
 +	/**
 +	 * Parses in a NBT String to a standalone {@link NBTCompound}. Can throw a
-+	 * {@link NbtApiException} in case something goes wrong.
++	 * {@link NBTException} in case something goes wrong.
 +	 */
 +	public NBTContainer(String nbtString) {
 +		super(null, null);
@@ -863,7 +863,7 @@ index 0000000000000000000000000000000000000000..abed4e519297a2e14b102962e487760e
 +		try {
 +			nbt = ReflectionMethod.PARSE_NBT.run(null, nbtString);
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Unable to parse Malformed Json!", ex);
++			throw new NBTException("Unable to parse Malformed Json!", ex);
 +		}
 +	}
 +
@@ -880,7 +880,7 @@ index 0000000000000000000000000000000000000000..abed4e519297a2e14b102962e487760e
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..201ea05ad3b4d09366bf4696b7d004bd851437a1
+index 0000000000000000000000000000000000000000..b4a4fc059b39ce6629caf6e0265163d82c8f846d
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java
 @@ -0,0 +1,42 @@
@@ -909,7 +909,7 @@ index 0000000000000000000000000000000000000000..201ea05ad3b4d09366bf4696b7d004bd
 +			return con.newInstance(object);
 +		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 +				| NoSuchMethodException | SecurityException e) {
-+			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++			throw new NBTException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
 +
@@ -921,7 +921,7 @@ index 0000000000000000000000000000000000000000..201ea05ad3b4d09366bf4696b7d004bd
 +		} catch (NumberFormatException nf) {
 +			return 0d;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -973,6 +973,46 @@ index 0000000000000000000000000000000000000000..be8666f83d4d0f808473e6e242b6285e
 +	 */
 +	public NBTCompound getPersistentDataContainer() {
 +		return new NBTPersistentDataContainer(ent.getPersistentDataContainer());
++	}
++
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTException.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTException.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..c1346b08d5b9afa7ef0f56494150cc280be41098
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTException.java
+@@ -0,0 +1,34 @@
++package io.sapphiremc.sapphire.api.nbt;
++
++import java.io.Serial;
++
++/**
++ * A generic {@link RuntimeException} that can be thrown by most methods in the
++ * NBTAPI.
++ */
++public class NBTException extends RuntimeException {
++
++	@Serial
++	private static final long serialVersionUID = -993309714559452334L;
++
++	public NBTException() {
++		super();
++	}
++
++	public NBTException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
++		super(message, cause, enableSuppression, writableStackTrace);
++	}
++
++	public NBTException(String message, Throwable cause) {
++		super(message, cause);
++	}
++
++	public NBTException(String message) {
++		super(message);
++	}
++
++	public NBTException(Throwable cause) {
++		super(cause);
 +	}
 +
 +}
@@ -1056,7 +1096,7 @@ index 0000000000000000000000000000000000000000..1e7b710517bf2eda96cd2f0738c24de5
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..7b0332289b4ec77b233238c6b64e392df00c8a1b
+index 0000000000000000000000000000000000000000..e5779a86affd6c4e11857cfc47667d5addee7ad6
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java
 @@ -0,0 +1,42 @@
@@ -1085,7 +1125,7 @@ index 0000000000000000000000000000000000000000..7b0332289b4ec77b233238c6b64e392d
 +			return con.newInstance(object);
 +		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 +				| NoSuchMethodException | SecurityException e) {
-+			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++			throw new NBTException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
 +
@@ -1097,7 +1137,7 @@ index 0000000000000000000000000000000000000000..7b0332289b4ec77b233238c6b64e392d
 +		} catch (NumberFormatException nf) {
 +			return 0f;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -1140,7 +1180,7 @@ index 0000000000000000000000000000000000000000..380fafe6a27b642738158988c367fb64
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cbebe4e6c15342f8bacff5821bbc12dcd589582e
+index 0000000000000000000000000000000000000000..40a48f9793e4ef4cec2daa63c552db503d7e8bbe
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java
 @@ -0,0 +1,42 @@
@@ -1169,7 +1209,7 @@ index 0000000000000000000000000000000000000000..cbebe4e6c15342f8bacff5821bbc12dc
 +			return con.newInstance(object);
 +		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 +				| NoSuchMethodException | SecurityException e) {
-+			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++			throw new NBTException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
 +
@@ -1181,7 +1221,7 @@ index 0000000000000000000000000000000000000000..cbebe4e6c15342f8bacff5821bbc12dc
 +		} catch (NumberFormatException nf) {
 +			return 0;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -1359,7 +1399,7 @@ index 0000000000000000000000000000000000000000..2000ff085f11b657c7d5143b81dccf00
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c00271630
+index 0000000000000000000000000000000000000000..d8589b22c52d0fea70ab337bb50328af9878e60c
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java
 @@ -0,0 +1,427 @@
@@ -1427,7 +1467,7 @@ index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c
 +			save();
 +			return true;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		} finally {
 +			parent.getWriteLock().unlock();
 +		}
@@ -1444,7 +1484,7 @@ index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c
 +			}
 +			save();
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		} finally {
 +			parent.getWriteLock().unlock();
 +		}
@@ -1459,7 +1499,7 @@ index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c
 +			save();
 +			return prev;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		} finally {
 +			parent.getWriteLock().unlock();
 +		}
@@ -1473,7 +1513,7 @@ index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c
 +			save();
 +			return old;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		} finally {
 +			parent.getWriteLock().unlock();
 +		}
@@ -1484,7 +1524,7 @@ index 0000000000000000000000000000000000000000..089cba69137efbeacf297173f303ab2c
 +			parent.getReadLock().lock();
 +			return (int) ReflectionMethod.LIST_SIZE.run(listObject);
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		} finally {
 +			parent.getReadLock().unlock();
 +		}
@@ -1837,7 +1877,7 @@ index 0000000000000000000000000000000000000000..b91366a44b8b73719f589e10cf345fcd
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4e0ee166f8cccfae25d5e62e035e4cf3868e980e
+index 0000000000000000000000000000000000000000..ec54ee1df7351f8d7ecd751193edb86ee012c35b
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java
 @@ -0,0 +1,42 @@
@@ -1866,7 +1906,7 @@ index 0000000000000000000000000000000000000000..4e0ee166f8cccfae25d5e62e035e4cf3
 +			return con.newInstance(object);
 +		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 +				| NoSuchMethodException | SecurityException e) {
-+			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++			throw new NBTException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
 +
@@ -1878,7 +1918,7 @@ index 0000000000000000000000000000000000000000..4e0ee166f8cccfae25d5e62e035e4cf3
 +		} catch (NumberFormatException nf) {
 +			return 0L;
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -1921,10 +1961,10 @@ index 0000000000000000000000000000000000000000..cde72c843ded190f96045d507027fd3c
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8567c6348
+index 0000000000000000000000000000000000000000..942f0fe5772ab55e30b6b1357f4df5f25962a7da
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java
-@@ -0,0 +1,545 @@
+@@ -0,0 +1,544 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import java.io.InputStream;
@@ -1937,7 +1977,6 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +import java.util.Set;
 +
 +import io.sapphiremc.sapphire.api.nbt.utils.GsonWrapper;
-+import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ClassWrapper;
 +import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ObjectCreator;
 +import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ReflectionMethod;
@@ -1947,7 +1986,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +
 +/**
 + * Utility class for translating NBTApi calls to reflections into NMS code All
-+ * methods are allowed to throw {@link NbtApiException}
++ * methods are allowed to throw {@link NBTException}
 + * 
 + * @author tr7zw
 + *
@@ -1981,7 +2020,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +		try {
 +			return ReflectionMethod.CRAFT_ENTITY_GET_HANDLE.run(ClassWrapper.CRAFT_ENTITY.getClazz().cast(entity));
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting the NMS Entity from a Bukkit Entity!", e);
++			throw new NBTException("Exception while getting the NMS Entity from a Bukkit Entity!", e);
 +		}
 +	}
 +
@@ -1995,7 +2034,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +		try {
 +			return ReflectionMethod.NBTFILE_READ.run(null, stream);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while reading a NBT File!", e);
++			throw new NBTException("Exception while reading a NBT File!", e);
 +		}
 +	}
 +
@@ -2010,7 +2049,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +		try {
 +			return ReflectionMethod.NBTFILE_WRITE.run(null, nbt, stream);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while writing NBT!", e);
++			throw new NBTException("Exception while writing NBT!", e);
 +		}
 +	}
 +	
@@ -2031,7 +2070,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			Object workingtag = getToCompount(nbttag, comp);
 +			ReflectionMethod.NBTFILE_WRITE.run(null, workingtag, stream);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while writing NBT!", e);
++			throw new NBTException("Exception while writing NBT!", e);
 +		}
 +	}
 +
@@ -2046,7 +2085,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			Object answer = ReflectionMethod.NMSITEM_GETTAG.run(nmsItem);
 +			return answer != null ? answer : ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting an Itemstack's NBTCompound!", e);
++			throw new NBTException("Exception while getting an Itemstack's NBTCompound!", e);
 +		}
 +	}
 +
@@ -2061,7 +2100,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			Object nmsComp = getToCompount(nbtcompound.getCompound(), nbtcompound);
 +			return ObjectCreator.NMS_COMPOUNDFROMITEM.getInstance(nmsComp);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while converting NBTCompound to NMS ItemStack!", e);
++			throw new NBTException("Exception while converting NBTCompound to NMS ItemStack!", e);
 +		}
 +	}
 +
@@ -2076,7 +2115,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			Object answer = ReflectionMethod.NMSITEM_SAVE.run(nmsitem, ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance());
 +			return new NBTContainer(answer);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while converting NMS ItemStack to NBTCompound!", e);
++			throw new NBTException("Exception while converting NMS ItemStack to NBTCompound!", e);
 +		}
 +	}
 +
@@ -2091,7 +2130,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +		try {
 +			return (Map<String, Object>) field_unhandledTags.get(meta);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting unhandled tags from ItemMeta!", e);
++			throw new NBTException("Exception while getting unhandled tags from ItemMeta!", e);
 +		}
 +	}
 +
@@ -2108,7 +2147,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +				answer = nbt;
 +			return answer;
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting NBTCompound from NMS Entity!", e);
++			throw new NBTException("Exception while getting NBTCompound from NMS Entity!", e);
 +		}
 +	}
 +
@@ -2122,7 +2161,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			ReflectionMethod.NMS_ENTITY_SET_NBT.run(nmsEntity, nbtTag);
 +			return nmsEntity;
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Exception while setting the NBTCompound of an Entity", ex);
++			throw new NBTException("Exception while setting the NBTCompound of an Entity", ex);
 +		}
 +	}
 +
@@ -2140,11 +2179,11 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +
 +			Object answer = ReflectionMethod.TILEENTITY_GET_NBT_1181.run(o);
 +			if (answer == null) {
-+			    throw new NbtApiException("Unable to get NBTCompound from TileEntity! " + tile + " " + o);
++			    throw new NBTException("Unable to get NBTCompound from TileEntity! " + tile + " " + o);
 +			}
 +			return answer;
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting NBTCompound from TileEntity!", e);
++			throw new NBTException("Exception while getting NBTCompound from TileEntity!", e);
 +		}
 +	}
 +
@@ -2160,7 +2199,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +
 +			ReflectionMethod.TILEENTITY_SET_NBT.run(o, comp);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while setting NBTData for a TileEntity!", e);
++			throw new NBTException("Exception while setting NBTData for a TileEntity!", e);
 +		}
 +	}
 +
@@ -2174,10 +2213,10 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			if ((boolean) ReflectionMethod.COMPOUND_HAS_KEY.run(compound, name)) {
 +				return ReflectionMethod.COMPOUND_GET_COMPOUND.run(compound, name);
 +			} else {
-+				throw new NbtApiException("Tried getting invalid compound '" + name + "' from '" + compound + "'!");
++				throw new NBTException("Tried getting invalid compound '" + name + "' from '" + compound + "'!");
 +			}
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting NBT subcompounds!", e);
++			throw new NBTException("Exception while getting NBT subcompounds!", e);
 +		}
 +	}
 +
@@ -2201,7 +2240,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			ReflectionMethod.COMPOUND_SET.run(workingtag, name, ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz().newInstance());
 +			comp.setCompound(nbttag);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while adding a Compound!", e);
++			throw new NBTException("Exception while adding a Compound!", e);
 +		}
 +	}
 +
@@ -2228,7 +2267,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			String target = structure.pollLast();
 +			nbttag = getSubNBTTagCompound(nbttag, target);
 +			if (nbttag == null) {
-+				throw new NbtApiException("Unable to find tag '" + target + "' in " + nbttag);
++				throw new NBTException("Unable to find tag '" + target + "' in " + nbttag);
 +			}
 +		}
 +		return nbttag;
@@ -2246,20 +2285,20 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(comp))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingtag = getToCompount(rootnbttag, comp);
 +		Object rootnbttagSrc = nbtcompoundSrc.getCompound();
 +		if (rootnbttagSrc == null) {
 +			rootnbttagSrc = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(nbtcompoundSrc))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingtagSrc = getToCompount(rootnbttagSrc, nbtcompoundSrc);
 +		try {
 +			ReflectionMethod.COMPOUND_MERGE.run(workingtag, workingtagSrc);
 +			comp.setCompound(rootnbttag);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while merging two NBTCompounds!", e);
++			throw new NBTException("Exception while merging two NBTCompounds!", e);
 +		}
 +	}
 +
@@ -2274,12 +2313,12 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(comp))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingtag = getToCompount(rootnbttag, comp);
 +		try {
 +			return ReflectionMethod.COMPOUND_GET.run(workingtag, key).toString();
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while getting the Content for key '" + key + "'!", e);
++			throw new NBTException("Exception while getting the Content for key '" + key + "'!", e);
 +		}
 +	}
 +
@@ -2296,14 +2335,14 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(comp)) {
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		}
 +		Object workingtag = getToCompount(rootnbttag, comp);
 +		try {
 +			ReflectionMethod.COMPOUND_SET.run(workingtag, key, val);
 +			comp.setCompound(rootnbttag);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while setting key '" + key + "' to '" + val + "'!", e);
++			throw new NBTException("Exception while setting key '" + key + "' to '" + val + "'!", e);
 +		}
 +	}
 +
@@ -2339,7 +2378,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +				return null;
 +			}
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Exception while getting a list with the type '" + type + "'!", ex);
++			throw new NBTException("Exception while getting a list with the type '" + type + "'!", ex);
 +		}
 +	}
 +	
@@ -2358,7 +2397,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			f.setAccessible(true);
 +			return NBTType.valueOf(f.getByte(nbt));
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Exception while getting the list type!", ex);
++			throw new NBTException("Exception while getting the list type!", ex);
 +		}
 +	}
 +	
@@ -2373,7 +2412,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +		try {
 +			return ReflectionMethod.COMPOUND_GET.run(workingtag, key);
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Exception while getting an Entry!", ex);
++			throw new NBTException("Exception while getting an Entry!", ex);
 +		}
 +	}
 +
@@ -2385,7 +2424,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			String json = GsonWrapper.getString(value);
 +			setData(comp, ReflectionMethod.COMPOUND_SET_STRING, key, json);
 +		} catch (Exception e) {
-+			throw new NbtApiException("Exception while setting the Object '" + value + "'!", e);
++			throw new NBTException("Exception while setting the Object '" + value + "'!", e);
 +		}
 +	}
 +
@@ -2429,7 +2468,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(comp))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingtag = getToCompount(rootnbttag, comp);
 +		return (Set<String>) ReflectionMethod.COMPOUND_GET_KEYS.run(workingtag);
 +	}
@@ -2447,7 +2486,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			rootnbttag = ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance();
 +		}
 +		if (!valideCompound(comp))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingtag = getToCompount(rootnbttag, comp);
 +		type.run(workingtag, key, data);
 +		comp.setCompound(rootnbttag);
@@ -2464,7 +2503,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +			return null;
 +		}
 +		if (!valideCompound(comp))
-+			throw new NbtApiException("The Compound wasn't able to be linked back to the root!");
++			throw new NBTException("The Compound wasn't able to be linked back to the root!");
 +		Object workingTag = getToCompount(rootnbttag, comp);
 +		return type.run(workingTag, key);
 +	}
@@ -2472,7 +2511,7 @@ index 0000000000000000000000000000000000000000..54d27dd12d4ae4f379a5eb6a02ce19a8
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c7021e1afcec75b8cb4548101f33ca3415764227
+index 0000000000000000000000000000000000000000..08015d15c52e7a692f2e97659610f7901fe2026e
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java
 @@ -0,0 +1,39 @@
@@ -2498,7 +2537,7 @@ index 0000000000000000000000000000000000000000..c7021e1afcec75b8cb4548101f33ca34
 +		try {
 +			return (String) ReflectionMethod.LIST_GET_STRING.run(listObject, index);
 +		} catch (Exception ex) {
-+			throw new NbtApiException(ex);
++			throw new NBTException(ex);
 +		}
 +	}
 +
@@ -2510,7 +2549,7 @@ index 0000000000000000000000000000000000000000..c7021e1afcec75b8cb4548101f33ca34
 +			return con.newInstance(object);
 +		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
 +				| NoSuchMethodException | SecurityException e) {
-+			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++			throw new NBTException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
 +
@@ -2622,49 +2661,9 @@ index 0000000000000000000000000000000000000000..e524c59a6af0c3a498aecc6d52951635
 +	}
 +
 +}
-diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NbtApiException.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NbtApiException.java
-new file mode 100644
-index 0000000000000000000000000000000000000000..ab0f1de8f516d8fcde72bac33a895beeeaa876dd
---- /dev/null
-+++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NbtApiException.java
-@@ -0,0 +1,34 @@
-+package io.sapphiremc.sapphire.api.nbt;
-+
-+import java.io.Serial;
-+
-+/**
-+ * A generic {@link RuntimeException} that can be thrown by most methods in the
-+ * NBTAPI.
-+ */
-+public class NbtApiException extends RuntimeException {
-+
-+	@Serial
-+	private static final long serialVersionUID = -993309714559452334L;
-+
-+	public NbtApiException() {
-+		super();
-+	}
-+
-+	public NbtApiException(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
-+		super(message, cause, enableSuppression, writableStackTrace);
-+	}
-+
-+	public NbtApiException(String message, Throwable cause) {
-+		super(message, cause);
-+	}
-+
-+	public NbtApiException(String message) {
-+		super(message);
-+	}
-+
-+	public NbtApiException(Throwable cause) {
-+		super(cause);
-+	}
-+
-+}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f20f9c9ca8f751dcc945ba3ebd3c28ecb4f2266a
+index 0000000000000000000000000000000000000000..1897586dc28e931cec4c93a351c028b2b2f97c57
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java
 @@ -0,0 +1,44 @@
@@ -2672,7 +2671,7 @@ index 0000000000000000000000000000000000000000..f20f9c9ca8f751dcc945ba3ebd3c28ec
 +
 +import com.google.gson.Gson;
 +
-+import io.sapphiremc.sapphire.api.nbt.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.NBTException;
 +
 +public class GsonWrapper {
 +
@@ -2707,7 +2706,7 @@ index 0000000000000000000000000000000000000000..f20f9c9ca8f751dcc945ba3ebd3c28ec
 +			T obj = gson.fromJson(json, type);
 +			return type.cast(obj);
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Error while converting json to " + type.getName(), ex);
++			throw new NBTException("Error while converting json to " + type.getName(), ex);
 +		}
 +	}
 +
@@ -2873,7 +2872,7 @@ index 0000000000000000000000000000000000000000..c18f4656b4b174af1542a1a6fb284136
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..6003d661efa21f02cd9af00c2459f3ceb2de5fac
+index 0000000000000000000000000000000000000000..d8100134f436cb99423f23d8d416bb04993d488d
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java
 @@ -0,0 +1,52 @@
@@ -2883,7 +2882,7 @@ index 0000000000000000000000000000000000000000..6003d661efa21f02cd9af00c2459f3ce
 +import java.lang.reflect.Method;
 +import java.lang.reflect.Modifier;
 +
-+import io.sapphiremc.sapphire.api.nbt.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.NBTException;
 +
 +public final class ReflectionUtil {
 +
@@ -2906,11 +2905,11 @@ index 0000000000000000000000000000000000000000..6003d661efa21f02cd9af00c2459f3ce
 +						break;
 +					}
 +			} catch (Exception e) {
-+				throw new NbtApiException(e);
++				throw new NBTException(e);
 +			}
 +		}
 +		if (field_modifiers == null) {
-+			throw new NbtApiException("Unable to init the modifiers Field.");
++			throw new NBTException("Unable to init the modifiers Field.");
 +		}
 +	}
 +
@@ -3123,7 +3122,7 @@ index 0000000000000000000000000000000000000000..21bf0989dc0c882dd0767f176114cc16
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1ac20aa6fa3ad4e4dfe67c54291bb1b755b00e67
+index 0000000000000000000000000000000000000000..2a347652af5ea258b1e3bbcdb44d67406a59efee
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
 @@ -0,0 +1,56 @@
@@ -3132,7 +3131,7 @@ index 0000000000000000000000000000000000000000..1ac20aa6fa3ad4e4dfe67c54291bb1b7
 +import java.lang.reflect.Constructor;
 +import java.util.logging.Level;
 +
-+import io.sapphiremc.sapphire.api.nbt.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.NBTException;
 +import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +
 +import static io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion.getLogger;
@@ -3178,7 +3177,7 @@ index 0000000000000000000000000000000000000000..1ac20aa6fa3ad4e4dfe67c54291bb1b7
 +		try {
 +			return construct.newInstance(args);
 +		} catch (Exception ex) {
-+			throw new NbtApiException("Exception while creating a new instance of '" + targetClass + "'", ex);
++			throw new NBTException("Exception while creating a new instance of '" + targetClass + "'", ex);
 +		}
 +	}
 +
@@ -3218,7 +3217,7 @@ index 0000000000000000000000000000000000000000..aeec807ab23417e15b8478447b462a9f
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..66732173c9441e384b9ef0001e51fd16b0daaf4f
+index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5958cac4b
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
 @@ -0,0 +1,218 @@
@@ -3232,7 +3231,7 @@ index 0000000000000000000000000000000000000000..66732173c9441e384b9ef0001e51fd16
 +
 +import org.bukkit.inventory.ItemStack;
 +
-+import io.sapphiremc.sapphire.api.nbt.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.NBTException;
 +import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +
 +/**
@@ -3390,11 +3389,11 @@ index 0000000000000000000000000000000000000000..66732173c9441e384b9ef0001e51fd16
 +     */
 +    public Object run(Object target, Object... args) {
 +        if (method == null)
-+        	throw new NbtApiException("Method not loaded! '" + this + "'");
++        	throw new NBTException("Method not loaded! '" + this + "'");
 +    	try {
 +            return method.invoke(target, args);
 +        } catch (Exception ex) {
-+            throw new NbtApiException("Error while calling the method '" + methodName + "', loaded: " + loaded + ", Enum: " + this + " Passed Class: " + target.getClass(), ex);
++            throw new NBTException("Error while calling the method '" + methodName + "', loaded: " + loaded + ", Enum: " + this + " Passed Class: " + target.getClass(), ex);
 +        }
 +    }
 +    
@@ -3570,3 +3569,51 @@ index 56072cb4d32ca8a09023be08a5a832c2c108379a..2aed470a63f52196ca00cdd9a71dacc0
 +    }
 +    // Sapphire end
  }
+diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
+index 57cf9fab2501da6f1abd12e14697630ca82b0a6d..d2811df159624ffa43b88344332bbafcc85c6ac7 100644
+--- a/src/test/java/org/bukkit/AnnotationTest.java
++++ b/src/test/java/org/bukkit/AnnotationTest.java
+@@ -57,8 +57,42 @@ public class AnnotationTest {
+         "co/aikar/timings/TimingHistory$2$1$2",
+         "co/aikar/timings/TimingHistory$3",
+         "co/aikar/timings/TimingHistory$4",
+-        "co/aikar/timings/TimingHistoryEntry$1"
++        "co/aikar/timings/TimingHistoryEntry$1",
+         // Paper end
++        // Sapphire start - exclude nbt api from tests
++        "io/sapphiremc/sapphire/api/nbt/NBTBlock",
++        "io/sapphiremc/sapphire/api/nbt/NBTChunk",
++        "io/sapphiremc/sapphire/api/nbt/NBTCompound",
++        "io/sapphiremc/sapphire/api/nbt/NBTCompoundList",
++        "io/sapphiremc/sapphire/api/nbt/NBTContainer",
++        "io/sapphiremc/sapphire/api/nbt/NBTDoubleList",
++        "io/sapphiremc/sapphire/api/nbt/NBTEntity",
++        "io/sapphiremc/sapphire/api/nbt/NBTException",
++        "io/sapphiremc/sapphire/api/nbt/NBTFile",
++        "io/sapphiremc/sapphire/api/nbt/NBTFloatList",
++        "io/sapphiremc/sapphire/api/nbt/NBTGameProfile",
++        "io/sapphiremc/sapphire/api/nbt/NBTIntegerList",
++        "io/sapphiremc/sapphire/api/nbt/NBTItem",
++        "io/sapphiremc/sapphire/api/nbt/NBTList",
++        "io/sapphiremc/sapphire/api/nbt/NBTList$1",
++        "io/sapphiremc/sapphire/api/nbt/NBTList$2",
++        "io/sapphiremc/sapphire/api/nbt/NBTListCompound",
++        "io/sapphiremc/sapphire/api/nbt/NBTLongList",
++        "io/sapphiremc/sapphire/api/nbt/NBTPersistentDataContainer",
++        "io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil",
++        "io/sapphiremc/sapphire/api/nbt/NBTStringList",
++        "io/sapphiremc/sapphire/api/nbt/NBTTileEntity",
++        "io/sapphiremc/sapphire/api/nbt/NBTType",
++        "io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper",
++        "io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion",
++        "io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/MojangToMapping",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/PackageWrapper",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod",
++        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod$Since"
++        // Sapphire end
+     };
+ 
+     @Test
