@@ -1,6 +1,5 @@
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
-import io.papermc.paperweight.util.constants.*
 
 plugins {
     java
@@ -12,7 +11,7 @@ plugins {
 repositories {
     mavenCentral()
     maven("https://papermc.io/repo/repository/maven-public/") {
-        content { onlyForConfigurations(PAPERCLIP_CONFIG) }
+        content { onlyForConfigurations("paperclip") }
     }
 }
 
@@ -55,7 +54,6 @@ subprojects {
         }
     }
 
-
     repositories {
         mavenCentral()
         maven("https://papermc.io/repo/repository/maven-public/")
@@ -79,10 +77,6 @@ paperweight {
     }
 }
 
-//
-// Everything below here is optional if you don't care about publishing API or dev bundles to your repository
-//
-
 tasks.generateDevelopmentBundle {
     apiCoordinates.set("io.sapphiremc.sapphire:sapphire-api")
     mojangApiCoordinates.set("io.papermc.paper:paper-mojangapi")
@@ -92,14 +86,14 @@ tasks.generateDevelopmentBundle {
             "https://libraries.minecraft.net/",
             "https://papermc.io/repo/repository/maven-public/",
             "https://maven.quiltmc.org/repository/release/",
-            "http://repo.denaryworld.ru/snapshots/", // This should be a repo hosting your API (in this example, 'com.example.paperfork:forktest-api')
+            "http://repo.denaryworld.ru/snapshots/",
         )
     )
 }
 
 allprojects {
     // Publishing API:
-    // ./gradlew :Sapphire-API:publish[ToMavenLocal]
+    // ./gradlew :sapphire-api:publish[ToMavenLocal]
     publishing {
         repositories {
             maven {
