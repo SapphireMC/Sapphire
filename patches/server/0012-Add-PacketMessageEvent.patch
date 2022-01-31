@@ -53,7 +53,7 @@ index 7b23535a680d2a8534dcb8dd87770f66fb982c13..8615d470cf22050fba012cb89722c45d
  
              });
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 926d0a80cbb55184955ac6720948d2e86683cc57..97629ec2af3c64b8fe7b44c4872786fa3a541f3e 100644
+index 5c9310fe424943a7256f6f77c414147384bad0aa..d50de774b823a5a83cc1c499baa95ab46e484d5c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2016,6 +2016,39 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -96,7 +96,7 @@ index 926d0a80cbb55184955ac6720948d2e86683cc57..97629ec2af3c64b8fe7b44c4872786fa
          try {
              this.connection.send(packet, listener);
          } catch (Throwable throwable) {
-@@ -2083,7 +2116,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2085,7 +2118,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private void handleChat(TextFilter.FilteredText message) {
          if (this.player.isRemoved() || this.player.getChatVisibility() == ChatVisiblity.HIDDEN) { // CraftBukkit - dead men tell no tales
@@ -105,7 +105,7 @@ index 926d0a80cbb55184955ac6720948d2e86683cc57..97629ec2af3c64b8fe7b44c4872786fa
          } else {
              this.player.resetLastActionTime();
              String s = message.getRaw();
-@@ -2108,7 +2141,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -2110,7 +2143,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                      }
                  });
              } else if (this.player.getChatVisibility() == ChatVisiblity.SYSTEM) { // Re-add "Command Only" flag check
@@ -115,10 +115,10 @@ index 926d0a80cbb55184955ac6720948d2e86683cc57..97629ec2af3c64b8fe7b44c4872786fa
                  this.chat(s, true);
                  // CraftBukkit end - the below is for reference. :)
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b169f0435 100644
+index 8cac6f49b23841414fbcc7f3a158a7342b382496..bca5f4f099df3ac35b7724d37d72d6cf38b8693e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -233,7 +233,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -234,7 +234,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          if (this.getHandle().connection == null) return;
  
          for (Component component : CraftChatMessage.fromString(message)) {
@@ -127,7 +127,7 @@ index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b
          }
      }
  
-@@ -242,7 +242,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -243,7 +243,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          if (this.getHandle().connection == null) return;
  
          for (Component component : CraftChatMessage.fromString(message)) {
@@ -136,7 +136,7 @@ index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b
          }
      }
  
-@@ -2308,7 +2308,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2346,7 +2346,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      @Override
      public void sendMessage(final net.kyori.adventure.identity.Identity identity, final net.kyori.adventure.text.Component message, final net.kyori.adventure.audience.MessageType type) {
          if (getHandle().connection == null) return;
@@ -145,7 +145,7 @@ index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b
          packet.adventure$message = message;
          this.getHandle().connection.send(packet);
      }
-@@ -2559,7 +2559,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2597,7 +2597,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          public void sendMessage(BaseComponent... components) {
             if ( CraftPlayer.this.getHandle().connection == null ) return;
  
@@ -154,7 +154,7 @@ index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b
              packet.components = components;
              CraftPlayer.this.getHandle().connection.send(packet);
          }
-@@ -2583,7 +2583,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2621,7 +2621,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          public void sendMessage(net.md_5.bungee.api.ChatMessageType position, BaseComponent... components) {
              if ( CraftPlayer.this.getHandle().connection == null ) return;
  
@@ -163,7 +163,7 @@ index 148e1985017f6955267b5c970730645394d700f6..6846942dd5f91eaa1c3e492de0b99b0b
              packet.components = components;
              CraftPlayer.this.getHandle().connection.send(packet);
          }
-@@ -2597,7 +2597,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2635,7 +2635,7 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          public void sendMessage(net.md_5.bungee.api.ChatMessageType position, UUID sender, BaseComponent... components) {
              if ( CraftPlayer.this.getHandle().connection == null ) return;
  

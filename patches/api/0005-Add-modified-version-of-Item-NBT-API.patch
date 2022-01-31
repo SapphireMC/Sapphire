@@ -3440,7 +3440,7 @@ index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5
 +
 +}
 diff --git a/src/main/java/org/bukkit/Chunk.java b/src/main/java/org/bukkit/Chunk.java
-index 5a4884db36d448c885e49c965ae329a0638dd628..267b81601edf70cb9c5254102f0ccb96ce20e187 100644
+index 049c36807d2a970842442c1b7517c06f3f150041..c562c5760e6e7cdae48d9b4067587786b7745c98 100644
 --- a/src/main/java/org/bukkit/Chunk.java
 +++ b/src/main/java/org/bukkit/Chunk.java
 @@ -283,4 +283,16 @@ public interface Chunk extends PersistentDataHolder {
@@ -3492,10 +3492,10 @@ index 3b10fcc13893403b29f0260b8605144679e89b82..06e63a4a621abe8e3d32a96bcc70d4a1
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 51ec2e4ec4239659272bba3d6ba2ad73926ebb88..adaefc62032f303b4735bf2c220e6f9ebfe95981 100644
+index c2c45a93887f99466a8ac4275355ac75c7f901c4..97c84820b3005278c648dfe4bba48d672fb03825 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -802,4 +802,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -822,4 +822,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInPowderedSnow();
      // Paper end
@@ -3523,10 +3523,10 @@ index 51ec2e4ec4239659272bba3d6ba2ad73926ebb88..adaefc62032f303b4735bf2c220e6f9e
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index 56072cb4d32ca8a09023be08a5a832c2c108379a..2aed470a63f52196ca00cdd9a71dacc021b8d2ec 100644
+index 7dfc84c77d8e185bb0513d9f9c603ce1b501a5e0..3b3725e20546a37b05d3ba0309d097b432f38fcf 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
-@@ -954,4 +954,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+@@ -957,4 +957,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
          return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
      }
      // Paper end

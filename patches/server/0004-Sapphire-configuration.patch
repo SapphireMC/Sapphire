@@ -192,7 +192,7 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e9600d03a01948a7857c188a91651ff51c7f5d88..c9b0bd81f83b1e38c8a1d31beb73d3180e6a618b 100644
+index 560c2a1275dd1e884c3e84b57ae978f619bf0ba7..9c909c27fa7b178d9a88974d437048e72399a45f 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2,9 +2,6 @@ package net.minecraft.server;
@@ -260,10 +260,10 @@ index 38a0fb9a7c4ade9cacfd30dffabfea7e6b773981..dedf5853c7fcb88955a2e42cc8dccc87
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index fe7e22d9a69d69dfcce63faa28e90945ea45fc49..93b3721442af45a6c7815030f656dc644d7f6b34 100644
+index 25338fe4cfdc683ca4c01487e166a1649c6f640b..5add3e9f70fdc3589e7cd12c7c2b585c58f657d3 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -395,16 +395,18 @@ public abstract class LivingEntity extends Entity {
+@@ -394,16 +394,18 @@ public abstract class LivingEntity extends Entity {
          if (this.isAlive()) {
              boolean flag = this instanceof net.minecraft.world.entity.player.Player;
  
@@ -291,7 +291,7 @@ index fe7e22d9a69d69dfcce63faa28e90945ea45fc49..93b3721442af45a6c7815030f656dc64
                  }
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 32dcfaada47ae71c226c10d3118c9cbc4de7aec7..4ebeda7a7740f09ff44424ba01747bf505d1c3e4 100644
+index 4900963512f50c08dc6bde13558d2bbcf438705e..c2340f6f541a8aac7dfc15150cc8d98f91374b87 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -952,6 +952,7 @@ public final class CraftServer implements Server {
