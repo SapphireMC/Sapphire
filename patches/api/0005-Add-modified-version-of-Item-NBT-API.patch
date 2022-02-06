@@ -2713,13 +2713,11 @@ index 0000000000000000000000000000000000000000..1897586dc28e931cec4c93a351c028b2
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c18f4656b4b174af1542a1a6fb28413660f8e0c1
+index 0000000000000000000000000000000000000000..dee269aa1daaca9c5626816afd97af58bbfda9dc
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java
-@@ -0,0 +1,153 @@
+@@ -0,0 +1,97 @@
 +package io.sapphiremc.sapphire.api.nbt.utils;
-+
-+import java.util.logging.Logger;
 +
 +import org.bukkit.Bukkit;
 +
@@ -2743,11 +2741,6 @@ index 0000000000000000000000000000000000000000..c18f4656b4b174af1542a1a6fb284136
 +	MC1_18_R1(1181, true);
 +
 +	private static MinecraftVersion version;
-+	private static boolean disablePackageWarning = false;
-+	/**
-+	 * Logger used by the api
-+	 */
-+	private static Logger logger = Logger.getLogger("SapphireNBT");
 +
 +	private final int versionId;
 +	private final boolean mojangMapping;
@@ -2813,61 +2806,12 @@ index 0000000000000000000000000000000000000000..c18f4656b4b174af1542a1a6fb284136
 +			return version;
 +		}
 +		final String ver = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-+		logger.info("Found Paper: " + ver + "! Trying to find NMS support");
 +		try {
 +			version = MinecraftVersion.valueOf(ver.replace("v", "MC"));
 +		} catch (IllegalArgumentException ex) {
 +			version = MinecraftVersion.UNKNOWN;
 +		}
-+		if (version != UNKNOWN) {
-+			logger.info("NMS support '" + version.name() + "' loaded!");
-+		} else {
-+			logger.warning("Wasn't able to find NMS Support! Some functions may not work!");
-+		}
-+		init();
 +		return version;
-+	}
-+
-+	private static void init() {
-+		// Maven's Relocate is clever and changes strings, too. So we have to use this
-+		// little "trick" ... :D (from bStats)
-+		final String defaultPackage = new String(new byte[] { 'i', 'o', '.', 's', 'a', 'p', 'p', 'h', 'i', 'r', 'e', 'm', 'c', '.', 'c', 'h',
-+				'a', 'n', 'g', 'e', 'm', 'e', '.', 'n', 'b', 't', 'a', 'p', 'i', '.', 'u', 't', 'i', 'l', 's' });
-+		if (!disablePackageWarning && MinecraftVersion.class.getPackage().getName().equals(defaultPackage)) {
-+			logger.warning("#########################################- NBTAPI -#########################################");
-+			logger.warning("The NBT-API package has not been moved! This *will* cause problems with other plugins containing");
-+			logger.warning("a different version of the api! Please read the guide on the plugin page on how to get the");
-+			logger.warning("Maven Shade plugin to relocate the api to your personal location! If you are not the developer,");
-+			logger.warning("please check your plugins and contact their developer, so he can fix this issue.");
-+			logger.warning("#########################################- NBTAPI -#########################################");
-+		}
-+	}
-+
-+	/**
-+	 * Forcefully disables the log message for plugins not shading the API to
-+	 * another location. This may be helpful for networks or development
-+	 * environments, but please don't use it for plugins that are uploaded to
-+	 * Spigotmc.
-+	 */
-+	public static void disablePackageWarning() {
-+		disablePackageWarning = true;
-+	}
-+
-+	/**
-+	 * @return Logger used by the NBT-API
-+	 */
-+	public static Logger getLogger() {
-+		return logger;
-+	}
-+
-+	/**
-+	 * Replaces the NBT-API logger with a custom implementation.
-+	 * 
-+	 * @param logger The new logger(can not be null!)
-+	 */
-+	public static void replaceLogger(Logger logger) {
-+		if (logger == null) throw new NullPointerException("Logger cannot be null!");
-+		MinecraftVersion.logger = logger;
 +	}
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java
@@ -2930,17 +2874,16 @@ index 0000000000000000000000000000000000000000..d8100134f436cb99423f23d8d416bb04
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1af045ebe416c66ff2a3cdb3f0488c57063445d5
+index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570d18f5a9a
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java
-@@ -0,0 +1,103 @@
+@@ -0,0 +1,102 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
-+
-+import static io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion.getLogger;
 +
 +import java.util.logging.Level;
 +
 +import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
++import org.bukkit.Bukkit;
 +
 +/**
 + * Wraps NMS and CRAFT classes
@@ -3011,7 +2954,7 @@ index 0000000000000000000000000000000000000000..1af045ebe416c66ff2a3cdb3f0488c57
 +                clazz = Class.forName(packageId.getUri() + "." + version + "." + clazzName);
 +            }
 +        } catch (Throwable ex) {
-+            getLogger().log(Level.WARNING, "Error while trying to resolve the class '" + clazzName + "'!", ex);
++            Bukkit.getLogger().log(Level.WARNING, "Error while trying to resolve the class '" + clazzName + "'!", ex);
 +        }
 +    }
 +
@@ -3122,10 +3065,10 @@ index 0000000000000000000000000000000000000000..21bf0989dc0c882dd0767f176114cc16
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2a347652af5ea258b1e3bbcdb44d67406a59efee
+index 0000000000000000000000000000000000000000..19001a81434d3aa36042ad78ecf53a1f9165d2cc
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
-@@ -0,0 +1,56 @@
+@@ -0,0 +1,55 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +import java.lang.reflect.Constructor;
@@ -3133,8 +3076,7 @@ index 0000000000000000000000000000000000000000..2a347652af5ea258b1e3bbcdb44d6740
 +
 +import io.sapphiremc.sapphire.api.nbt.NBTException;
 +import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
-+
-+import static io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion.getLogger;
++import org.bukkit.Bukkit;
 +
 +/**
 + * This Enum wraps Constructors for NMS classes
@@ -3163,7 +3105,7 @@ index 0000000000000000000000000000000000000000..2a347652af5ea258b1e3bbcdb44d6740
 +			construct = clazz.getDeclaredConstructor(args);
 +			construct.setAccessible(true);
 +		} catch (Exception ex) {
-+			getLogger().log(Level.SEVERE, "Unable to find the constructor for the class '" + clazz.getName() + "'", ex);
++            Bukkit.getLogger().log(Level.SEVERE, "Unable to find the constructor for the class '" + clazz.getName() + "'", ex);
 +		}
 +	}
 +
@@ -3217,10 +3159,10 @@ index 0000000000000000000000000000000000000000..aeec807ab23417e15b8478447b462a9f
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5958cac4b
+index 0000000000000000000000000000000000000000..9c75d7f19ab9540d326aaf0cd81a0ac3f6b9dc4a
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
-@@ -0,0 +1,218 @@
+@@ -0,0 +1,219 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +import java.io.InputStream;
@@ -3229,6 +3171,7 @@ index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5
 +import java.util.Arrays;
 +import java.util.UUID;
 +
++import org.bukkit.Bukkit;
 +import org.bukkit.inventory.ItemStack;
 +
 +import io.sapphiremc.sapphire.api.nbt.NBTException;
@@ -3341,7 +3284,7 @@ index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5
 +    private boolean compatible = false;
 +    private String methodName = null;
 +    private ClassWrapper parentClassWrapper;
-+    
++
 +    ReflectionMethod(ClassWrapper targetClass, Class<?>[] args, MinecraftVersion addedSince, MinecraftVersion removedAfter, Since... methodnames) {
 +        this.removedAfter = removedAfter;
 +        this.parentClassWrapper = targetClass;
@@ -3371,7 +3314,7 @@ index 0000000000000000000000000000000000000000..0d105f31bbc527724b3fd936207dfec5
 +                loaded = true;
 +                methodName = targetVersion.name;
 +            } catch (NullPointerException | NoSuchMethodException | SecurityException ex2) {
-+                System.out.println("[NBTAPI] Unable to find the method '" + targetMethodName + "' in '" + (targetClass.getClazz() == null ? targetClass.getMojangName() : targetClass.getClazz().getSimpleName()) + "' Args: " + Arrays.toString(args) + " Enum: " + this); //NOSONAR This gets loaded before the logger is loaded
++                Bukkit.getLogger().warning("Unable to find the method '" + targetMethodName + "' in '" + (targetClass.getClazz() == null ? targetClass.getMojangName() : targetClass.getClazz().getSimpleName()) + "' Args: " + Arrays.toString(args) + " Enum: " + this);
 +            }
 +        }
 +    }

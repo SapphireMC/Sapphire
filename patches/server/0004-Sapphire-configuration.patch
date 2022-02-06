@@ -192,7 +192,7 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 560c2a1275dd1e884c3e84b57ae978f619bf0ba7..9c909c27fa7b178d9a88974d437048e72399a45f 100644
+index 6d51990e36ab5a3f62e0df33b794bef2d76d8418..714a58fd08dd044143e08f729e1ccd8c1985bb4c 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2,9 +2,6 @@ package net.minecraft.server;
@@ -291,7 +291,7 @@ index 25338fe4cfdc683ca4c01487e166a1649c6f640b..5add3e9f70fdc3589e7cd12c7c2b585c
                  }
              }
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 4900963512f50c08dc6bde13558d2bbcf438705e..c2340f6f541a8aac7dfc15150cc8d98f91374b87 100644
+index a02cb90fd8dba3520f8ef0c3672687043accf940..a6993b30604350c5f095f1a57e1e73b498e0ea84 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -952,6 +952,7 @@ public final class CraftServer implements Server {
@@ -302,7 +302,7 @@ index 4900963512f50c08dc6bde13558d2bbcf438705e..c2340f6f541a8aac7dfc15150cc8d98f
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -2662,6 +2663,13 @@ public final class CraftServer implements Server {
+@@ -2669,6 +2670,13 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
