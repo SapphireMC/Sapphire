@@ -1,0 +1,26 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 11 Feb 2022 00:39:20 +0500
+Subject: [PATCH] Sapphire client support
+
+
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index ec1e115879c4f6608e8ba764ed87063577ee44b0..a6353db0e642a1ed7947c7ebeacadb68c9e5a497 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -2653,6 +2653,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     String getClientBrandName();
+     // Paper end
+ 
++    // Sapphire start - our client support
++    /**
++     * Allows you to get if player uses Sapphire Client
++     *
++     * @return True if Player uses Sapphire Client
++     */
++    boolean usesSapphireClient();
++    // Sapphire end
++
+     @NotNull
+     @Override
+     Spigot spigot();

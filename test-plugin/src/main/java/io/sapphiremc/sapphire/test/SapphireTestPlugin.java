@@ -39,11 +39,14 @@ public class SapphireTestPlugin extends JavaPlugin {
         this.getServer().getLogger().info(prefix + "Hello World!");
 
         final SapphireTestPlugin plugin = this;
-        // This need for testing PacketMessageEvent
         this.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
                 Player player = event.getPlayer();
+                if (player.usesSapphireClient()) {
+                    plugin.getLogger().info("Player " + player.getName() + " uses sapphire client");
+                    player.sendMessage(prefix + " You are using sapphire client!");
+                }
                 player.sendMessage(prefix + "Hello " + player.getName() + ", we are use %server-brand%!");
             }
 
@@ -54,7 +57,6 @@ public class SapphireTestPlugin extends JavaPlugin {
                     if (message.contains("%server-brand%")) {
                         message = message.replace("%server-brand%", Bukkit.getServer().getName());
                         event.setMessage(message);
-                        plugin.getLogger().info(message);
                     }
                 }
             }
