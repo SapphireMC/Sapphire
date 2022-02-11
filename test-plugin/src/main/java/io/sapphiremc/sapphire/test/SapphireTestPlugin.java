@@ -18,13 +18,18 @@
 package io.sapphiremc.sapphire.test;
 
 import io.sapphiremc.sapphire.api.event.PacketMessageEvent;
+import io.sapphiremc.sapphire.test.nbt.NBTTestsManager;
 import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandExecutor;
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Created 01.01.2022
@@ -33,10 +38,24 @@ import org.bukkit.plugin.java.JavaPlugin;
  */
 public class SapphireTestPlugin extends JavaPlugin {
 
+    private static SapphireTestPlugin instance;
+
+    public static SapphireTestPlugin getInstance() {
+        return instance;
+    }
+
+    private NBTTestsManager testsManager;
+
+    @Override
+    public void onLoad() {
+        instance = this;
+        this.testsManager = new NBTTestsManager(this);
+        testsManager.loadTests();
+    }
+
     @Override
     public void onEnable() {
         final String prefix = ChatColor.of("#004EFF") + "" + ChatColor.BOLD + this.getDescription().getName() + " " + ChatColor.of("#1F2B44") + "▶ " + ChatColor.of("#D4E1FF");
-        this.getServer().getLogger().info(prefix + "Hello World!");
 
         final SapphireTestPlugin plugin = this;
         this.getServer().getPluginManager().registerEvents(new Listener() {
@@ -61,5 +80,20 @@ public class SapphireTestPlugin extends JavaPlugin {
                 }
             }
         }, this);
+
+        this.getCommand("testnbt").setExecutor((sender, command, label, args) -> {
+            testsManager.runTests();
+            if (testsManager.isSuccess()) {
+                getLogger().info("§aAll tests passed!");
+                sender.sendMessage(prefix + "All nbt tests passed, check console for more details!");
+            } else {
+                getLogger().warning("Some tests didn't passed!");
+                sender.sendMessage(prefix + "Some nbt tests didn't passed, check console for more details!");
+            }
+
+            return false;
+        });
+
+        this.getServer().getLogger().info(prefix + "Sapphire test plugin successfully enabled!");
     }
 }
