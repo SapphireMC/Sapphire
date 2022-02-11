@@ -1,5 +1,7 @@
 name: Patch and Build
+
 on: [ push, pull_request ]
+
 jobs:
   build:
     # Only run on PRs if the source branch is on someone else's repo
@@ -17,8 +19,8 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties', '**/gradle.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
-      - name: Set up JDK
-        uses: actions/setup-java@v2.3.0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v2
         with:
           distribution: 'zulu'
           java-version: '17'
