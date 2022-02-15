@@ -13,11 +13,11 @@ paper=$(curl -H "Accept: application/vnd.github.v3+json" https://api.github.com/
 
 updated=""
 logsuffix=""
-if [ ! -z "paper" ]; then
+if [ ! -z "$paper" ]; then
     logsuffix="$logsuffix\n\nPaper Changes:\n$paper"
     updated="Paper"
 fi
-disclaimer="Upstream has released updates that appear to apply and compile correctly"
+disclaimer="Upstream has released updates that appear to apply and compile correctly.\nThis update has not been tested by SapphireMC and as with ANY update, please do your own testing"
 
 log="${UP_LOG_PREFIX}Updated Upstream ($updated)\n\n${disclaimer}${logsuffix}"
 
