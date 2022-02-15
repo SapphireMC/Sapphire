@@ -91,6 +91,21 @@ tasks.generateDevelopmentBundle {
     )
 }
 
+val mcVersion: String by project
+val projVersion = project.version
+tasks.register<Copy>("renamedReobfPaperclipJar") {
+    group = "sapphire"
+    dependsOn(tasks.createReobfPaperclipJar)
+    from("build/libs/sapphire-paperclip-$projVersion-reobf.jar")
+    into("build/libs")
+
+    doLast {
+        rename {
+            it.replace("paperclip-$projVersion-reobf", mcVersion)
+        }
+    }
+}
+
 allprojects {
     // Publishing API:
     // ./gradlew :sapphire-api:publish[ToMavenLocal]
