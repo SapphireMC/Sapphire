@@ -4,7 +4,7 @@
 
 # Sapphire
 
-Fork of the paper that is used on our server.
+Paper fork that is used on our server.
 
 [Our server][website] - [Downloads][downloads] - [wiki (coming soon)][wiki]
 
