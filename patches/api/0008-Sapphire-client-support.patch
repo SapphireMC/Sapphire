@@ -5,10 +5,10 @@ Subject: [PATCH] Sapphire client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ec1e115879c4f6608e8ba764ed87063577ee44b0..a6353db0e642a1ed7947c7ebeacadb68c9e5a497 100644
+index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..20d58570504bf1adaca20897e89733c5ea1b59bb 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2653,6 +2653,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2648,6 +2648,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      String getClientBrandName();
      // Paper end
  

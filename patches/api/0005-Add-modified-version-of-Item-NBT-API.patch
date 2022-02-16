@@ -3475,10 +3475,10 @@ index 3b10fcc13893403b29f0260b8605144679e89b82..06e63a4a621abe8e3d32a96bcc70d4a1
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index c2c45a93887f99466a8ac4275355ac75c7f901c4..97c84820b3005278c648dfe4bba48d672fb03825 100644
+index 8bc6876c82935988436597161fa0ec94c032174b..2d781c6102268571b374ecb458e4549fee2d78bf 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -822,4 +822,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -830,4 +830,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInPowderedSnow();
      // Paper end

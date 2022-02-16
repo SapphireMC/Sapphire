@@ -5,11 +5,11 @@ Subject: [PATCH] Add GameProfileLookupEvent
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-index 84551164b76bc8f064a3a0c030c3a1b47f567b6f..c8a4bfaa25b9d9e584261bd57fa77e6b43a994f4 100644
+index 2041376dfd5520776f7e32c1828973f2b719d82a..cb5bce337b428b9954ea04f6c960ee3e8fa7b41f 100644
 --- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-@@ -188,12 +188,23 @@ public class CraftPlayerProfile implements PlayerProfile {
- 
+@@ -226,12 +226,23 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
+         MinecraftServer server = MinecraftServer.getServer();
          boolean isCompleteFromCache = this.completeFromCache(true, onlineMode);
          if (onlineMode && (!isCompleteFromCache || textures && !hasTextures())) {
 -            GameProfile result = server.getSessionService().fillProfileProperties(profile, true);
