@@ -130,10 +130,10 @@ index 0000000000000000000000000000000000000000..bb4d50c1aa0fb76bc3413b49e2cc21f7
 +    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 07db45abfa3b8bf7339bad1bde7ba6eb7f4fc9ab..79a604799ae4cd0dd4794003418302e3d7fface1 100644
+index 1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769..07f298ccfd6d795301fab6e35aad49b154766a34 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -31,6 +31,10 @@ public class SapphireConfig {
+@@ -33,6 +33,10 @@ public class SapphireConfig {
  
      public static void init(File configFile) {
          CONFIG_FILE = configFile;
@@ -144,7 +144,7 @@ index 07db45abfa3b8bf7339bad1bde7ba6eb7f4fc9ab..79a604799ae4cd0dd4794003418302e3
          config = new YamlConfiguration();
          try {
              config.load(CONFIG_FILE);
-@@ -164,4 +168,38 @@ public class SapphireConfig {
+@@ -172,4 +176,38 @@ public class SapphireConfig {
      private static void settings() {
          disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
      }

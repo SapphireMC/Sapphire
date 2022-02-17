@@ -5,10 +5,10 @@ Subject: [PATCH] Add item stuck sleep config
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 79a604799ae4cd0dd4794003418302e3d7fface1..aee4d53f86211ae4f8201b376e39d8dc8b7ad501 100644
+index 07f298ccfd6d795301fab6e35aad49b154766a34..dee8fc64be513d18976f0fafbc243be3e7628039 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -165,8 +165,10 @@ public class SapphireConfig {
+@@ -173,8 +173,10 @@ public class SapphireConfig {
      }
  
      public static boolean disableEntityStuckChecks = false;
@@ -20,7 +20,7 @@ index 79a604799ae4cd0dd4794003418302e3d7fface1..aee4d53f86211ae4f8201b376e39d8dc
  
      public static boolean playerCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index f09db211f6f789ced85f7bf716428cd04bb41378..07637013a428d016bf5b142a6e40e4f11e53b612 100644
+index 5170a3d87fa95eace2ec5e56ad4ebc4b25f9297c..e209b12d42c028586ac4495dc7ff05ac4c574b6f 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -127,7 +127,7 @@ public class ItemEntity extends Entity {

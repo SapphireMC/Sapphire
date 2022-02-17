@@ -1,7 +1,7 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: DenaryDev <denaryplanet@gmail.com>
 Date: Fri, 3 Dec 2021 19:45:00 +0500
-Subject: [PATCH] Sapphire configuration
+Subject: [PATCH] Sapphire config files
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
@@ -20,13 +20,14 @@ index 5e3b7fb2e0b7608610555cd23e7ad25a05883181..06049bde725534e92665a1d68e3a4088
          new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb7f4fc9ab
+index 0000000000000000000000000000000000000000..1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -0,0 +1,167 @@
+@@ -0,0 +1,175 @@
 +package io.sapphiremc.sapphire;
 +
 +import com.google.common.base.Throwables;
++import java.util.List;
 +import org.bukkit.Bukkit;
 +import org.bukkit.configuration.InvalidConfigurationException;
 +import org.bukkit.configuration.file.YamlConfiguration;
@@ -40,6 +41,7 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +import java.util.logging.Level;
 +import java.util.regex.Pattern;
 +
++@SuppressWarnings({"unused", "deprecation"})
 +public class SapphireConfig {
 +
 +    public static File CONFIG_FILE;
@@ -68,19 +70,20 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +        config.options().header(HEADER);
 +        config.options().copyDefaults(true);
 +        verbose = getBoolean("verbose", false);
++
 +        version = getInt("config-version", 1);
 +        set("config-version", 1);
 +        readConfig(SapphireConfig.class, null);
 +    }
 +
-+    protected static void logError(String s) {
-+        Bukkit.getLogger().severe(s);
-+    }
-+
 +    protected static void log(String s) {
 +        if (verbose) {
-+            Bukkit.getLogger().info(s);
++            log(Level.INFO, s);
 +        }
++    }
++
++    protected static void log(Level level, String s) {
++        Bukkit.getLogger().log(level, s);
 +    }
 +
 +    static void readConfig(Class<?> clazz, Object instance) {
@@ -179,6 +182,11 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +        return config.getString(path, config.getString(path));
 +    }
 +
++    private static <T> List<?> getList(String path, T def) {
++        config.addDefault(path, def);
++        return config.getList(path, config.getList(path));
++    }
++
 +    public static boolean debug = false;
 +    public static String serverModName = "Sapphire";
 +    private static void general() {
@@ -189,6 +197,76 @@ index 0000000000000000000000000000000000000000..07db45abfa3b8bf7339bad1bde7ba6eb
 +    public static boolean disableEntityStuckChecks = false;
 +    private static void settings() {
 +        disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
++    }
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireWorldConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireWorldConfig.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd0768e9fc
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/SapphireWorldConfig.java
+@@ -0,0 +1,64 @@
++/*
++ * Copyright (c) 2022 DenaryDev
++ *
++ * Use of this source code is governed by an MIT-style
++ * license that can be found in the LICENSE file or at
++ * https://opensource.org/licenses/MIT.
++ */
++package io.sapphiremc.sapphire;
++
++import java.util.List;
++import org.bukkit.configuration.file.YamlConfiguration;
++
++import static io.sapphiremc.sapphire.SapphireConfig.log;
++
++@SuppressWarnings({"unused"})
++public class SapphireWorldConfig {
++
++    private final String worldName;
++    private YamlConfiguration config;
++
++    public SapphireWorldConfig(String worldName) {
++        this.worldName = worldName;
++        this.config = SapphireConfig.config;
++        init();
++    }
++
++    public void init() {
++        this.config = SapphireConfig.config; // grab updated reference
++        log("-------- World Settings For [" + worldName + "] --------");
++        SapphireConfig.readConfig(SapphireWorldConfig.class, this);
++    }
++
++    private void set(String path, Object val) {
++        config.set("world-settings.default." + path, val);
++        if (config.get("world-settings." + worldName + "." + path) != null) {
++            config.set("world-settings." + worldName + "." + path, val);
++        }
++    }
++
++    private String getString(String path, String def) {
++        config.addDefault("world-settings.default." + path, def);
++        return config.getString("world-settings." + worldName + "." + path, config.getString("world-settings.default." + path));
++    }
++
++    private boolean getBoolean(String path, boolean def) {
++        config.addDefault("world-settings.default." + path, def);
++        return config.getBoolean("world-settings." + worldName + "." + path, config.getBoolean("world-settings.default." + path));
++    }
++
++    private double getDouble(String path, double def) {
++        config.addDefault("world-settings.default." + path, def);
++        return config.getDouble("world-settings." + worldName + "." + path, config.getDouble("world-settings.default." + path));
++    }
++
++    private int getInt(String path, int def) {
++        config.addDefault("world-settings.default." + path, def);
++        return config.getInt("world-settings." + worldName + "." + path, config.getInt("world-settings.default." + path, def));
++    }
++
++    private <T> List<?> getList(String path, List<T> def) {
++        config.addDefault("world-settings.default." + path, def);
++        return config.getList("world-settings." + worldName + "." + path, config.getList("world-settings.default." + path));
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
@@ -290,8 +368,29 @@ index 25338fe4cfdc683ca4c01487e166a1649c6f640b..5add3e9f70fdc3589e7cd12c7c2b585c
                      }
                  }
              }
+diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
+index 7dda99a5464816f1488fb110da587f12d751b3fb..370212dc9b5d35321663c903a9d1ec6385c47568 100644
+--- a/src/main/java/net/minecraft/world/level/Level.java
++++ b/src/main/java/net/minecraft/world/level/Level.java
+@@ -166,6 +166,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     public final com.destroystokyo.paper.PaperWorldConfig paperConfig; // Paper
+     public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
+ 
++    public final io.sapphiremc.sapphire.SapphireWorldConfig sapphireConfig; // Sapphire
++
+     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
+     public static BlockPos lastPhysicsProblem; // Spigot
+     private org.spigotmc.TickLimiter entityLimiter;
+@@ -308,6 +310,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+     protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, final DimensionType dimensionmanager, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
+         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
+         this.paperConfig = new com.destroystokyo.paper.PaperWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), this.spigotConfig); // Paper
++        this.sapphireConfig = new io.sapphiremc.sapphire.SapphireWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Sapphire
+         this.generator = gen;
+         this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
+ 
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ec2ec12757821ce0360f6dd515cd8c9282920f9a..55262918e2fd3a84034755e3f940447740b9f0ab 100644
+index ec2ec12757821ce0360f6dd515cd8c9282920f9a..c8aa00c155611abad4d0a9471e968415efdf8ae8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -957,6 +957,7 @@ public final class CraftServer implements Server {
@@ -302,7 +401,15 @@ index ec2ec12757821ce0360f6dd515cd8c9282920f9a..55262918e2fd3a84034755e3f9404477
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -2683,6 +2684,13 @@ public final class CraftServer implements Server {
+@@ -973,6 +974,7 @@ public final class CraftServer implements Server {
+             }
+             world.spigotConfig.init(); // Spigot
+             world.paperConfig.init(); // Paper
++            world.sapphireConfig.init(); // Sapphire
+         }
+ 
+         Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
+@@ -2683,6 +2685,13 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
