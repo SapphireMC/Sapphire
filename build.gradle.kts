@@ -99,10 +99,8 @@ tasks.register<Copy>("renamedReobfPaperclipJar") {
     from("build/libs/sapphire-paperclip-$projVersion-reobf.jar")
     into("build/libs")
 
-    doLast {
-        rename {
-            it.replace("paperclip-$projVersion-reobf", mcVersion)
-        }
+    rename {
+        it.replace("paperclip-$projVersion-reobf", mcVersion)
     }
 }
 
