@@ -5,10 +5,10 @@ Subject: [PATCH] Sapphire config files
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 5e3b7fb2e0b7608610555cd23e7ad25a05883181..06049bde725534e92665a1d68e3a4088e22d6218 100644
+index 1cb0aae3e0c619a715766e0fa604dfd9a8caefcc..0c6d0754aa18de7a3141d0a09ce0e2281427ac22 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -227,7 +227,8 @@ public class TimingsExport extends Thread {
+@@ -231,7 +231,8 @@ public class TimingsExport extends Thread {
          parent.put("config", createObject(
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
              pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
@@ -270,7 +270,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 6d51990e36ab5a3f62e0df33b794bef2d76d8418..714a58fd08dd044143e08f729e1ccd8c1985bb4c 100644
+index c00e4cfb3079ac9b3bcca2cdf824c23cfda48545..14fb1233c2d957b6dccd6982f9aed8b5bb4adec2 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2,9 +2,6 @@ package net.minecraft.server;
@@ -309,7 +309,7 @@ index 6d51990e36ab5a3f62e0df33b794bef2d76d8418..714a58fd08dd044143e08f729e1ccd8c
  import org.bukkit.craftbukkit.generator.CustomWorldChunkManager;
  import org.bukkit.event.server.ServerLoadEvent;
  // CraftBukkit end
-@@ -1709,7 +1701,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1710,7 +1702,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -338,7 +338,7 @@ index 38a0fb9a7c4ade9cacfd30dffabfea7e6b773981..dedf5853c7fcb88955a2e42cc8dccc87
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 25338fe4cfdc683ca4c01487e166a1649c6f640b..5add3e9f70fdc3589e7cd12c7c2b585c58f657d3 100644
+index 9822d163a9e4d6ac8240c18a7082e911788d0948..5d5ef2ac974ffe6bc990bb7868dcd7117899ee21 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -394,16 +394,18 @@ public abstract class LivingEntity extends Entity {
@@ -369,7 +369,7 @@ index 25338fe4cfdc683ca4c01487e166a1649c6f640b..5add3e9f70fdc3589e7cd12c7c2b585c
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 7dda99a5464816f1488fb110da587f12d751b3fb..370212dc9b5d35321663c903a9d1ec6385c47568 100644
+index 87c8c59b9d47b6c292a92e97471c558c03453cfb..f10979652025dba7220dbf3026e7d8bf8758a66c 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -166,6 +166,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -390,7 +390,7 @@ index 7dda99a5464816f1488fb110da587f12d751b3fb..370212dc9b5d35321663c903a9d1ec63
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ec2ec12757821ce0360f6dd515cd8c9282920f9a..c8aa00c155611abad4d0a9471e968415efdf8ae8 100644
+index 78c40e0405db8ad4e825d496cf84d49bd2fa8f0f..c149f0b21f024f4fd4be601d708fe50dfdd45ab6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -957,6 +957,7 @@ public final class CraftServer implements Server {
@@ -409,7 +409,7 @@ index ec2ec12757821ce0360f6dd515cd8c9282920f9a..c8aa00c155611abad4d0a9471e968415
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2683,6 +2685,13 @@ public final class CraftServer implements Server {
+@@ -2696,6 +2698,13 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  

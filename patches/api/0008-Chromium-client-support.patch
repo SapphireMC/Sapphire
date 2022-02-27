@@ -1,24 +1,24 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 From: DenaryDev <denaryplanet@gmail.com>
 Date: Fri, 11 Feb 2022 00:39:20 +0500
-Subject: [PATCH] Sapphire client support
+Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 131daee2b29f7016463a00ce7927dff7b0a1b1b4..20d58570504bf1adaca20897e89733c5ea1b59bb 100644
+index 5c1b8f35f22ae10a17d78ece95c49de44f58976d..15630b645ffa16be43686cc4d6555ca150f5d4ed 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2648,6 +2648,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2664,6 +2664,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      String getClientBrandName();
      // Paper end
  
-+    // Sapphire start - our client support
++    // Sapphire start - Chromium client support
 +    /**
-+     * Allows you to get if player uses Sapphire Client
++     * Allows you to get if player uses Chromium Client
 +     *
-+     * @return True if Player uses Sapphire Client
++     * @return True if Player uses Chromium Client
 +     */
-+    boolean usesSapphireClient();
++    boolean usesChromiumClient();
 +    // Sapphire end
 +
      @NotNull

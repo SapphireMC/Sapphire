@@ -5,7 +5,7 @@ Subject: [PATCH] Add last tick time api
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 714a58fd08dd044143e08f729e1ccd8c1985bb4c..9b7b96f411a8474be7014961991bc9990edb15aa 100644
+index 14fb1233c2d957b6dccd6982f9aed8b5bb4adec2..cce2eb5453cae7e408e18ea9404bb7ce85bc9b97 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1188,6 +1188,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -28,10 +28,10 @@ index 714a58fd08dd044143e08f729e1ccd8c1985bb4c..9b7b96f411a8474be7014961991bc999
                      this.mayHaveDelayedTasks = true;
                      this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c8aa00c155611abad4d0a9471e968415efdf8ae8..602fb27d34cefdb5ed976abca41f8604b98bc1ac 100644
+index c149f0b21f024f4fd4be601d708fe50dfdd45ab6..f7bf690c85c2908a8595ff6d06ef678d52619d3a 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2846,4 +2846,12 @@ public final class CraftServer implements Server {
+@@ -2859,4 +2859,12 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
