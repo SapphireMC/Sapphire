@@ -270,7 +270,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c00e4cfb3079ac9b3bcca2cdf824c23cfda48545..14fb1233c2d957b6dccd6982f9aed8b5bb4adec2 100644
+index cc077cbaff75e54953a70fd5b0bf7963a7e669fa..0883e5c7dc7af36ec6620c7aaabcb1cf793c86f9 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -2,9 +2,6 @@ package net.minecraft.server;
@@ -309,7 +309,7 @@ index c00e4cfb3079ac9b3bcca2cdf824c23cfda48545..14fb1233c2d957b6dccd6982f9aed8b5
  import org.bukkit.craftbukkit.generator.CustomWorldChunkManager;
  import org.bukkit.event.server.ServerLoadEvent;
  // CraftBukkit end
-@@ -1710,7 +1702,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1719,7 +1711,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -369,7 +369,7 @@ index 9822d163a9e4d6ac8240c18a7082e911788d0948..5d5ef2ac974ffe6bc990bb7868dcd711
                  }
              }
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 87c8c59b9d47b6c292a92e97471c558c03453cfb..f10979652025dba7220dbf3026e7d8bf8758a66c 100644
+index 11e146241a01ab9ec206b9d3f39aebf5c201a16e..56a74ef4b1a0f9e91e0cafc83ba5a87a2e177313 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -166,6 +166,8 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -390,10 +390,10 @@ index 87c8c59b9d47b6c292a92e97471c558c03453cfb..f10979652025dba7220dbf3026e7d8bf
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 78c40e0405db8ad4e825d496cf84d49bd2fa8f0f..c149f0b21f024f4fd4be601d708fe50dfdd45ab6 100644
+index 809125e54dfcd3988c2b2fe1410e0b4f4c260b12..30c5f2382689efded00487e650333af842f7bda2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -958,6 +958,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          com.destroystokyo.paper.PaperConfig.init((File) console.options.valueOf("paper-settings")); // Paper
@@ -401,7 +401,7 @@ index 78c40e0405db8ad4e825d496cf84d49bd2fa8f0f..c149f0b21f024f4fd4be601d708fe50d
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -973,6 +974,7 @@ public final class CraftServer implements Server {
+@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.paperConfig.init(); // Paper
@@ -409,7 +409,7 @@ index 78c40e0405db8ad4e825d496cf84d49bd2fa8f0f..c149f0b21f024f4fd4be601d708fe50d
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2696,6 +2698,13 @@ public final class CraftServer implements Server {
+@@ -2698,6 +2700,13 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  

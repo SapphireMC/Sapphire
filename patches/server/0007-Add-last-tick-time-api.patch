@@ -5,10 +5,10 @@ Subject: [PATCH] Add last tick time api
 
 
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 14fb1233c2d957b6dccd6982f9aed8b5bb4adec2..cce2eb5453cae7e408e18ea9404bb7ce85bc9b97 100644
+index 0883e5c7dc7af36ec6620c7aaabcb1cf793c86f9..0f25ed70b3367626013802e143b4427575c189d0 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1188,6 +1188,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1197,6 +1197,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -17,7 +17,7 @@ index 14fb1233c2d957b6dccd6982f9aed8b5bb4adec2..cce2eb5453cae7e408e18ea9404bb7ce
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1253,7 +1255,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1262,7 +1264,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                      this.nextTickTime += 50L;
                      this.startMetricsRecordingTick();
                      this.profiler.push("tick");
@@ -28,10 +28,10 @@ index 14fb1233c2d957b6dccd6982f9aed8b5bb4adec2..cce2eb5453cae7e408e18ea9404bb7ce
                      this.mayHaveDelayedTasks = true;
                      this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index c149f0b21f024f4fd4be601d708fe50dfdd45ab6..f7bf690c85c2908a8595ff6d06ef678d52619d3a 100644
+index 30c5f2382689efded00487e650333af842f7bda2..474ad0b05e40fd245afd9ef3daa2d2014e95daa7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2859,4 +2859,12 @@ public final class CraftServer implements Server {
+@@ -2866,4 +2866,12 @@ public final class CraftServer implements Server {
      }
  
      // Paper end
