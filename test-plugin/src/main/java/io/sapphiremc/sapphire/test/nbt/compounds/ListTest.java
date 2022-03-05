@@ -16,6 +16,7 @@ import io.sapphiremc.sapphire.api.nbt.NBTType;
 import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
 import io.sapphiremc.sapphire.test.nbt.NBTTest;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class ListTest implements NBTTest {
 
@@ -132,6 +133,30 @@ public class ListTest implements NBTTest {
 
         if (comp.getListType("longtest") != NBTType.NBTTagLong) {
             throw new NbtApiException("longtest had the wrong type! The Item-NBT-API may not work!");
+        }
+
+        // int[]
+        NBTList<int[]> intArrayList = comp.getIntArrayList("intatest");
+        intArrayList.add(new int[]{1,2,3});
+        intArrayList.add(new int[]{4,2,0});
+        if (!(intArrayList.size() == 2 && Arrays.equals(new int[]{1, 2, 3}, intArrayList.get(0)) && Arrays.equals(new int[]{4, 2, 0}, intArrayList.get(1)))) {
+            throw new NbtApiException("IntArrayList is not correct! " + intArrayList);
+        }
+
+        if (comp.getListType("intatest") != NBTType.NBTTagIntArray) {
+            throw new NbtApiException("intatest had the wrong type! The Item-NBT-API may not work!");
+        }
+
+        // UUID
+        NBTList<UUID> uuidList = comp.getUUIDList("uuidtest");
+        uuidList.add(UUID.fromString("fce0323d-7f50-4317-9720-5f6b14cf78ea"));
+        uuidList.add(UUID.fromString("853c80ef-3c37-49fd-aa49-938b674adae6"));
+        if (!(uuidList.size() == 2 && UUID.fromString("fce0323d-7f50-4317-9720-5f6b14cf78ea").equals(uuidList.get(0)) && UUID.fromString("853c80ef-3c37-49fd-aa49-938b674adae6").equals(uuidList.get(1)))) {
+            throw new NbtApiException("UUIDList is not correct! " + uuidList);
+        }
+
+        if (comp.getListType("uuidtest") != NBTType.NBTTagIntArray) {
+            throw new NbtApiException("uuidtest had the wrong type! The Item-NBT-API may not work!");
         }
     }
 }

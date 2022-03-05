@@ -30,10 +30,10 @@ index 0000000000000000000000000000000000000000..138b6ed93caa4215de3adcb67e3cfc94
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTChunk.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTChunk.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d956f1c635c62d89f6cea1e8ab952a107440fb2f
+index 0000000000000000000000000000000000000000..67728f555773e90c216085009252754057efb7b4
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTChunk.java
-@@ -0,0 +1,22 @@
+@@ -0,0 +1,21 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import org.bukkit.Chunk;
@@ -54,14 +54,13 @@ index 0000000000000000000000000000000000000000..d956f1c635c62d89f6cea1e8ab952a10
 +	public NBTCompound getPersistentDataContainer() {
 +		return new NBTPersistentDataContainer(chunk.getPersistentDataContainer());
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543bd6e6a26
+index 0000000000000000000000000000000000000000..4fff278b18e4f359ae44e0cf1e122c8d40718818
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompound.java
-@@ -0,0 +1,642 @@
+@@ -0,0 +1,671 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -79,6 +78,8 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +/**
 + * Base class representing NMS Compounds. For a standalone implementation check
 + * {@link NBTContainer}
++ *
++ * @author tr7zw
 + */
 +public class NBTCompound {
 +
@@ -487,13 +488,41 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +			readLock.unlock();
 +		}
 +	}
-+	
++
 +	/**
 +	 * The same as addCompound, just with a name that better reflects what it does
 +	 */
 +	public NBTCompound getOrCreateCompound(String name) {
 +		return addCompound(name);
 +	}
++
++    /**
++     * @return The retrieved Integer List
++     */
++    public NBTList<int[]> getIntArrayList(String name) {
++        try {
++            writeLock.lock();
++            NBTList<int[]> list = NBTReflectionUtil.getList(this, name, NBTType.NBTTagIntArray, int[].class);
++            saveCompound();
++            return list;
++        } finally {
++            writeLock.unlock();
++        }
++    }
++
++    /**
++     * @return The retrieved Integer List
++     */
++    public NBTList<UUID> getUUIDList(String name) {
++        try {
++            writeLock.lock();
++            NBTList<UUID> list = NBTReflectionUtil.getList(this, name, NBTType.NBTTagIntArray, UUID.class);
++            saveCompound();
++            return list;
++        } finally {
++            writeLock.unlock();
++        }
++    }
 +
 +	/**
 +	 * @return The retrieved String List
@@ -564,7 +593,7 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +			writeLock.unlock();
 +		}
 +	}
-+	
++
 +	/**
 +	 * Returns the type of the list, null if not a list
 +	 */
@@ -672,10 +701,10 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +			return true;
 +		if (obj == null)
 +			return false;
-+		if(obj instanceof NBTCompound other) {
-+			if(getKeys().equals(other.getKeys())) {
-+				for(String key : getKeys()) {
-+					if(!isEqual(this, other, key)) {
++		if (obj instanceof NBTCompound other) {
++			if (getKeys().equals(other.getKeys())) {
++				for (String key : getKeys()) {
++					if (!isEqual(this, other, key)) {
 +						return false;
 +					}
 +				}
@@ -686,7 +715,7 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +	}
 +
 +	protected static boolean isEqual(NBTCompound compA, NBTCompound compB, String key) {
-+		if(compA.getType(key) != compB.getType(key))return false;
++		if (compA.getType(key) != compB.getType(key)) return false;
 +		return switch (compA.getType(key)) {
 +			case NBTTagByte -> compA.getByte(key).equals(compB.getByte(key));
 +			case NBTTagByteArray -> Arrays.equals(compA.getByteArray(key), compB.getByteArray(key));
@@ -702,11 +731,10 @@ index 0000000000000000000000000000000000000000..df84ec5b3952e1ae831529e9f0cb7543
 +			case NBTTagString -> compA.getString(key).equals(compB.getString(key));
 +		};
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf7da110f8
+index 0000000000000000000000000000000000000000..2ad902865973374080a2ca74568e792f96dc15a3
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTCompoundList.java
 @@ -0,0 +1,91 @@
@@ -717,7 +745,9 @@ index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf
 +import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ReflectionMethod;
 +
 +/**
-+ * {@link NBTListCompound} implementation for NBTLists
++ * {@link NBTListCompound} implementation for NBTLists.
++ *
++ * @author tr7zw
 + */
 +public class NBTCompoundList extends NBTList<NBTListCompound> {
 +
@@ -733,7 +763,7 @@ index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf
 +	public NBTListCompound addCompound() {
 +		return (NBTListCompound) addCompound(null);
 +	}
-+	
++
 +	/**
 +	 * Adds a copy of the Compound to the end of the List and returns it.
 +	 * When null is given, a new Compound will be created
@@ -744,7 +774,7 @@ index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf
 +			ReflectionMethod.LIST_ADD.run(listObject, size(), compound);
 +			getParent().saveCompound();
 +			NBTListCompound listcomp = new NBTListCompound(this, compound);
-+			if(comp != null){
++			if (comp != null){
 +				listcomp.mergeCompound(comp);
 +			}
 +			return listcomp;
@@ -755,8 +785,7 @@ index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf
 +
 +	/**
 +	 * Adds a new Compound to the end of the List.
-+	 * 
-+	 * 
++	 *
 +	 * @deprecated Please use addCompound!
 +	 * @return True, if compound was added
 +	 */
@@ -799,14 +828,13 @@ index 0000000000000000000000000000000000000000..d78b6e004eea5b594a27b7bb172113cf
 +	protected Object asTag(NBTListCompound object) {
 +		return null;
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a3842353f6b15dca56e543a6cfc874fb45ed6075
+index 0000000000000000000000000000000000000000..a9dcf3fb4244d8bf1b4aa21bb873fcc7940086d4
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTContainer.java
-@@ -0,0 +1,74 @@
+@@ -0,0 +1,76 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -819,6 +847,8 @@ index 0000000000000000000000000000000000000000..a3842353f6b15dca56e543a6cfc874fb
 +/**
 + * A Standalone {@link NBTCompound} implementation. All data is just kept inside
 + * this Object.
++ *
++ * @author tr7zw
 + */
 +public class NBTContainer extends NBTCompound {
 +
@@ -883,10 +913,10 @@ index 0000000000000000000000000000000000000000..a3842353f6b15dca56e543a6cfc874fb
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ef5563fa7e25962cbc17cb893a97be63576c2998
+index 0000000000000000000000000000000000000000..916b9633f693763d49691d23c842fd5075a3dcc9
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTDoubleList.java
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,44 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -897,7 +927,9 @@ index 0000000000000000000000000000000000000000..ef5563fa7e25962cbc17cb893a97be63
 +import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ReflectionMethod;
 +
 +/**
-+ * Double implementation for NBTLists
++ * Double implementation for NBTLists.
++ *
++ * @author tr7zw
 + */
 +public class NBTDoubleList extends NBTList<Double> {
 +
@@ -928,14 +960,13 @@ index 0000000000000000000000000000000000000000..ef5563fa7e25962cbc17cb893a97be63
 +			throw new NbtApiException(ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTEntity.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTEntity.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..be8666f83d4d0f808473e6e242b6285ea2d13edd
+index 0000000000000000000000000000000000000000..a093e95d951526330397f5d54c6b9fba744d848b
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTEntity.java
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,45 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import org.bukkit.entity.Entity;
@@ -944,6 +975,8 @@ index 0000000000000000000000000000000000000000..be8666f83d4d0f808473e6e242b6285e
 + * NBT class to access vanilla tags from Entities. Entities don't support custom
 + * tags. Use the NBTInjector for custom tags. Changes will be instantly applied
 + * to the Entity, use the merge method to do many things at once.
++ *
++ * @author tr7zw
 + */
 +public class NBTEntity extends NBTCompound {
 +
@@ -978,14 +1011,13 @@ index 0000000000000000000000000000000000000000..be8666f83d4d0f808473e6e242b6285e
 +	public NBTCompound getPersistentDataContainer() {
 +		return new NBTPersistentDataContainer(ent.getPersistentDataContainer());
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFile.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1e7b710517bf2eda96cd2f0738c24de5fa103a9d
+index 0000000000000000000000000000000000000000..67bbba0eb3102064b14245a334ec48ae4665ac93
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFile.java
-@@ -0,0 +1,72 @@
+@@ -0,0 +1,73 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import java.io.File;
@@ -997,6 +1029,8 @@ index 0000000000000000000000000000000000000000..1e7b710517bf2eda96cd2f0738c24de5
 +
 +/**
 + * {@link NBTCompound} implementation backed by a {@link File}
++ *
++ * @author tr7zw
 + */
 +public class NBTFile extends NBTCompound {
 +
@@ -1056,14 +1090,13 @@ index 0000000000000000000000000000000000000000..1e7b710517bf2eda96cd2f0738c24de5
 +	protected void setCompound(Object compound) {
 +		nbt = compound;
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cc8d979779cd8c8269d14a39597d690ebfe11744
+index 0000000000000000000000000000000000000000..55ee9ca00244a68a14c8ceb074db70eb4377ebe3
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTFloatList.java
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,44 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -1075,6 +1108,8 @@ index 0000000000000000000000000000000000000000..cc8d979779cd8c8269d14a39597d690e
 +
 +/**
 + * Float implementation for NBTLists
++ *
++ * @author tr7zw
 + */
 +public class NBTFloatList extends NBTList<Float> {
 +
@@ -1105,14 +1140,13 @@ index 0000000000000000000000000000000000000000..cc8d979779cd8c8269d14a39597d690e
 +			throw new NbtApiException(ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTGameProfile.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTGameProfile.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..380fafe6a27b642738158988c367fb646caaae90
+index 0000000000000000000000000000000000000000..19fe39e17cd41a2a25cfd1bbe68b343a135a8aba
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTGameProfile.java
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,29 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import com.mojang.authlib.GameProfile;
@@ -1131,7 +1165,7 @@ index 0000000000000000000000000000000000000000..380fafe6a27b642738158988c367fb64
 +	public static NBTCompound toNBT(GameProfile profile) {
 +		return new NBTContainer(ReflectionMethod.GAMEPROFILE_SERIALIZE.run(null, ObjectCreator.NMS_NBTTAGCOMPOUND.getInstance(), profile));
 +	}
-+	
++
 +	/**
 +	 * Reconstructs a GameProfile from a NBTCompound
 +	 * 
@@ -1141,14 +1175,76 @@ index 0000000000000000000000000000000000000000..380fafe6a27b642738158988c367fb64
 +	public static GameProfile fromNBT(NBTCompound compound) {
 +		return (GameProfile) ReflectionMethod.GAMEPROFILE_DESERIALIZE.run(null, NBTReflectionUtil.getToCompount(compound.getCompound(), compound));
 +	}
-+	
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntArrayList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntArrayList.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..e5f72e89e09426c8f9daec301b6539bb9f68074b
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntArrayList.java
+@@ -0,0 +1,57 @@
++/*
++ * Copyright (c) 2022 DenaryDev
++ *
++ * Use of this source code is governed by an MIT-style
++ * license that can be found in the LICENSE file or at
++ * https://opensource.org/licenses/MIT.
++ */
++package io.sapphiremc.sapphire.api.nbt;
++
++import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ClassWrapper;
++import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ReflectionMethod;
++
++import java.lang.reflect.Constructor;
++import java.lang.reflect.InvocationTargetException;
++
++/**
++ * Integer array implementation for NBTLists
++ *
++ * @author tr7zw
++ */
++public class NBTIntArrayList extends NBTList<int[]> {
++
++    private final NBTContainer tmpContainer;
++
++    protected NBTIntArrayList(NBTCompound owner, String name, NBTType type, Object list) {
++        super(owner, name, type, list);
++        this.tmpContainer = new NBTContainer();
++    }
++
++    @Override
++    protected Object asTag(int[] object) {
++        try {
++            Constructor<?> con = ClassWrapper.NMS_NBTTAGINTARRAY.getClazz().getDeclaredConstructor(int[].class);
++            con.setAccessible(true);
++            return con.newInstance(object);
++        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
++            | NoSuchMethodException | SecurityException e) {
++            throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++        }
++    }
++
++    @Override
++    public int[] get(int index) {
++        try {
++            Object obj = ReflectionMethod.LIST_GET.run(listObject, index);
++            ReflectionMethod.COMPOUND_SET.run(tmpContainer.getCompound(), "tmp", obj);
++            int[] val = tmpContainer.getIntArray("tmp");
++            tmpContainer.removeKey("tmp");
++            return val;
++        } catch (NumberFormatException nf) {
++            return null;
++        } catch (Exception ex) {
++            throw new NbtApiException(ex);
++        }
++    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cd040efc4737502d9ea50463c9c95355e26ec535
+index 0000000000000000000000000000000000000000..11b21dc384ff2252fbd5f285473f2a33ba1d0e9c
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTIntegerList.java
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,44 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -1160,6 +1256,8 @@ index 0000000000000000000000000000000000000000..cd040efc4737502d9ea50463c9c95355
 +
 +/**
 + * Integer implementation for NBTLists
++ *
++ * @author tr7zw
 + */
 +public class NBTIntegerList extends NBTList<Integer> {
 +
@@ -1190,11 +1288,10 @@ index 0000000000000000000000000000000000000000..cd040efc4737502d9ea50463c9c95355
 +			throw new NbtApiException(ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTItem.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTItem.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a90971d5e
+index 0000000000000000000000000000000000000000..0c56860177795d40f04d2f92fe00948155d5e938
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTItem.java
 @@ -0,0 +1,165 @@
@@ -1208,6 +1305,8 @@ index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a
 +/**
 + * NBT class to access vanilla/custom tags on ItemStacks. This class doesn't
 + * autosave to the Itemstack, use getItem to get the changed ItemStack
++ *
++ * @author tr7zw
 + */
 +public class NBTItem extends NBTCompound {
 +
@@ -1221,7 +1320,7 @@ index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a
 +	public NBTItem(ItemStack item) {
 +		this(item, false);
 +	}
-+	
++
 +	/**
 +	 * Constructor for NBTItems. The ItemStack will be cloned! If directApply is true,
 +	 * all changed will be mapped to the original item. Changes to the NBTItem will overwrite changes done
@@ -1294,7 +1393,6 @@ index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a
 +		item.setItemMeta(meta);
 +	}
 +
-+	
 +	/**
 +	 * True, if the item has any tags now known for this item type.
 +	 * 
@@ -1304,7 +1402,7 @@ index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a
 +        ItemMeta meta = bukkitItem.getItemMeta();
 +        return !NBTReflectionUtil.getUnhandledNBTTags(meta).isEmpty();
 +	}
-+	
++
 +	/**
 +	 * Remove all custom (non-vanilla) NBT tags from the NBTItem.
 +	 */
@@ -1357,15 +1455,14 @@ index 0000000000000000000000000000000000000000..a0c283f59ccc11305fcdbe798760bf0a
 +
 +	@Override
 +	protected void saveCompound() {
-+		if(directApply) {
++		if (directApply) {
 +			applyNBT(originalSrcStack);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..c41969930924c34af2f435847020089aed4997b0
+index 0000000000000000000000000000000000000000..61d45272e7f03e4706cbd8aaaef218b67c027393
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTList.java
 @@ -0,0 +1,428 @@
@@ -1386,7 +1483,7 @@ index 0000000000000000000000000000000000000000..c41969930924c34af2f435847020089a
 +/**
 + * Abstract List implementation for ListCompounds
 + *
-+ * @param <T>
++ * @author tr7zw
 + */
 +public abstract class NBTList<T> implements List<T> {
 +
@@ -1799,10 +1896,10 @@ index 0000000000000000000000000000000000000000..c41969930924c34af2f435847020089a
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTListCompound.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTListCompound.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b91366a44b8b73719f589e10cf345fcd83bd525e
+index 0000000000000000000000000000000000000000..27933f27e70ca73307b2cca1f2f1c940393101ec
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTListCompound.java
-@@ -0,0 +1,39 @@
+@@ -0,0 +1,40 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +/**
@@ -1810,6 +1907,8 @@ index 0000000000000000000000000000000000000000..b91366a44b8b73719f589e10cf345fcd
 + * {@link NBTCompoundList} This Compound implementation is missing the ability
 + * for further subCompounds and Lists. This class probably will change in the
 + * future
++ *
++ * @author tr7zw
 + */
 +public class NBTListCompound extends NBTCompound {
 +
@@ -1821,7 +1920,7 @@ index 0000000000000000000000000000000000000000..b91366a44b8b73719f589e10cf345fcd
 +		owner = parent;
 +		compound = obj;
 +	}
-+	
++
 +	public NBTList<?> getListParent() {
 +		return owner;
 +	}
@@ -1840,14 +1939,13 @@ index 0000000000000000000000000000000000000000..b91366a44b8b73719f589e10cf345fcd
 +	protected void saveCompound() {
 +		owner.save();
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..ac166f89ca52516a94f021fa24f3a69553b2ce65
+index 0000000000000000000000000000000000000000..eab6a5039bc25a2fb18a4030b3b2f70a1de38639
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTLongList.java
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,44 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -1859,6 +1957,8 @@ index 0000000000000000000000000000000000000000..ac166f89ca52516a94f021fa24f3a695
 +
 +/**
 + * Long implementation for NBTLists
++ *
++ * @author tr7zw
 + */
 +public class NBTLongList extends NBTList<Long> {
 +
@@ -1889,14 +1989,13 @@ index 0000000000000000000000000000000000000000..ac166f89ca52516a94f021fa24f3a695
 +			throw new NbtApiException(ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTPersistentDataContainer.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTPersistentDataContainer.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cde72c843ded190f96045d507027fd3c4fde0ce3
+index 0000000000000000000000000000000000000000..ad93aa8fcb7d8022db185071224a2fc937960c72
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTPersistentDataContainer.java
-@@ -0,0 +1,30 @@
+@@ -0,0 +1,29 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import java.util.Map;
@@ -1907,8 +2006,8 @@ index 0000000000000000000000000000000000000000..cde72c843ded190f96045d507027fd3c
 +public class NBTPersistentDataContainer extends NBTCompound {
 +
 +	private final PersistentDataContainer container;
-+	
-+	protected NBTPersistentDataContainer(PersistentDataContainer container) {
++
++	public NBTPersistentDataContainer(PersistentDataContainer container) {
 +		super(null, null);
 +		this.container = container;
 +	}
@@ -1925,14 +2024,13 @@ index 0000000000000000000000000000000000000000..cde72c843ded190f96045d507027fd3c
 +		map.clear();
 +		ReflectionMethod.CRAFT_PERSISTENT_DATA_CONTAINER_PUT_ALL.run(container, compound);
 +	}
-+	
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602b75986c0
+index 0000000000000000000000000000000000000000..a0c14e5d026b4249a93914df7983efd8ded89358
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTReflectionUtil.java
-@@ -0,0 +1,546 @@
+@@ -0,0 +1,548 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -1957,9 +2055,8 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +/**
 + * Utility class for translating NBTApi calls to reflections into NMS code All
 + * methods are allowed to throw {@link NbtApiException}
-+ * 
-+ * @author tr7zw
 + *
++ * @author tr7zw
 + */
 +public class NBTReflectionUtil {
 +
@@ -2022,7 +2119,7 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +			throw new NbtApiException("Exception while writing NBT!", e);
 +		}
 +	}
-+	
++
 +	/**
 +	 * Writes a Compound to an OutputStream
 +	 * 
@@ -2344,6 +2441,10 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +				return (NBTList<T>) new NBTDoubleList(comp, key, type, nbt);
 +			} else if (clazz == Long.class) {
 +				return (NBTList<T>) new NBTLongList(comp, key, type, nbt);
++            } else if (clazz == int[].class) {
++                return (NBTList<T>) new NBTIntArrayList(comp, key, type, nbt);
++            } else if (clazz == UUID.class) {
++                return (NBTList<T>) new NBTUUIDList(comp, key, type, nbt);
 +			} else {
 +				return null;
 +			}
@@ -2351,7 +2452,7 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +			throw new NbtApiException("Exception while getting a list with the type '" + type + "'!", ex);
 +		}
 +	}
-+	
++
 +	public static NBTType getListType(NBTCompound comp, String key) {
 +		Object rootnbttag = comp.getCompound();
 +		if (rootnbttag == null) {
@@ -2370,7 +2471,7 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +			throw new NbtApiException("Exception while getting the list type!", ex);
 +		}
 +	}
-+	
++
 +	public static Object getEntry(NBTCompound comp, String key) {
 +		Object rootnbttag = comp.getCompound();
 +		if (rootnbttag == null) {
@@ -2477,14 +2578,13 @@ index 0000000000000000000000000000000000000000..cde5713a98df17b0d58151a3d00c8602
 +		Object workingTag = getToCompount(rootnbttag, comp);
 +		return type.run(workingTag, key);
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..b5eb15c5fe932aa6d576c7bbc32465b7af6e45b3
+index 0000000000000000000000000000000000000000..9d0ef4d892596649213cf57da411df802f9844d9
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTStringList.java
-@@ -0,0 +1,40 @@
+@@ -0,0 +1,41 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
@@ -2496,6 +2596,8 @@ index 0000000000000000000000000000000000000000..b5eb15c5fe932aa6d576c7bbc32465b7
 +
 +/**
 + * String implementation for NBTLists
++ *
++ * @author tr7zw
 + */
 +public class NBTStringList extends NBTList<String> {
 +
@@ -2523,14 +2625,13 @@ index 0000000000000000000000000000000000000000..b5eb15c5fe932aa6d576c7bbc32465b7
 +			throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTTileEntity.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTTileEntity.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..4bc43d9c5e9782f25b0a5449f4eebb177ec114d9
+index 0000000000000000000000000000000000000000..17c4ecaedd0e765f67b0e4ff19543a81322e3263
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTTileEntity.java
-@@ -0,0 +1,51 @@
+@@ -0,0 +1,52 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +import org.bukkit.block.BlockState;
@@ -2540,6 +2641,8 @@ index 0000000000000000000000000000000000000000..4bc43d9c5e9782f25b0a5449f4eebb17
 + * support custom tags. Use the NBTInjector for custom tags. Changes will be
 + * instantly applied to the Tile, use the merge method to do many things at
 + * once.
++ *
++ * @author tr7zw
 + */
 +public class NBTTileEntity extends NBTCompound {
 +
@@ -2580,18 +2683,19 @@ index 0000000000000000000000000000000000000000..4bc43d9c5e9782f25b0a5449f4eebb17
 +		}
 +		return getCompound("PublicBukkitValues");
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTType.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTType.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..e524c59a6af0c3a498aecc6d52951635e331f88f
+index 0000000000000000000000000000000000000000..1e21e6aa1bf320c282584c6cb2825f4f8d9f76e4
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTType.java
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,45 @@
 +package io.sapphiremc.sapphire.api.nbt;
 +
 +/**
 + * Enum of all NBT Types Minecraft contains
++ *
++ * @author tr7zw
 + */
 +public enum NBTType {
 +	NBTTagEnd(0),
@@ -2630,14 +2734,78 @@ index 0000000000000000000000000000000000000000..e524c59a6af0c3a498aecc6d52951635
 +				return t;
 +		return NBTType.NBTTagEnd;
 +	}
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTUUIDList.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTUUIDList.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..a266d6cdbf49bc2fc039e94294b9e8541d2809bd
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/NBTUUIDList.java
+@@ -0,0 +1,59 @@
++/*
++ * Copyright (c) 2022 DenaryDev
++ *
++ * Use of this source code is governed by an MIT-style
++ * license that can be found in the LICENSE file or at
++ * https://opensource.org/licenses/MIT.
++ */
++package io.sapphiremc.sapphire.api.nbt;
 +
++import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
++import io.sapphiremc.sapphire.api.nbt.utils.UUIDUtil;
++import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ClassWrapper;
++import io.sapphiremc.sapphire.api.nbt.utils.nmsmappings.ReflectionMethod;
++
++import java.lang.reflect.Constructor;
++import java.lang.reflect.InvocationTargetException;
++import java.util.UUID;
++
++/**
++ * UUID implementation for NBTLists
++ *
++ * @author tr7zw
++ */
++public class NBTUUIDList extends NBTList<UUID> {
++
++    private final NBTContainer tmpContainer;
++
++    protected NBTUUIDList(NBTCompound owner, String name, NBTType type, Object list) {
++        super(owner, name, type, list);
++        this.tmpContainer = new NBTContainer();
++    }
++
++    @Override
++    protected Object asTag(UUID object) {
++        try {
++            Constructor<?> con = ClassWrapper.NMS_NBTTAGINTARRAY.getClazz().getDeclaredConstructor(int[].class);
++            con.setAccessible(true);
++            return con.newInstance(UUIDUtil.uuidToIntArray(object));
++        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
++            | NoSuchMethodException | SecurityException e) {
++            throw new NbtApiException("Error while wrapping the Object " + object + " to it's NMS object!", e);
++        }
++    }
++
++    @Override
++    public UUID get(int index) {
++        try {
++            Object obj = ReflectionMethod.LIST_GET.run(listObject, index);
++            ReflectionMethod.COMPOUND_SET.run(tmpContainer.getCompound(), "tmp", obj);
++            int[] val = tmpContainer.getIntArray("tmp");
++            tmpContainer.removeKey("tmp");
++            return UUIDUtil.uuidFromIntArray(val);
++        } catch (NumberFormatException nf) {
++            return null;
++        } catch (Exception ex) {
++            throw new NbtApiException(ex);
++        }
++    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/exceptions/NbtApiException.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/exceptions/NbtApiException.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..292a924fd8ff1916b1a3e5ae066f47f97de636fe
+index 0000000000000000000000000000000000000000..ea4aacb3be509e2e0c424eccf9251b6455657250
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/exceptions/NbtApiException.java
-@@ -0,0 +1,53 @@
+@@ -0,0 +1,56 @@
 +package io.sapphiremc.sapphire.api.nbt.exceptions;
 +
 +import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
@@ -2646,6 +2814,8 @@ index 0000000000000000000000000000000000000000..292a924fd8ff1916b1a3e5ae066f47f9
 +/**
 + * A generic {@link RuntimeException} that can be thrown by most methods in the
 + * NBTAPI.
++ *
++ * @author tr7zw
 + */
 +public class NbtApiException extends RuntimeException {
 +
@@ -2681,22 +2851,23 @@ index 0000000000000000000000000000000000000000..292a924fd8ff1916b1a3e5ae066f47f9
 +
 +    private static String generateMessage(String message) {
 +        if (message == null) return null;
-+        if (confirmedBroken == false) {
-+            return "[Selfchecked]" + message;
-+        }
++
 +        if (confirmedBroken == null) {
 +            return "[?]" + message;
++        } else if (confirmedBroken == false) {
++            return "[Selfchecked]" + message;
 +        }
++
 +        return "[NBTAPI|" + MinecraftVersion.getVersion() + "] There were errors detected during the server self-check! Please, make sure that NBT-API is up to date. Error message: " + message;
 +    }
 +
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..28fb222b69a30bd0c5bbc1f47551d7658a4aea34
+index 0000000000000000000000000000000000000000..ae192ac7d615087b901331955c99b4337f24ea65
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper.java
-@@ -0,0 +1,44 @@
+@@ -0,0 +1,43 @@
 +package io.sapphiremc.sapphire.api.nbt.utils;
 +
 +import com.google.gson.Gson;
@@ -2739,22 +2910,24 @@ index 0000000000000000000000000000000000000000..28fb222b69a30bd0c5bbc1f47551d765
 +			throw new NbtApiException("Error while converting json to " + type.getName(), ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561d08b1680
+index 0000000000000000000000000000000000000000..d97c257547735bfa2b222f171eb8b52e3063a02a
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion.java
-@@ -0,0 +1,86 @@
+@@ -0,0 +1,91 @@
 +package io.sapphiremc.sapphire.api.nbt.utils;
++
++import org.bukkit.Bukkit;
 +
 +/**
 + * This class acts as the "Brain" of the NBTApi. It contains the main logger for
 + * other classes and checks rather Maven shading was done
 + * correctly.
++ *
++ * @author tr7zw
 + */
-+@SuppressWarnings("javadoc")
 +public enum MinecraftVersion {
 +	UNKNOWN(-1), // Use the newest known mappings
 +	MC1_12_R1(1121),
@@ -2766,7 +2939,8 @@ index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561
 +	MC1_16_R2(1162),
 +	MC1_16_R3(1163),
 +	MC1_17_R1(1171),
-+	MC1_18_R1(1181, true);
++	MC1_18_R1(1181, true),
++    MC1_18_R2(1182, true);
 +
 +	private static MinecraftVersion version;
 +
@@ -2796,9 +2970,12 @@ index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561
 +        return mojangMapping;
 +    }
 +
++    /**
++     * This method is required to hot-wire the plugin during mappings generation for newer mc versions thanks to md_5 not used mojmap.
++     */
 +	public String getPackageName() {
 +	    if (this == UNKNOWN) {
-+	        return values()[values().length-1].name().replace("MC", "v");
++            return Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
 +	    }
 +	    return this.name().replace("MC", "v");
 +	}
@@ -2807,7 +2984,6 @@ index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561
 +	 * Returns true if the current versions is at least the given Version
 +	 * 
 +	 * @param version The minimum version
-+	 * @return
 +	 */
 +	public static boolean isAtLeastVersion(MinecraftVersion version) {
 +		return getVersion().getVersionId() >= version.getVersionId();
@@ -2817,7 +2993,6 @@ index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561
 +	 * Returns true if the current versions newer (not equal) than the given version
 +	 * 
 +	 * @param version The minimum version
-+	 * @return
 +	 */
 +	public static boolean isNewerThan(MinecraftVersion version) {
 +		return getVersion().getVersionId() > version.getVersionId();
@@ -2829,16 +3004,16 @@ index 0000000000000000000000000000000000000000..2c8f4bba2b470ac99402dc6f7da72561
 +	 * @return The enum for the MinecraftVersion this server is running
 +	 */
 +	public static MinecraftVersion getVersion() {
-+        if (version == null) version = MC1_18_R1;
++        if (version == null) version = MC1_18_R2;
 +        return version;
 +	}
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2b2b76078cd7059f6aeaf2a4160404c606e45890
+index 0000000000000000000000000000000000000000..9e15e0228263d42102cdb332f8a20116f12d3b1e
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil.java
-@@ -0,0 +1,52 @@
+@@ -0,0 +1,51 @@
 +package io.sapphiremc.sapphire.api.nbt.utils;
 +
 +import java.lang.reflect.Field;
@@ -2889,14 +3064,47 @@ index 0000000000000000000000000000000000000000..2b2b76078cd7059f6aeaf2a4160404c6
 +		makeNonFinal(field);
 +		field.set(obj, newValue);
 +	}
++}
+diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/UUIDUtil.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/UUIDUtil.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..d238e785f67a3cbc52e100d3db96f1f3d15ed481
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/UUIDUtil.java
+@@ -0,0 +1,28 @@
++/*
++ * Copyright (c) 2022 DenaryDev
++ *
++ * Use of this source code is governed by an MIT-style
++ * license that can be found in the LICENSE file or at
++ * https://opensource.org/licenses/MIT.
++ */
++package io.sapphiremc.sapphire.api.nbt.utils;
 +
++import java.util.UUID;
++
++public class UUIDUtil {
++
++    public static UUID uuidFromIntArray(int[] is) {
++        return new UUID((long) is[0] << 32 | (long) is[1] & 4294967295L,
++            (long) is[2] << 32 | (long) is[3] & 4294967295L);
++    }
++
++    public static int[] uuidToIntArray(UUID uUID) {
++        long l = uUID.getMostSignificantBits();
++        long m = uUID.getLeastSignificantBits();
++        return leastMostToIntArray(l, m);
++    }
++
++    private static int[] leastMostToIntArray(long l, long m) {
++        return new int[]{(int) (l >> 32), (int) l, (int) (m >> 32), (int) m};
++    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570d18f5a9a
+index 0000000000000000000000000000000000000000..c3ea851b0613d031c7be2bbef44a2ad40c4d8713
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper.java
-@@ -0,0 +1,102 @@
+@@ -0,0 +1,94 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +import java.util.logging.Level;
@@ -2908,19 +3116,17 @@ index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570
 + * Wraps NMS and CRAFT classes
 + * 
 + * @author tr7zw
-+ *
 + */
-+@SuppressWarnings("javadoc")
 +public enum ClassWrapper {
 +    CRAFT_ITEMSTACK(PackageWrapper.CRAFTBUKKIT, "inventory.CraftItemStack", null, null),
 +    CRAFT_METAITEM(PackageWrapper.CRAFTBUKKIT, "inventory.CraftMetaItem", null, null),
 +    CRAFT_ENTITY(PackageWrapper.CRAFTBUKKIT, "entity.CraftEntity", null, null),
 +    CRAFT_WORLD(PackageWrapper.CRAFTBUKKIT, "CraftWorld", null, null),
-+    CRAFT_PERSISTENTDATACONTAINER(PackageWrapper.CRAFTBUKKIT, "persistence.CraftPersistentDataContainer",
-+            MinecraftVersion.MC1_14_R1, null),
++    CRAFT_PERSISTENTDATACONTAINER(PackageWrapper.CRAFTBUKKIT, "persistence.CraftPersistentDataContainer", MinecraftVersion.MC1_14_R1, null),
 +    NMS_NBTBASE(PackageWrapper.NMS, "NBTBase", null, null, "net.minecraft.nbt", "net.minecraft.nbt.Tag"),
 +    NMS_NBTTAGSTRING(PackageWrapper.NMS, "NBTTagString", null, null, "net.minecraft.nbt", "net.minecraft.nbt.StringTag"),
 +    NMS_NBTTAGINT(PackageWrapper.NMS, "NBTTagInt", null, null, "net.minecraft.nbt", "net.minecraft.nbt.IntTag"),
++    NMS_NBTTAGINTARRAY(PackageWrapper.NMS, "NBTTagIntArray", null, null, "net.minecraft.nbt", "net.minecraft.nbt.IntArrayTag"),
 +    NMS_NBTTAGFLOAT(PackageWrapper.NMS, "NBTTagFloat", null, null, "net.minecraft.nbt", "net.minecraft.nbt.FloatTag"),
 +    NMS_NBTTAGDOUBLE(PackageWrapper.NMS, "NBTTagDouble", null, null, "net.minecraft.nbt", "net.minecraft.nbt.DoubleTag"),
 +    NMS_NBTTAGLONG(PackageWrapper.NMS, "NBTTagLong", null, null, "net.minecraft.nbt", "net.minecraft.nbt.LongTag"),
@@ -2941,8 +3147,7 @@ index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570
 +    NMS_IREGISTRY(PackageWrapper.NMS, "IRegistry", null, null, "net.minecraft.core", "net.minecraft.core.Registry"),
 +    NMS_MINECRAFTKEY(PackageWrapper.NMS, "MinecraftKey", MinecraftVersion.MC1_12_R1, null, "net.minecraft.resources", "net.minecraft.resources.ResourceKey"),
 +    NMS_GAMEPROFILESERIALIZER(PackageWrapper.NMS, "GameProfileSerializer", null, null, "net.minecraft.nbt", "net.minecraft.nbt.NbtUtils"),
-+    NMS_IBLOCKDATA(PackageWrapper.NMS, "IBlockData", MinecraftVersion.MC1_12_R1, null,
-+            "net.minecraft.world.level.block.state", "net.minecraft.world.level.block.state.BlockState"),
++    NMS_IBLOCKDATA(PackageWrapper.NMS, "IBlockData", MinecraftVersion.MC1_12_R1, null, "net.minecraft.world.level.block.state", "net.minecraft.world.level.block.state.BlockState"),
 +    GAMEPROFILE(PackageWrapper.NONE, "com.mojang.authlib.GameProfile", MinecraftVersion.MC1_12_R1, null);
 +
 +    private Class<?> clazz;
@@ -2953,15 +3158,11 @@ index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570
 +        this(packageId, clazzName, from, to, null, null);
 +    }
 +
-+    ClassWrapper(PackageWrapper packageId, String clazzName, MinecraftVersion from, MinecraftVersion to,
-+            String mojangMap, String mojangName) {
++    ClassWrapper(PackageWrapper packageId, String clazzName, MinecraftVersion from, MinecraftVersion to, String mojangMap, String mojangName) {
 +        this.mojangName = mojangName;
-+        if (from != null && MinecraftVersion.getVersion().getVersionId() < from.getVersionId()) {
-+            return;
-+        }
-+        if (to != null && MinecraftVersion.getVersion().getVersionId() > to.getVersionId()) {
-+            return;
-+        }
++        if ((from != null && MinecraftVersion.getVersion().getVersionId() < from.getVersionId())
++            || (to != null && MinecraftVersion.getVersion().getVersionId() > to.getVersionId())) return;
++
 +        enabled = true;
 +        try {
 +            if (MinecraftVersion.isAtLeastVersion(MinecraftVersion.MC1_17_R1) && mojangMap != null) {
@@ -2997,15 +3198,16 @@ index 0000000000000000000000000000000000000000..874330eac2079359741d1e8a12edc570
 +    public String getMojangName() {
 +        return mojangName;
 +    }
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/MojangToMapping.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/MojangToMapping.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..21bf0989dc0c882dd0767f176114cc1626149d8d
+index 0000000000000000000000000000000000000000..347e3f3465bcad25b2c202058d8049823f1d41cb
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/MojangToMapping.java
-@@ -0,0 +1,77 @@
+@@ -0,0 +1,87 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
++
++import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +
 +import java.util.HashMap;
 +import java.util.Map;
@@ -3014,12 +3216,10 @@ index 0000000000000000000000000000000000000000..21bf0989dc0c882dd0767f176114cc16
 + * Temporary solution to hold Mojang to unmapped Spigot mappings.
 + * 
 + * @author tr7zw
-+ *
 + */
 +public class MojangToMapping {
 +
 +    private static final Map<String, String> MC1_18_R1 = new HashMap<>() {
-+
 +        {
 +            put("net.minecraft.nbt.CompoundTag#contains(java.lang.String)", "e");
 +            put("net.minecraft.nbt.CompoundTag#getCompound(java.lang.String)", "p");
@@ -3074,20 +3274,30 @@ index 0000000000000000000000000000000000000000..21bf0989dc0c882dd0767f176114cc16
 +            put("net.minecraft.world.level.block.entity.BlockEntity#load(net.minecraft.nbt.CompoundTag)", "a");
 +            put("net.minecraft.server.level.ServerLevel#getBlockEntity(net.minecraft.core.BlockPos)", "c_");
 +        }
-+
 +    };
-+    
++
++    private static final Map<String, String> MC1_18_R2 = new HashMap<>() {
++        {
++            putAll(MC1_18_R1);
++
++            put("net.minecraft.world.item.ItemStack#getTag()", "t");
++        }
++    };
++
 +    public static Map<String, String> getMapping(){
-+        return MC1_18_R1;
++        return switch (MinecraftVersion.getVersion()) {
++            case MC1_18_R1 -> MC1_18_R1;
++            case MC1_18_R2 -> MC1_18_R2;
++            default -> MC1_18_R2; //throw new NbtApiException("This version of the NBTAPI is not compatible with this server version!");
++        };
 +    }
-+    
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..bc5ecab9fdf0814516765738678f104fca1d46d3
+index 0000000000000000000000000000000000000000..2333eda83f07c8bfec0836b0691398967a0314f3
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator.java
-@@ -0,0 +1,55 @@
+@@ -0,0 +1,50 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +import java.lang.reflect.Constructor;
@@ -3099,11 +3309,9 @@ index 0000000000000000000000000000000000000000..bc5ecab9fdf0814516765738678f104f
 +
 +/**
 + * This Enum wraps Constructors for NMS classes
-+ * 
-+ * @author tr7zw
 + *
++ * @author tr7zw
 + */
-+@SuppressWarnings("javadoc")
 +public enum ObjectCreator {
 +	NMS_NBTTAGCOMPOUND(null, null, ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()),
 +	NMS_BLOCKPOSITION(null, null, ClassWrapper.NMS_BLOCKPOSITION.getClazz(), int.class, int.class, int.class),
@@ -3113,12 +3321,11 @@ index 0000000000000000000000000000000000000000..bc5ecab9fdf0814516765738678f104f
 +	private Class<?> targetClass;
 +
 +	ObjectCreator(MinecraftVersion from, MinecraftVersion to, Class<?> clazz, Class<?>... args) {
-+		if (clazz == null)
-+			return;
-+		if (from != null && MinecraftVersion.getVersion().getVersionId() < from.getVersionId())
-+			return;
-+		if (to != null && MinecraftVersion.getVersion().getVersionId() > to.getVersionId())
-+			return;
++		if (clazz == null
++            || (from != null && MinecraftVersion.getVersion().getVersionId() < from.getVersionId())
++            || (to != null && MinecraftVersion.getVersion().getVersionId() > to.getVersionId()))
++            return;
++
 +		try {
 +			this.targetClass = clazz;
 +			construct = clazz.getDeclaredConstructor(args);
@@ -3130,8 +3337,7 @@ index 0000000000000000000000000000000000000000..bc5ecab9fdf0814516765738678f104f
 +
 +	/**
 +	 * Creates an Object instance with given args
-+	 * 
-+	 * @param args
++	 *
 +	 * @return Object created
 +	 */
 +	public Object getInstance(Object... args) {
@@ -3141,27 +3347,25 @@ index 0000000000000000000000000000000000000000..bc5ecab9fdf0814516765738678f104f
 +			throw new NbtApiException("Exception while creating a new instance of '" + targetClass + "'", ex);
 +		}
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/PackageWrapper.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/PackageWrapper.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..aeec807ab23417e15b8478447b462a9f34366e13
+index 0000000000000000000000000000000000000000..adfd2cfc12f535f529dbb08a1d10320d2b7b3ec3
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/PackageWrapper.java
-@@ -0,0 +1,27 @@
+@@ -0,0 +1,25 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +/**
 + * Package enum
 + * 
 + * @author tr7zw
-+ *
 + */
 +public enum PackageWrapper {
 +	NMS(new String(new byte[] {'n', 'e', 't', '.', 'm', 'i', 'n', 'e', 'c', 'r', 'a', 'f', 't', '.', 's', 'e', 'r', 'v', 'e', 'r'})),
 +	CRAFTBUKKIT(new String(new byte[] {'o', 'r', 'g', '.', 'b', 'u', 'k', 'k', 'i', 't', '.', 'c', 'r', 'a', 'f', 't', 'b', 'u', 'k', 'k', 'i', 't'})),
 +	NONE("");
-+	
++
 +	private final String uri;
 +
 +	PackageWrapper(String uri) {
@@ -3174,14 +3378,13 @@ index 0000000000000000000000000000000000000000..aeec807ab23417e15b8478447b462a9f
 +	public String getUri() {
 +		return uri;
 +	}
-+
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268f3f99fe1
+index 0000000000000000000000000000000000000000..16b8b449d0e7f419e5e499b441140c969e1d37a9
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ReflectionMethod.java
-@@ -0,0 +1,219 @@
+@@ -0,0 +1,218 @@
 +package io.sapphiremc.sapphire.api.nbt.utils.nmsmappings;
 +
 +import java.io.InputStream;
@@ -3200,9 +3403,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 + * This class caches method reflections, keeps track of method name changes between versions and allows early checking for problems
 + * 
 + * @author tr7zw
-+ *
 + */
-+@SuppressWarnings("javadoc")
 +public enum ReflectionMethod {
 +
 +    COMPOUND_SET_FLOAT(ClassWrapper.NMS_NBTTAGCOMPOUND, new Class[]{String.class, float.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "setFloat"), new Since(MinecraftVersion.MC1_18_R1, "putFloat(java.lang.String,float)")),
@@ -3233,7 +3434,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +    COMPOUND_GET_BOOLEAN(ClassWrapper.NMS_NBTTAGCOMPOUND, new Class[]{String.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "getBoolean"), new Since(MinecraftVersion.MC1_18_R1, "getBoolean(java.lang.String)")),
 +    COMPOUND_GET_UUID(ClassWrapper.NMS_NBTTAGCOMPOUND, new Class[]{String.class}, MinecraftVersion.MC1_16_R1, new Since(MinecraftVersion.MC1_16_R1, "a"), new Since(MinecraftVersion.MC1_18_R1, "getUUID(java.lang.String)")),
 +    COMPOUND_GET_COMPOUND(ClassWrapper.NMS_NBTTAGCOMPOUND, new Class[]{String.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "getCompound"), new Since(MinecraftVersion.MC1_18_R1, "getCompound(java.lang.String)")),
-+    
++
 +    NMSITEM_GETTAG(ClassWrapper.NMS_ITEMSTACK, new Class[] {}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "getTag"), new Since(MinecraftVersion.MC1_18_R1, "getTag()")),
 +    NMSITEM_SAVE(ClassWrapper.NMS_ITEMSTACK, new Class[] {ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "save"), new Since(MinecraftVersion.MC1_18_R1, "save(net.minecraft.nbt.CompoundTag)")),
 +
@@ -3251,7 +3452,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +    LIST_GET_STRING(ClassWrapper.NMS_NBTTAGLIST, new Class[]{int.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "getString"), new Since(MinecraftVersion.MC1_18_R1, "getString(int)")),
 +    LIST_GET_COMPOUND(ClassWrapper.NMS_NBTTAGLIST, new Class[]{int.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "get"), new Since(MinecraftVersion.MC1_18_R1, "getCompound(int)")),
 +    LIST_GET(ClassWrapper.NMS_NBTTAGLIST, new Class[]{int.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "get"), new Since(MinecraftVersion.MC1_12_R1, "i"), new Since(MinecraftVersion.MC1_13_R1, "get"), new Since(MinecraftVersion.MC1_18_R1, "get(int)")),
-+    
++
 +    ITEMSTACK_SET_TAG(ClassWrapper.NMS_ITEMSTACK, new Class[]{ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "setTag"), new Since(MinecraftVersion.MC1_18_R1, "setTag(net.minecraft.nbt.CompoundTag)")),
 +    ITEMSTACK_NMSCOPY(ClassWrapper.CRAFT_ITEMSTACK, new Class[]{ItemStack.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "asNMSCopy")),
 +    ITEMSTACK_BUKKITMIRROR(ClassWrapper.CRAFT_ITEMSTACK, new Class[]{ClassWrapper.NMS_ITEMSTACK.getClazz()}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "asCraftMirror")),
@@ -3264,7 +3465,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +    TILEENTITY_LOAD_LEGACY1121(ClassWrapper.NMS_TILEENTITY, new Class[]{ClassWrapper.NMS_WORLD.getClazz(), ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_12_R1, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "create")),
 +    TILEENTITY_LOAD_LEGACY1151(ClassWrapper.NMS_TILEENTITY, new Class[]{ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_13_R1, MinecraftVersion.MC1_15_R1, new Since(MinecraftVersion.MC1_12_R1, "create")),
 +    TILEENTITY_LOAD(ClassWrapper.NMS_TILEENTITY, new Class[]{ClassWrapper.NMS_IBLOCKDATA.getClazz(), ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_16_R1, MinecraftVersion.MC1_16_R3, new Since(MinecraftVersion.MC1_16_R1, "create")),
-+	
++
 +    TILEENTITY_GET_NBT(ClassWrapper.NMS_TILEENTITY, new Class[]{ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_12_R1, MinecraftVersion.MC1_17_R1, new Since(MinecraftVersion.MC1_12_R1, "save")),
 +    TILEENTITY_GET_NBT_1181(ClassWrapper.NMS_TILEENTITY, new Class[]{}, MinecraftVersion.MC1_18_R1, new Since(MinecraftVersion.MC1_18_R1, "saveWithId()")),
 +    TILEENTITY_SET_NBT_LEGACY1151(ClassWrapper.NMS_TILEENTITY, new Class[]{ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz()}, MinecraftVersion.MC1_12_R1, MinecraftVersion.MC1_15_R1, new Since(MinecraftVersion.MC1_12_R1, "load")),
@@ -3279,7 +3480,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +
 +    NBTFILE_READ(ClassWrapper.NMS_NBTCOMPRESSEDSTREAMTOOLS, new Class[]{InputStream.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "a"), new Since(MinecraftVersion.MC1_18_R1, "readCompressed(java.io.InputStream)")),
 +    NBTFILE_WRITE(ClassWrapper.NMS_NBTCOMPRESSEDSTREAMTOOLS, new Class[]{ClassWrapper.NMS_NBTTAGCOMPOUND.getClazz(), OutputStream.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "a"), new Since(MinecraftVersion.MC1_18_R1, "writeCompressed(net.minecraft.nbt.CompoundTag,java.io.OutputStream)")),
-+    
++
 +    PARSE_NBT(ClassWrapper.NMS_MOJANGSONPARSER, new Class[]{String.class}, MinecraftVersion.MC1_12_R1, new Since(MinecraftVersion.MC1_12_R1, "parse"), new Since(MinecraftVersion.MC1_18_R1, "parseTag(java.lang.String)")),
 +    REGISTRY_KEYSET (ClassWrapper.NMS_REGISTRYSIMPLE, new Class[]{}, MinecraftVersion.MC1_12_R1, MinecraftVersion.MC1_13_R1, new Since(MinecraftVersion.MC1_12_R1, "keySet")),
 +    REGISTRY_GET (ClassWrapper.NMS_REGISTRYSIMPLE, new Class[]{Object.class}, MinecraftVersion.MC1_12_R1, MinecraftVersion.MC1_13_R1, new Since(MinecraftVersion.MC1_12_R1, "get")),
@@ -3307,8 +3508,10 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +    ReflectionMethod(ClassWrapper targetClass, Class<?>[] args, MinecraftVersion addedSince, MinecraftVersion removedAfter, Since... methodnames) {
 +        this.removedAfter = removedAfter;
 +        this.parentClassWrapper = targetClass;
++
 +        if (!MinecraftVersion.isAtLeastVersion(addedSince) || (this.removedAfter != null && MinecraftVersion.isNewerThan(removedAfter))) return;
 +        compatible = true;
++
 +    	MinecraftVersion server = MinecraftVersion.getVersion();
 +        Since target = methodnames[0];
 +        for (Since s : methodnames) {
@@ -3316,6 +3519,7 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +                target = s;
 +        }
 +        targetVersion = target;
++
 +        String targetMethodName = targetVersion.name;
 +        try {
 +            if (targetVersion.version.isMojangMapping())
@@ -3337,16 +3541,14 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +            }
 +        }
 +    }
-+    
-+    ReflectionMethod(ClassWrapper targetClass, Class<?>[] args, MinecraftVersion addedSince, Since... methodnames) {
-+    	this(targetClass, args, addedSince, null, methodnames);
++
++    ReflectionMethod(ClassWrapper targetClass, Class<?>[] args, MinecraftVersion addedSince, Since... methodNames) {
++    	this(targetClass, args, addedSince, null, methodNames);
 +    }
-+    
++
 +    /**
 +     * Runs the method on a given target object using the given args.
-+     * 
-+     * @param target
-+     * @param args
++     *
 +     * @return Value returned by the method
 +     */
 +    public Object run(Object target, Object... args) {
@@ -3358,14 +3560,14 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +            throw new NbtApiException("Error while calling the method '" + methodName + "', loaded: " + loaded + ", Enum: " + this + " Passed Class: " + target.getClass(), ex);
 +        }
 +    }
-+    
++
 +    /**
 +     * @return The MethodName, used in this Minecraft Version
 +     */
 +    public String getMethodName() {
 +    	return methodName;
 +    }
-+    
++
 +    /**
 +     * @return Has this method been linked
 +     */
@@ -3379,11 +3581,11 @@ index 0000000000000000000000000000000000000000..208cb768197c12e0342a5fb271608268
 +    public boolean isCompatible() {
 +        return compatible;
 +    }
-+    
++
 +    public Since getSelectedVersionInfo() {
 +        return targetVersion;
 +    }
-+    
++
 +    /**
 +     * @return Get Wrapper of the parent class
 +     */
