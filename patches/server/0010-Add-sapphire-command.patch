@@ -72,10 +72,10 @@ index 0000000000000000000000000000000000000000..2e83c95e4bbe63bb3102a462130ae941
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index dedf5853c7fcb88955a2e42cc8dccc8785c6fd54..8f97bc546f67ddbb5b3842d5026c6f1970a5ff25 100644
+index c4ec424e40cce9835c0333a2c6ace4dc53ac4d49..c40dc3c439ac67df5b0ac7f8249013cbf45f06f4 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -239,6 +239,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -242,6 +242,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.error("Unable to load server configuration", e);
              return false;
          }

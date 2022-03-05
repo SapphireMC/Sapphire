@@ -23,18 +23,18 @@ index dee8fc64be513d18976f0fafbc243be3e7628039..9e5eeba23e54f2f00015b5b3c93e594a
      public static boolean animalCollisions = true;
      public static boolean ambientCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index ea612b3c3ed7305b504d65eb6d38ed99547fd488..7938014d072a0769ec57949899b21506685fecf8 100644
+index 268524e256a034520438d5c825e5e419d72d29ce..4b09f030cbbd401bb4b93ab4ba583688381b187a 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-@@ -98,6 +98,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;
- 
+@@ -100,6 +100,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;
  public class Villager extends AbstractVillager implements ReputationEventHandler, VillagerDataHolder {
  
+     private static final Logger LOGGER = LogUtils.getLogger();
 +    private final boolean simplerVillagersBehavior = io.sapphiremc.sapphire.SapphireConfig.simplerVillagersBehavior;
      private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.VILLAGER_DATA);
      public static final int BREEDING_FOOD_THRESHOLD = 12;
      public static final Map<Item, Integer> FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
-@@ -145,12 +146,47 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -147,12 +148,47 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      public Villager(EntityType<? extends Villager> entityType, Level world, VillagerType type) {
          super(entityType, world);
          this.gossips = new GossipContainer();
@@ -84,7 +84,7 @@ index ea612b3c3ed7305b504d65eb6d38ed99547fd488..7938014d072a0769ec57949899b21506
      @Override
      public Brain<Villager> getBrain() {
          return (Brain<Villager>) super.getBrain(); // CraftBukkit - decompile error
-@@ -163,6 +199,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -165,6 +201,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
  
      @Override
      protected Brain<?> makeBrain(Dynamic<?> dynamic) {
@@ -92,7 +92,7 @@ index ea612b3c3ed7305b504d65eb6d38ed99547fd488..7938014d072a0769ec57949899b21506
          Brain<Villager> behaviorcontroller = this.brainProvider().makeBrain(dynamic);
  
          this.registerBrainGoals(behaviorcontroller);
-@@ -241,10 +278,39 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -243,10 +280,39 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
      // Spigot End
  
@@ -132,7 +132,7 @@ index ea612b3c3ed7305b504d65eb6d38ed99547fd488..7938014d072a0769ec57949899b21506
          if (!inactive) this.getBrain().tick((ServerLevel) this.level, this); // Paper
          this.level.getProfiler().pop();
          if (this.assignProfessionWhenSpawned) {
-@@ -683,6 +749,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -685,6 +751,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      private void tellWitnessesThatIWasMurdered(Entity killer) {
@@ -140,7 +140,7 @@ index ea612b3c3ed7305b504d65eb6d38ed99547fd488..7938014d072a0769ec57949899b21506
          Level world = this.level;
  
          if (world instanceof ServerLevel) {
-@@ -701,6 +768,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -703,6 +770,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      public void releasePoi(MemoryModuleType<GlobalPos> memorymoduletype) {

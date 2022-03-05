@@ -5,10 +5,10 @@ Subject: [PATCH] Add PacketMessageEvent
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 68e0a556b026c0a32049de14dfbc005b6712c0f8..9a983e007e8fe15982f4c2b0a3bb690cf32655f0 100644
+index d76d2c6c51886fd9291535e5c50f73a63516126c..34e5b8f035bfceec87b8cfba145f6ac8e15cd026 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -42,6 +42,7 @@ dependencies {
+@@ -43,6 +43,7 @@ dependencies {
      apiAndDocs("net.kyori:adventure-text-serializer-gson")
      apiAndDocs("net.kyori:adventure-text-serializer-legacy")
      apiAndDocs("net.kyori:adventure-text-serializer-plain")
