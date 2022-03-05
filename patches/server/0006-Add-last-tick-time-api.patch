@@ -4,11 +4,35 @@ Date: Sat, 4 Dec 2021 00:02:37 +0500
 Subject: [PATCH] Add last tick time api
 
 
+diff --git a/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java b/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b24467c0a6d4
+--- /dev/null
++++ b/src/main/java/io/sapphiremc/sapphire/utils/TimeUtils.java
+@@ -0,0 +1,18 @@
++package io.sapphiremc.sapphire.utils;
++
++import java.util.concurrent.TimeUnit;
++
++public class TimeUtils {
++
++    public static String getFriendlyName(TimeUnit unit) {
++        return switch (unit) {
++            case NANOSECONDS -> "ns";
++            case MICROSECONDS -> "micros";
++            case MILLISECONDS -> "ms";
++            case SECONDS -> "s";
++            case MINUTES -> "m";
++            case HOURS -> "h";
++            default -> throw new AssertionError();
++        };
++    }
++}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 8f49d489d48fa7ff06729830b50d449c7714c902..64a0f51501b131be6d2331af88e0372aa13bd92c 100644
+index 391397bb9139b47eda0fb808e6ac10d424f7ea5a..cbd101b92ffd46483cabbe60ae87edc8c36f66db 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1142,6 +1142,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1150,6 +1150,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -17,7 +41,7 @@ index 8f49d489d48fa7ff06729830b50d449c7714c902..64a0f51501b131be6d2331af88e0372a
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1207,7 +1209,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1215,7 +1217,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                      this.nextTickTime += 50L;
                      this.startMetricsRecordingTick();
                      this.profiler.push("tick");
@@ -45,24 +69,26 @@ index 6bc7f3f9501e6a95f581f02f8ca2df83ecc41ecd..979dc5e748c6450a2e20b3117e208b4c
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/spigotmc/TicksPerSecondCommand.java b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
-index 9bede6a26c08ede063c7a38f1149c811df14b258..8a1c89ecde2ad3421b4652e33e52ea42fa8bab83 100644
+index 9bede6a26c08ede063c7a38f1149c811df14b258..97bc32f42581fcd5c36f75665d86714fa52c8f1d 100644
 --- a/src/main/java/org/spigotmc/TicksPerSecondCommand.java
 +++ b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
-@@ -32,6 +32,8 @@ public class TicksPerSecondCommand extends Command
+@@ -32,6 +32,10 @@ public class TicksPerSecondCommand extends Command
              tpsAvg[i] = TicksPerSecondCommand.format( tps[i] );
          }
          sender.sendMessage(ChatColor.GOLD + "TPS from last 1m, 5m, 15m: " + org.apache.commons.lang.StringUtils.join(tpsAvg, ", "));
++        // Sapphire start - Last tick time api
 +        java.time.Duration lastTickTime = org.bukkit.Bukkit.getLastTickTime();
 +        sender.sendMessage(ChatColor.GOLD + "Last tick: " + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.MILLISECONDS ) + " (" + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.NANOSECONDS ) + ")");
++        // Sapphire end
          if (args.length > 0 && args[0].equals("mem") && sender.hasPermission("bukkit.command.tpsmemory")) {
              sender.sendMessage(ChatColor.GOLD + "Current Memory Usage: " + ChatColor.GREEN + ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "/" + (Runtime.getRuntime().totalMemory() / (1024 * 1024)) + " mb (Max: " + (Runtime.getRuntime().maxMemory() / (1024 * 1024)) + " mb)");
              if (!hasShownMemoryWarning) {
-@@ -50,4 +52,17 @@ public class TicksPerSecondCommand extends Command
+@@ -50,4 +54,18 @@ public class TicksPerSecondCommand extends Command
          return ( ( tps > 18.0 ) ? ChatColor.GREEN : ( tps > 16.0 ) ? ChatColor.YELLOW : ChatColor.RED ).toString()
                  + ( ( tps > 21.0 ) ? "*" : "" ) + Math.min( Math.round( tps * 100.0 ) / 100.0, 20.0 ); // Paper - only print * at 21, we commonly peak to 20.02 as the tick sleep is not accurate enough, stop the noise
      }
 +
-+    // Sapphire start
++    // Sapphire start - Last tick time api
 +    public static String formatLastTickTime(java.time.Duration duration, java.util.concurrent.TimeUnit unit)
 +    {
 +        java.util.concurrent.TimeUnit nanosUnit = java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -74,4 +100,5 @@ index 9bede6a26c08ede063c7a38f1149c811df14b258..8a1c89ecde2ad3421b4652e33e52ea42
 +        ChatColor startingColor = ms < 40 ? ChatColor.GREEN : ( ms < 50 ) ? ChatColor.YELLOW : ChatColor.RED;
 +        return startingColor.toString() + toAskedUnit + ChatColor.GOLD + io.sapphiremc.sapphire.utils.TimeUtils.getFriendlyName( unit );
 +    }
++    // Sapphire end
  }
