@@ -3755,10 +3755,10 @@ index 7dfc84c77d8e185bb0513d9f9c603ce1b501a5e0..3b3725e20546a37b05d3ba0309d097b4
 +    // Sapphire end
  }
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index 57cf9fab2501da6f1abd12e14697630ca82b0a6d..d2811df159624ffa43b88344332bbafcc85c6ac7 100644
+index 57cf9fab2501da6f1abd12e14697630ca82b0a6d..a51bbfc6927e60414c2a7b3dab3093124fdb535e 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
-@@ -57,8 +57,42 @@ public class AnnotationTest {
+@@ -57,8 +57,45 @@ public class AnnotationTest {
          "co/aikar/timings/TimingHistory$2$1$2",
          "co/aikar/timings/TimingHistory$3",
          "co/aikar/timings/TimingHistory$4",
@@ -3789,9 +3789,12 @@ index 57cf9fab2501da6f1abd12e14697630ca82b0a6d..d2811df159624ffa43b88344332bbafc
 +        "io/sapphiremc/sapphire/api/nbt/NBTStringList",
 +        "io/sapphiremc/sapphire/api/nbt/NBTTileEntity",
 +        "io/sapphiremc/sapphire/api/nbt/NBTType",
++        "io/sapphiremc/sapphire/api/nbt/NBTIntArrayList",
++        "io/sapphiremc/sapphire/api/nbt/NBTUUIDList",
 +        "io/sapphiremc/sapphire/api/nbt/utils/GsonWrapper",
 +        "io/sapphiremc/sapphire/api/nbt/utils/MinecraftVersion",
 +        "io/sapphiremc/sapphire/api/nbt/utils/ReflectionUtil",
++        "io/sapphiremc/sapphire/api/nbt/utils/UUIDUtil",
 +        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ClassWrapper",
 +        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/MojangToMapping",
 +        "io/sapphiremc/sapphire/api/nbt/utils/nmsmappings/ObjectCreator",
