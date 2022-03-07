@@ -31,7 +31,6 @@ jobs:
       - name: Build
         run: ./gradlew build renamedReobfPaperclipJar --stacktrace
       - name: Publish release
-        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
