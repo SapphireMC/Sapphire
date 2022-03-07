@@ -270,10 +270,10 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e1e77f29448e0e8ba2da3ad2b7388b9349676a21..391397bb9139b47eda0fb808e6ac10d424f7ea5a 100644
+index b0139136435fb62370861e1cf3e6b76e4362613d..49acbe3668194cca03af9ce73c4f28e4832636f1 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1683,7 +1683,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1697,7 +1697,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -354,7 +354,7 @@ index 160c0f37aa3aaf7598f852acf9bd444f79444c97..8e2f95d6764c0d875c6f7fb4b4239efe
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 378f041feb3053f8d674c85476d4bcddea78d397..6bc7f3f9501e6a95f581f02f8ca2df83ecc41ecd 100644
+index d3358993712c5f690ef5d26164b398e7db4eacbc..d6687c771cbc4f7e2aa4d55377a513c38dfe4e6f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -955,6 +955,7 @@ public final class CraftServer implements Server {
@@ -373,7 +373,7 @@ index 378f041feb3053f8d674c85476d4bcddea78d397..6bc7f3f9501e6a95f581f02f8ca2df83
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2674,6 +2676,13 @@ public final class CraftServer implements Server {
+@@ -2694,6 +2696,13 @@ public final class CraftServer implements Server {
              return com.destroystokyo.paper.PaperConfig.config;
          }
  
