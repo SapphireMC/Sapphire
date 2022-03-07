@@ -29,4 +29,14 @@ jobs:
       - name: Apply Patches
         run: ./gradlew applyPatches --stacktrace
       - name: Build
-        run: ./gradlew build --stacktrace
+        run: ./gradlew build renamedReobfPaperclipJar --stacktrace
+      - name: Publish release
+        if: ${{ runner.os == 'Linux' && matrix.java == '17' }} # Only upload artifacts built from latest java on one OS
+        uses: marvinpinto/action-automatic-releases@latest
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          automatic_release_tag: 1.18.2
+          prerelease: false
+          title: Latest Build
+          files: |
+            build/libs/sapphire-1.18.2.jar
