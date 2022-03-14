@@ -137,10 +137,10 @@ index e0b1f0671d16ddddcb6725acd25a1d1d69e42701..48d7316050f3802a56470838b2801d18
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 39b7c78b032ed6fc29ac765020d5a38858bf2a3a..b0139136435fb62370861e1cf3e6b76e4362613d 100644
+index c8d56947305c981a3268ce4ae3e975db350ceff2..b2ae011b924c8e9a70d58d748fda175eead8da58 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1697,7 +1697,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1693,7 +1693,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {

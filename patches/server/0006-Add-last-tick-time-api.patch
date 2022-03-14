@@ -29,10 +29,10 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 49acbe3668194cca03af9ce73c4f28e4832636f1..00139c4e2190c85890f7964797935ead7b5c25ec 100644
+index be7ccc05834c507a3ad01e9970bf33206a0b5053..870bbc10e5f9e73c5fc94119ee4823ada6cb7933 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1159,6 +1159,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1157,6 +1157,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -41,7 +41,7 @@ index 49acbe3668194cca03af9ce73c4f28e4832636f1..00139c4e2190c85890f7964797935ead
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1224,7 +1226,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1222,7 +1224,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                      this.nextTickTime += 50L;
                      this.startMetricsRecordingTick();
                      this.profiler.push("tick");
