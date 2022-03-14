@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 4beb35d1e5b013395f5df101e843f41c2ce174ad..9835b054b7c8ebd4cc3d973558217864799d9946 100644
+index 4beb35d1e5b013395f5df101e843f41c2ce174ad..8cdb3ba7759eb53b89d02adb3b3f389696e174ae 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -18,8 +18,8 @@ repositories {
@@ -28,7 +28,15 @@ index 4beb35d1e5b013395f5df101e843f41c2ce174ad..9835b054b7c8ebd4cc3d973558217864
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -156,11 +156,11 @@ fun TaskContainer.registerRunTask(
+@@ -85,6 +85,7 @@ tasks.jar {
+ publishing {
+     publications.create<MavenPublication>("maven") {
+         artifact(tasks.shadowJar)
++        artifact(tasks.reobfJar)
+     }
+ }
+ 
+@@ -156,11 +157,11 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -42,7 +50,7 @@ index 4beb35d1e5b013395f5df101e843f41c2ce174ad..9835b054b7c8ebd4cc3d973558217864
          .asFile
      javaLauncher.set(project.javaToolchains.defaultJavaLauncher(project))
  
-@@ -172,11 +172,11 @@ fun TaskContainer.registerRunTask(
+@@ -172,11 +173,11 @@ fun TaskContainer.registerRunTask(
  
      args("--nogui")
      systemProperty("net.kyori.adventure.text.warnWhenLegacyFormattingDetected", true)
