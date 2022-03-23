@@ -39,10 +39,10 @@ index 2041376dfd5520776f7e32c1828973f2b719d82a..cb5bce337b428b9954ea04f6c960ee3e
          }
          return profile.isComplete() && (!onlineMode || !textures || hasTextures());
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
-index 118472b83a21a250f398c088c91ac4560c19c749..b7e40c253d74489838f0feb9a95a555ab612c894 100644
+index 5840cf6d22029cf1599ae9460b4498d5c8c5ae7d..1acb929a517d11b45ead1d6b99e69a4162df1a0b 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
-@@ -152,7 +152,18 @@ public class SkullBlockEntity extends BlockEntity {
+@@ -167,7 +167,18 @@ public class SkullBlockEntity extends BlockEntity {
                      Util.ifElse(profile, (profilex) -> {
                          Property property = Iterables.getFirst(profilex.getProperties().get("textures"), (Property)null);
                          if (property == null) {
