@@ -21,6 +21,6 @@ disclaimer="Upstream has released updates that appear to apply and compile corre
 
 log="${UP_LOG_PREFIX}Updated Upstream ($updated)\n\n${disclaimer}${logsuffix}"
 
-echo "$log" | git commit -F -
+echo -e "$log" | git commit -F -
 
 ) || exit 1
