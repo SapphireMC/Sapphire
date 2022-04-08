@@ -33,10 +33,10 @@ index 72734f37e5642f8c391aae7b18d6414dcfb0fd2a..61dc42113a1a6ed1eb8bf532d541bb59
          this.message = buf.readComponent();
          this.type = ChatType.getForIndex(buf.readByte());
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index e74c13e7aaa144fcd07036de70e80bebf0be698a..83f08581e4f36af62b4bad29f72371b2224d4de0 100644
+index fd8675f74ea787906b83d863940959efbf8bfac9..86693b809c27bb16f27ad157be0b11d925269b8d 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1856,13 +1856,13 @@ public class ServerPlayer extends Player {
+@@ -1858,13 +1858,13 @@ public class ServerPlayer extends Player {
  
      public void sendMessage(Component message, ChatType type, UUID sender) {
          if (this.acceptsChat(type)) {
@@ -53,7 +53,7 @@ index e74c13e7aaa144fcd07036de70e80bebf0be698a..83f08581e4f36af62b4bad29f72371b2
  
              });
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 68e1ab0057452228817ecbc6556338a8906c2538..cee971aa9195ba83dd696432bd40324898b4d473 100644
+index e4d54fdc28b6161e74626f25299b1081e6605e98..f9c8806e4edc23a93279a8d2f4eba9c691ebc5a3 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -2035,6 +2035,39 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
