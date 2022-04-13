@@ -5,7 +5,7 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 83f08581e4f36af62b4bad29f72371b2224d4de0..337b3225d20e1e65002c27c16db56576e529eb4a 100644
+index 86693b809c27bb16f27ad157be0b11d925269b8d..b7b0df90761080afc585983f5d3985493b3e7955 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -252,6 +252,7 @@ public class ServerPlayer extends Player {
@@ -17,7 +17,7 @@ index 83f08581e4f36af62b4bad29f72371b2224d4de0..337b3225d20e1e65002c27c16db56576
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index cee971aa9195ba83dd696432bd40324898b4d473..323851e65d4707c6abaced32907ad0fda8b15b7d 100644
+index 76072541078360c0ef52d963d5dd1bcdb00df7ed..ae21f7316c30c03bfa4bd90d026d7f62bbc1de02 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -143,7 +143,6 @@ import net.minecraft.world.level.block.entity.CommandBlockEntity;
@@ -44,7 +44,7 @@ index cee971aa9195ba83dd696432bd40324898b4d473..323851e65d4707c6abaced32907ad0fd
  import org.bukkit.event.player.PlayerChatEvent;
  import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-@@ -3206,6 +3203,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3216,6 +3213,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
  
@@ -53,7 +53,7 @@ index cee971aa9195ba83dd696432bd40324898b4d473..323851e65d4707c6abaced32907ad0fd
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -3229,6 +3228,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3239,6 +3238,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
