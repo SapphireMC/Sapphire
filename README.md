@@ -6,7 +6,7 @@
 
 Paper fork that is used on our server.
 
-[Our server][website] - [Downloads][downloads] - [wiki (coming soon)][wiki]
+[Downloads][downloads] - [wiki (coming soon)][wiki]
 
 ## License
 [![GPL-3.0-only License](https://img.shields.io/github/license/SapphireMC/Sapphire?&logo=github)](LICENSE)
