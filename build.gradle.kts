@@ -36,21 +36,23 @@ allprojects {
 }
 
 subprojects {
-    tasks.withType<JavaCompile> {
-        options.encoding = Charsets.UTF_8.name()
-        options.release.set(17)
-    }
-    tasks.withType<Javadoc> {
-        options.encoding = Charsets.UTF_8.name()
-    }
-    tasks.withType<ProcessResources> {
-        filteringCharset = Charsets.UTF_8.name()
-    }
-    tasks.withType<Test> {
-        testLogging {
-            showStackTraces = true
-            exceptionFormat = TestExceptionFormat.FULL
-            events(TestLogEvent.STANDARD_OUT)
+    tasks {
+        withType<JavaCompile> {
+            options.encoding = Charsets.UTF_8.name()
+            options.release.set(17)
+        }
+        withType<Javadoc> {
+            options.encoding = Charsets.UTF_8.name()
+        }
+        withType<ProcessResources> {
+            filteringCharset = Charsets.UTF_8.name()
+        }
+        withType<Test> {
+            testLogging {
+                showStackTraces = true
+                exceptionFormat = TestExceptionFormat.FULL
+                events(TestLogEvent.STANDARD_OUT)
+            }
         }
     }
 
