@@ -1,0 +1,29 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 15 Apr 2022 19:09:05 +0500
+Subject: [PATCH] Bring back bungee chat api
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index 40239dbf955798a41a320c4fbef3c13e61693540..54bf263a9cd1609d56f99616b0a4f48fa54ba290 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -30,7 +30,7 @@ dependencies {
+     api("commons-lang:commons-lang:2.6")
+     api("com.google.guava:guava:31.0.1-jre")
+     api("com.google.code.gson:gson:2.8.9")
+-    api("net.md-5:bungeecord-chat:1.16-R0.4-deprecated+build.6") // Paper
++    api("net.md-5:bungeecord-chat:1.16-R0.4") // Sapphire - bring back bungee chat api
+     api("org.yaml:snakeyaml:1.30")
+     // Paper start
+     api("com.googlecode.json-simple:json-simple:1.1.1") {
+@@ -107,8 +107,8 @@ tasks.withType<Javadoc> {
+         "https://guava.dev/releases/31.0.1-jre/api/docs/",
+         "https://javadoc.io/doc/org.yaml/snakeyaml/1.30/",
+         "https://javadoc.io/doc/org.jetbrains/annotations/23.0.0/", // Paper - we don't want Java 5 annotations
++        "https://javadoc.io/doc/net.md-5/bungeecord-chat/1.16-R0.4/", // Sapphire - bring back bungee chat api
+         // Paper start
+-        //"https://javadoc.io/doc/net.md-5/bungeecord-chat/1.16-R0.4/", // don't link to bungee chat
+         "https://jd.adventure.kyori.net/api/$adventureVersion/",
+         "https://jd.adventure.kyori.net/text-minimessage/$adventureVersion/",
+         "https://jd.adventure.kyori.net/text-serializer-gson/$adventureVersion/",
