@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 86693b809c27bb16f27ad157be0b11d925269b8d..b7b0df90761080afc585983f5d3985493b3e7955 100644
+index c01216209256d7e64290d9d66f8d0ae6234e0f1f..c825f8554d3c340c9b5823d1ac7e5624321800b7 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -252,6 +252,7 @@ public class ServerPlayer extends Player {
+@@ -253,6 +253,7 @@ public class ServerPlayer extends Player {
      public Integer clientViewDistance;
      // CraftBukkit end
      public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper
@@ -17,7 +17,7 @@ index 86693b809c27bb16f27ad157be0b11d925269b8d..b7b0df90761080afc585983f5d398549
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 76072541078360c0ef52d963d5dd1bcdb00df7ed..ae21f7316c30c03bfa4bd90d026d7f62bbc1de02 100644
+index 83b8a1ff5eaf3c1fcc325868aef86aa834603c88..d29a804a2e10e48c0acdcbfdb8c8f30bd906faf5 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -143,7 +143,6 @@ import net.minecraft.world.level.block.entity.CommandBlockEntity;
@@ -44,7 +44,7 @@ index 76072541078360c0ef52d963d5dd1bcdb00df7ed..ae21f7316c30c03bfa4bd90d026d7f62
  import org.bukkit.event.player.PlayerChatEvent;
  import org.bukkit.event.player.PlayerCommandPreprocessEvent;
  import org.bukkit.event.player.PlayerInteractAtEntityEvent;
-@@ -3216,6 +3213,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3211,6 +3208,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
  
@@ -53,7 +53,7 @@ index 76072541078360c0ef52d963d5dd1bcdb00df7ed..ae21f7316c30c03bfa4bd90d026d7f62
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -3239,6 +3238,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3234,6 +3233,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -68,10 +68,10 @@ index 76072541078360c0ef52d963d5dd1bcdb00df7ed..ae21f7316c30c03bfa4bd90d026d7f62
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 2c321fb4fd67d7ce25714332f158fccbcb15a605..4cd35a65b960ecf3df413dfa78a4d62a2fda85b9 100644
+index dae76843a8b49a111c25749c4874f85e702adde1..f01b55c24e37d678e1e33fa199b73cf3d8e619e7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -78,7 +78,6 @@ import net.minecraft.world.level.block.entity.SignBlockEntity;
+@@ -84,7 +84,6 @@ import net.minecraft.world.level.border.BorderChangeListener;
  import net.minecraft.world.level.saveddata.maps.MapDecoration;
  import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
  import net.minecraft.world.phys.Vec3;
@@ -79,7 +79,7 @@ index 2c321fb4fd67d7ce25714332f158fccbcb15a605..4cd35a65b960ecf3df413dfa78a4d62a
  import org.apache.commons.lang.Validate;
  import org.bukkit.BanList;
  import org.bukkit.Bukkit;
-@@ -118,7 +117,6 @@ import org.bukkit.craftbukkit.conversations.ConversationTracker;
+@@ -126,7 +125,6 @@ import org.bukkit.craftbukkit.conversations.ConversationTracker;
  import org.bukkit.craftbukkit.inventory.CraftItemStack;
  import org.bukkit.craftbukkit.map.CraftMapView;
  import org.bukkit.craftbukkit.map.RenderData;
@@ -87,7 +87,7 @@ index 2c321fb4fd67d7ce25714332f158fccbcb15a605..4cd35a65b960ecf3df413dfa78a4d62a
  import org.bukkit.craftbukkit.scoreboard.CraftScoreboard;
  import org.bukkit.craftbukkit.util.CraftChatMessage;
  import org.bukkit.craftbukkit.util.CraftMagicNumbers;
-@@ -139,7 +137,6 @@ import org.bukkit.map.MapView;
+@@ -147,7 +145,6 @@ import org.bukkit.map.MapView;
  import org.bukkit.metadata.MetadataValue;
  import org.bukkit.plugin.Plugin;
  import org.bukkit.plugin.messaging.StandardMessenger;
@@ -95,7 +95,7 @@ index 2c321fb4fd67d7ce25714332f158fccbcb15a605..4cd35a65b960ecf3df413dfa78a4d62a
  import org.bukkit.scoreboard.Scoreboard;
  import org.jetbrains.annotations.NotNull;
  
-@@ -2698,6 +2695,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2784,6 +2781,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
      // Paper end
  

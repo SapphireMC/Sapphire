@@ -5,10 +5,10 @@ Subject: [PATCH] Add last tick time api
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index c093ba024cfd951be1afc4100d899ed8f70ab003..49f9c5b2bafd1aae15d111e4a394380875c10353 100644
+index dcfd22862c79ae01ca7707d9abf0a71cc0d4ad9d..fc7baa8858cca0d4d7a3ce4336903b86ca930b7e 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2322,4 +2322,27 @@ public final class Bukkit {
+@@ -2334,4 +2334,27 @@ public final class Bukkit {
      public static Server.Spigot spigot() {
          return server.spigot();
      }
@@ -37,10 +37,10 @@ index c093ba024cfd951be1afc4100d899ed8f70ab003..49f9c5b2bafd1aae15d111e4a3943808
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 9652f9ba3f415c4809249ce289bd0e2e7a7a90cf..846e8d4c0716146e2e65f2e1631293c35e4485e2 100644
+index 5632a4bca6e92b524117efcc98a92c4b9677369f..c7b25c665cd19a86a07b968f1fc6f1944959c450 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2021,4 +2021,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2034,4 +2034,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
      @NotNull org.bukkit.potion.PotionBrewer getPotionBrewer();
      // Paper end
