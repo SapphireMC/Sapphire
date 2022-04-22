@@ -42,16 +42,15 @@ public class SapphireTestPlugin extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        final SapphireTestPlugin plugin = this;
         this.getServer().getPluginManager().registerEvents(new Listener() {
             @EventHandler
             public void onJoin(PlayerJoinEvent event) {
                 Player player = event.getPlayer();
                 if (player.usesChromiumClient()) {
-                    plugin.getLogger().info("Player " + player.getName() + " uses sapphire client");
-                    player.sendMessage(prefix + " You are using sapphire client!");
+                    sendConsoleMessage("Player " + player.getName() + " uses sapphire client");
+                    player.sendMessage("You are using sapphire client!");
                 }
-                player.sendMessage(prefix + "Hello " + player.getName() + ", we are use %server-brand%!");
+                player.sendMessage("Hello " + player.getName() + ", we are use %server-brand%!");
             }
 
             @EventHandler
@@ -66,8 +65,12 @@ public class SapphireTestPlugin extends JavaPlugin {
             }
         }, this);
 
-        this.getCommand("tests").setExecutor(new TestCommand(this));
+        this.getCommand("test").setExecutor(new TestCommand(this));
 
-        this.getServer().getLogger().info(prefix + "Sapphire test plugin successfully enabled!");
+        sendConsoleMessage("Sapphire test plugin successfully enabled!");
+    }
+
+    public void sendConsoleMessage(String msg) {
+        this.getServer().getConsoleSender().sendMessage(prefix + msg);
     }
 }

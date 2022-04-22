@@ -38,19 +38,19 @@ public class TestCommand implements CommandExecutor, TabCompleter {
                 NBTTestsManager testsManager = SapphireTestPlugin.getInstance().getTestsManager();
                 testsManager.runTests();
                 if (testsManager.isSuccess()) {
-                    plugin.getLogger().info("§aAll tests passed!");
+                    plugin.getLogger().info("All tests passed!");
                     sender.sendMessage(plugin.getPrefix() + "All nbt tests passed, check console for more details!");
                 } else {
-                    plugin.getLogger().warning("§cSome tests didn't passed!");
+                    plugin.getLogger().warning("Some tests didn't passed!");
                     sender.sendMessage(plugin.getPrefix() + "Some nbt tests didn't passed, check console for more details!");
                 }
             }
             case "chromium" -> {
                 if (sender instanceof Player player) {
                     if (player.usesChromiumClient()) {
-                        player.sendMessage(plugin.getPrefix() + " You are using chromium!");
+                        player.sendMessage(plugin.getPrefix() + "You are using chromium!");
                     } else {
-                        player.sendMessage(plugin.getPrefix() + " You are using vanilla minecraft!");
+                        player.sendMessage(plugin.getPrefix() + "You are using vanilla minecraft!");
                     }
                 }
             }
