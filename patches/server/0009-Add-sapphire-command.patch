@@ -6,12 +6,14 @@ Subject: [PATCH] Add sapphire command
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..2e83c95e4bbe63bb3102a462130ae941d7037bc1
+index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4fdca37c2
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-@@ -0,0 +1,61 @@
+@@ -0,0 +1,78 @@
 +package io.sapphiremc.sapphire;
 +
++import io.papermc.paper.util.JarManifests;
++import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +import net.md_5.bungee.api.ChatColor;
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.Bukkit;
@@ -59,20 +61,35 @@ index 0000000000000000000000000000000000000000..2e83c95e4bbe63bb3102a462130ae941
 +            return true;
 +        }
 +
-+        if (args[0].equalsIgnoreCase("reload")) {
-+            MinecraftServer console = MinecraftServer.getServer();
-+            SapphireConfig.init((File) console.options.valueOf("sapphire-settings"));
-+            console.server.reloadCount++;
++        switch (args[0]) {
++            case "reload" -> {
++                MinecraftServer console = MinecraftServer.getServer();
++                SapphireConfig.init((File) console.options.valueOf("sapphire-settings"));
++                console.server.reloadCount++;
 +
-+            sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
-+        } else if (args[0].equalsIgnoreCase("version")) {
-+            sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Implementing API version " + Bukkit.getBukkitVersion() + ", NMS version 1_18_R1)");
++                sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
++            }
++            case "ver", "version" -> {
++                sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
++                sender.sendMessage(prefix + "Implementing API version " + Bukkit.getBukkitVersion() + " and NMS version " + MinecraftVersion.getVersion().getPackageName());
++            }
 +        }
 +        return true;
 +    }
++
++    private String getGitInfo() {
++        final var manifest = JarManifests.manifest(Bukkit.getServer().getClass());
++        final String gitBranch = manifest == null ? null : manifest.getMainAttributes().getValue("Git-Branch");
++        final String gitCommit = manifest == null ? null : manifest.getMainAttributes().getValue("Git-Commit");
++        String branchMsg = " on " + gitBranch;
++        if ("master".equals(gitBranch) || "main".equals(gitBranch)) {
++            branchMsg = "";  // Don't show branch on main/master
++        }
++        return gitCommit + branchMsg;
++    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index c4ec424e40cce9835c0333a2c6ace4dc53ac4d49..c40dc3c439ac67df5b0ac7f8249013cbf45f06f4 100644
+index 7b6f1ac73af6021d45ac584f71b6f290cbc5826c..d1b80f5fef6ad39122925c74dbbb770e771e2076 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -242,6 +242,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
