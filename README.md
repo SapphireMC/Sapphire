@@ -23,13 +23,13 @@ Paper fork that is used on our server.
 </repository>
 ```
 ```xml
-<depencency>
+<dependency>
     <groupId>io.sapphiremc.sapphire</groupId>
     <!-- For API use sapphire-api, for Server use sapphire-server -->
     <artifactId>sapphire-api</artifactId>
     <version>1.18.2-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
-</depencency>
+</dependency>
 ```
 
 #### Gradle groovy
