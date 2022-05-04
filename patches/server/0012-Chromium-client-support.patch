@@ -5,7 +5,7 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index c01216209256d7e64290d9d66f8d0ae6234e0f1f..c825f8554d3c340c9b5823d1ac7e5624321800b7 100644
+index d5f569275aab524638dcc10f2e0f9bea6db89710..5b133298e02a747ef346165452e97954d970e53c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -253,6 +253,7 @@ public class ServerPlayer extends Player {
@@ -17,7 +17,7 @@ index c01216209256d7e64290d9d66f8d0ae6234e0f1f..c825f8554d3c340c9b5823d1ac7e5624
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 83b8a1ff5eaf3c1fcc325868aef86aa834603c88..d29a804a2e10e48c0acdcbfdb8c8f30bd906faf5 100644
+index 58977831216a7c88b1016a4f7bc50dcbd8068ee3..194e070e17dc7943cd1d470a95de588615dcba1d 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -143,7 +143,6 @@ import net.minecraft.world.level.block.entity.CommandBlockEntity;
@@ -68,7 +68,7 @@ index 83b8a1ff5eaf3c1fcc325868aef86aa834603c88..d29a804a2e10e48c0acdcbfdb8c8f30b
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index dae76843a8b49a111c25749c4874f85e702adde1..f01b55c24e37d678e1e33fa199b73cf3d8e619e7 100644
+index a0d931b0692b4f64e6d89661f5d3b3072b09c6a1..e50f443783ba728b73f25f029ce881255e345182 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -84,7 +84,6 @@ import net.minecraft.world.level.border.BorderChangeListener;
@@ -95,7 +95,7 @@ index dae76843a8b49a111c25749c4874f85e702adde1..f01b55c24e37d678e1e33fa199b73cf3
  import org.bukkit.scoreboard.Scoreboard;
  import org.jetbrains.annotations.NotNull;
  
-@@ -2784,6 +2781,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2786,6 +2783,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
      // Paper end
  
