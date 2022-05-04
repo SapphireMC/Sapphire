@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Wed, 4 May 2022 14:54:30 +0500
+Subject: [PATCH] Add Setter for player name in AsyncPlayerPreLoginEvent
+
+This is so we can change the players name early in login process
+
+Ported from EmpireCraft
+
+diff --git a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
+index 356d1154b0732e2daf242d60fa715dba9f2dc9db..af16734457ec0077039e71012422de0e123aaa0d 100644
+--- a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
++++ b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
+@@ -250,6 +250,19 @@ public class AsyncPlayerPreLoginEvent extends Event {
+         return profile.getName(); // Paper
+     }
+ 
++    // Sapphire start
++    /**
++     * Sets the name of the player.
++     *
++     * @param name new player name
++     */
++    public void setName(@NotNull String name) {
++        PlayerProfile newProfile = Bukkit.createProfile(this.profile.getId(), name);
++        newProfile.setProperties(this.profile.getProperties());
++        this.profile = newProfile;
++    }
++    // Sapphire end
++
+     /**
+      * Gets the player IP address.
+      *

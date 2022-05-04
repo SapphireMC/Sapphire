@@ -1,0 +1,68 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Mon, 2 May 2022 02:19:38 +0500
+Subject: [PATCH] Entity dismount reason API
+
+Ported from EmpireCraft
+
+diff --git a/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java b/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
+index a7632c8f5cb1bce4be0e456ec34f4a69c5ce80f3..f0e958c3233873903e593fdef3f4af229dd1055b 100644
+--- a/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
++++ b/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
+@@ -15,6 +15,7 @@ public class EntityDismountEvent extends EntityEvent implements Cancellable {
+     private boolean cancelled;
+     private final Entity dismounted;
+     private final boolean isCancellable; // Paper
++    private final DismountReason reason; // Sapphire
+ 
+     public EntityDismountEvent(@NotNull Entity what, @NotNull Entity dismounted) {
+         // Paper start
+@@ -24,9 +25,17 @@ public class EntityDismountEvent extends EntityEvent implements Cancellable {
+ 
+     public EntityDismountEvent(@NotNull Entity what, @NotNull Entity dismounted, boolean isCancellable) {
+         // Paper end
++        // Sapphire start
++        this(what, dismounted, isCancellable, null);
++    }
++
++    public EntityDismountEvent(@NotNull Entity what, @NotNull Entity dismounted, boolean isCancellable, DismountReason reason) {
++        // Sapphire end
+         super( what );
+         this.dismounted = dismounted;
+         this.isCancellable = isCancellable; // Paper
++        if (reason != null) this.reason = reason; // Sapphire
++        else this.reason = DismountReason.UNKNOWN; // Sapphire
+     }
+ 
+     @NotNull
+@@ -63,4 +72,30 @@ public class EntityDismountEvent extends EntityEvent implements Cancellable {
+     public static HandlerList getHandlerList() {
+         return handlers;
+     }
++
++    // Sapphire start
++    /**
++     * The reason the entity dismounted.
++     *
++     * @return reason
++     */
++    @NotNull
++    public DismountReason getReason() {
++        return reason;
++    }
++
++    public enum DismountReason {
++        PLAYER,
++        WATER,
++        DEAD,
++        DEAD_VEHICLE,
++        TELEPORT,
++        SPECTATE,
++        LEASH,
++        TRANSFER,
++        DISCONNECT,
++        FORCE,
++        UNKNOWN
++    }
++    // Sapphire end
+ }

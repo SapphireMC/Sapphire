@@ -1,0 +1,24 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Mon, 2 May 2022 01:27:18 +0500
+Subject: [PATCH] Allow force spawns
+
+Ported from EmpireCraft
+
+diff --git a/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java b/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
+index d843f4ad8817c411bce5d7626b2f0304ae64a81b..d9be6404530f4f42f520d9069d3482f9cb5442a5 100644
+--- a/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
++++ b/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
+@@ -193,6 +193,12 @@ public class CreatureSpawnEvent extends EntitySpawnEvent {
+          * When a creature is spawned by plugins
+          */
+         CUSTOM,
++        // Sapphire start
++        /**
++         * When a creature is spawned by travel through worlds
++         */
++        FORCE,
++        // Sapphire end
+         /**
+          * When an entity is missing a SpawnReason
+          */

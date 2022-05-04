@@ -1,0 +1,33 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Mon, 2 May 2022 01:27:17 +0500
+Subject: [PATCH] Allow force spawns
+
+Ported from EmpireCraft
+
+diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
+index 50fd3419deb668dda64b1056f03fb66da55e6960..d2479430085465c1e833f7fcb145cf043f9b94da 100644
+--- a/src/main/java/net/minecraft/server/level/ServerLevel.java
++++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
+@@ -1347,7 +1347,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+         // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
+         // since it is only an implementation detail, that a new entity is created when
+         // they are traveling between worlds.
+-        this.addDuringTeleport(entity, null);
++        this.addDuringTeleport(entity, org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason.FORCE); // Sapphire
+     }
+ 
+     public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
+diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
+index a3c8a0291fa9ae6f3c96d937dd4621edd7c48535..fee9cd03ba3044b77f8ae2d5eba1946d3f23af81 100644
+--- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
++++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
+@@ -702,7 +702,7 @@ public class CraftEventFactory {
+             event = CraftEventFactory.callEntitySpawnEvent(entity);
+         }
+ 
+-        if (event != null && (event.isCancelled() || entity.isRemoved())) {
++        if (spawnReason != SpawnReason.FORCE && event != null && (event.isCancelled() || entity.isRemoved())) { // Sapphire
+             Entity vehicle = entity.getVehicle();
+             if (vehicle != null) {
+                 vehicle.discard();
