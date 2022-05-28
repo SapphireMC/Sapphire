@@ -6,7 +6,7 @@ Subject: [PATCH] Entity dismount reason API
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java b/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
-index a7632c8f5cb1bce4be0e456ec34f4a69c5ce80f3..f0e958c3233873903e593fdef3f4af229dd1055b 100644
+index a7632c8f5cb1bce4be0e456ec34f4a69c5ce80f3..a874fdb33423779bb9da875dc02f443b31e0b626 100644
 --- a/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
 +++ b/src/main/java/org/spigotmc/event/entity/EntityDismountEvent.java
 @@ -15,6 +15,7 @@ public class EntityDismountEvent extends EntityEvent implements Cancellable {
@@ -25,7 +25,7 @@ index a7632c8f5cb1bce4be0e456ec34f4a69c5ce80f3..f0e958c3233873903e593fdef3f4af22
 +        this(what, dismounted, isCancellable, null);
 +    }
 +
-+    public EntityDismountEvent(@NotNull Entity what, @NotNull Entity dismounted, boolean isCancellable, DismountReason reason) {
++    public EntityDismountEvent(@NotNull Entity what, @NotNull Entity dismounted, boolean isCancellable, @NotNull DismountReason reason) {
 +        // Sapphire end
          super( what );
          this.dismounted = dismounted;
