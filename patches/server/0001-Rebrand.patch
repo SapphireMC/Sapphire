@@ -87,7 +87,7 @@ index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..a5cb6b84959536bfe38586f3714d24bf
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index ece77f5ea4b14bbed7c070131b3251ea86764538..6ffa3b4374b5851cf415f0db854b85fd8789d975 100644
+index ece77f5ea4b14bbed7c070131b3251ea86764538..1d280f5370b0da6d144fc154acc3b53c8ea70197 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
@@ -96,7 +96,7 @@ index ece77f5ea4b14bbed7c070131b3251ea86764538..6ffa3b4374b5851cf415f0db854b85fd
      private static final java.util.regex.Pattern VER_PATTERN = java.util.regex.Pattern.compile("^([0-9\\.]*)\\-.*R"); // R is an anchor, will always give '-R' at end
 -    private static final String GITHUB_BRANCH_NAME = "master";
 -    private static final String DOWNLOAD_PAGE = "https://papermc.io/downloads";
-+    private static final String GITHUB_BRANCH_NAME = "ver/1.18"; // Sapphire
++    private static final String GITHUB_BRANCH_NAME = "ver/1.18.2"; // Sapphire
 +    private static final String DOWNLOAD_PAGE = "https://github.com/SapphireMC/Sapphire/releases"; // Sapphire
      private static @Nullable String mcVer;
  
@@ -123,6 +123,25 @@ index ece77f5ea4b14bbed7c070131b3251ea86764538..6ffa3b4374b5851cf415f0db854b85fd
                  org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
              }
          }
+@@ -56,13 +56,13 @@ public class PaperVersionFetcher implements VersionFetcher {
+ 
+     private static Component getUpdateStatusMessage(@Nonnull String repo, @Nonnull String branch, @Nonnull String versionInfo) {
+         int distance;
+-        try {
+-            int jenkinsBuild = Integer.parseInt(versionInfo);
+-            distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
+-        } catch (NumberFormatException ignored) {
++        //try {
++        //    int jenkinsBuild = Integer.parseInt(versionInfo);
++        //    distance = fetchDistanceFromSiteApi(jenkinsBuild, getMinecraftVersion());
++        //} catch (NumberFormatException ignored) {
+             versionInfo = versionInfo.replace("\"", "");
+             distance = fetchDistanceFromGitHub(repo, branch, versionInfo);
+-        }
++        //}
+ 
+         switch (distance) {
+             case -1:
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 index e0b1f0671d16ddddcb6725acd25a1d1d69e42701..48d7316050f3802a56470838b2801d189169976a 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
@@ -150,7 +169,7 @@ index c8d56947305c981a3268ce4ae3e975db350ceff2..b2ae011b924c8e9a70d58d748fda175e
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index ba4578fb4a2d861a6ffbb0ec022db31d9d7cc2be..89be7c80c6db7737078c463e2e721fbf74b1f635 100644
+index 15278bb897e6169bc5d02bf47b455634baec7be1..d3613eb94e3d1af63aeab12f9fa54e013e5e6772 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
@@ -162,6 +181,19 @@ index ba4578fb4a2d861a6ffbb0ec022db31d9d7cc2be..89be7c80c6db7737078c463e2e721fbf
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
+diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
+index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..eeb2a157e66821423b18ab9d648c2d2c24887dba 100644
+--- a/src/main/java/org/bukkit/craftbukkit/Main.java
++++ b/src/main/java/org/bukkit/craftbukkit/Main.java
+@@ -265,7 +265,7 @@ public class Main {
+                     if (buildDate.before(deadline.getTime())) {
+                         // Paper start - This is some stupid bullshit
+                         System.err.println("*** Warning, you've not updated in a while! ***");
+-                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads ***"); // Paper
++                        System.err.println("*** Please download a new build from https://github.com/SapphireMC/Sapphire/releases/latest ***"); // Paper
+                         //System.err.println("*** Server will start in 20 seconds ***");
+                         //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
+                         // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 774556a62eb240da42e84db4502e2ed43495be17..42a5cb6d5d4436e2ca3bc83dd7c59fbe968a0de6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
