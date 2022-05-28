@@ -18,7 +18,7 @@ index 6cc517b394bafefce50d877761e5b2eee8e14c78..d4042edc989154503b51c7fe77c5397e
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "attribute", "Allows the user to query, add, remove or set an entity attribute", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "advancement", "Allows the user to give, remove, or check player advancements", PermissionDefault.OP, commands);
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
-index cb75827316fe6c22ec900efea800d35d40573380..90dac6ce31e88b6c027fab1a4a5b9f9742c584e1 100644
+index 8e06bc11fb28baee3407bbfe9d7b3689d6f85ff2..53ce3e0b6782cb97976d682382adc9d267ab5a86 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CraftDefaultPermissions.java
 @@ -13,7 +13,7 @@ public final class CraftDefaultPermissions {
@@ -28,5 +28,5 @@ index cb75827316fe6c22ec900efea800d35d40573380..90dac6ce31e88b6c027fab1a4a5b9f97
 -        DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".nbt.copy", "Gives the user the ability to copy NBT in creative", org.bukkit.permissions.PermissionDefault.TRUE, parent);
 +        DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".nbt.copy", "Gives the user the ability to copy NBT in creative", org.bukkit.permissions.PermissionDefault.FALSE, parent);
          DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".debugstick", "Gives the user the ability to use the debug stick in creative", org.bukkit.permissions.PermissionDefault.OP, parent);
-         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".debugstick.always", "Gives the user the ability to use the debug stick in all game modes", org.bukkit.permissions.PermissionDefault.FALSE, parent);
+         DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".debugstick.always", "Gives the user the ability to use the debug stick in all game modes", org.bukkit.permissions.PermissionDefault.FALSE/* , parent */); // Paper - should not have this parent, as it's not a "vanilla" utility
          DefaultPermissions.registerPermission(CraftDefaultPermissions.ROOT + ".commandblock", "Gives the user the ability to use command blocks.", org.bukkit.permissions.PermissionDefault.OP, parent); // Paper

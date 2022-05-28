@@ -3708,10 +3708,10 @@ index 8bc6876c82935988436597161fa0ec94c032174b..2d781c6102268571b374ecb458e4549f
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index 56897cfb96b53e43fec343568e514ee636ddd5c5..406934429c7e5095820a0289b4b7ed8e74c82ff6 100644
+index 62841846ec3e14daa46564509671cab146984cc6..37b38e5490eb29234cfccc1b58ec24b79d7515be 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
-@@ -975,4 +975,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+@@ -979,4 +979,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
          return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
      }
      // Paper end
