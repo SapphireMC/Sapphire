@@ -7,7 +7,7 @@
  */
 package io.sapphiremc.sapphire.testplugin;
 
-import io.sapphiremc.sapphire.api.event.PacketMessageEvent;
+//import io.sapphiremc.sapphire.api.event.PacketMessageEvent;
 import io.sapphiremc.sapphire.testplugin.command.TestCommand;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTestsManager;
 import lombok.Getter;
@@ -53,7 +53,7 @@ public class SapphireTestPlugin extends JavaPlugin {
                 player.sendMessage("Hello " + player.getName() + ", we are use %server-brand%!");
             }
 
-            @EventHandler
+            /*@EventHandler
             public void onMessage(PacketMessageEvent event) {
                 if (event.getMessageType().equals(PacketMessageEvent.MessageType.SYSTEM)) {
                     String message = event.getMessage();
@@ -62,7 +62,7 @@ public class SapphireTestPlugin extends JavaPlugin {
                         event.setMessage(message);
                     }
                 }
-            }
+            }*/
         }, this);
 
         this.getCommand("test").setExecutor(new TestCommand(this));
