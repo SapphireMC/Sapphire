@@ -6,10 +6,10 @@ Subject: [PATCH] Skip event if no listeners
 Ported from JettPack
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-index bab8bb3a52cdeef5f7052d4e3f404c42f37d117d..f1eba4a691437e8f3cdc342cbcfea4c93a26f94f 100644
+index ed07f5820281b139739f673fa4e25171de81b894..07edef636946a5e8707689fa3ac32b985bdad1ad 100644
 --- a/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 +++ b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
-@@ -650,6 +650,12 @@ public final class SimplePluginManager implements PluginManager {
+@@ -645,6 +645,12 @@ public final class SimplePluginManager implements PluginManager {
       */
      @Override
      public void callEvent(@NotNull Event event) {
@@ -22,7 +22,7 @@ index bab8bb3a52cdeef5f7052d4e3f404c42f37d117d..f1eba4a691437e8f3cdc342cbcfea4c9
          // Paper - replace callEvent by merging to below method
          if (event.isAsynchronous() && server.isPrimaryThread()) {
              throw new IllegalStateException(event.getEventName() + " may only be triggered asynchronously.");
-@@ -657,8 +663,8 @@ public final class SimplePluginManager implements PluginManager {
+@@ -652,8 +658,8 @@ public final class SimplePluginManager implements PluginManager {
              throw new IllegalStateException(event.getEventName() + " may only be triggered synchronously.");
          }
  

@@ -6,10 +6,10 @@ Subject: [PATCH] Add Player.getFishingHook API
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index e50f443783ba728b73f25f029ce881255e345182..56b4dd386e1c6869897ac8e5c7c3d85a26a92d5b 100644
+index 6e50f76dc6a73ef6d0e2f0aa57bfea464fabe1f9..b65be54793329319d2151c2c2947f5d213a746c8 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2783,11 +2783,19 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2784,11 +2784,19 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
      // Paper end
  

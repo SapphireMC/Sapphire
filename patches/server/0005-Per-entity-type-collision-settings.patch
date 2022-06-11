@@ -130,21 +130,10 @@ index 0000000000000000000000000000000000000000..bb4d50c1aa0fb76bc3413b49e2cc21f7
 +    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769..07f298ccfd6d795301fab6e35aad49b154766a34 100644
+index 1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769..ec6af9df782e317fdde35ae9bda73ffdb11e73fd 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -33,6 +33,10 @@ public class SapphireConfig {
- 
-     public static void init(File configFile) {
-         CONFIG_FILE = configFile;
-+        load();
-+    }
-+
-+    public static void load() {
-         config = new YamlConfiguration();
-         try {
-             config.load(CONFIG_FILE);
-@@ -172,4 +176,38 @@ public class SapphireConfig {
+@@ -172,4 +172,38 @@ public class SapphireConfig {
      private static void settings() {
          disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
      }
@@ -184,15 +173,15 @@ index 1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769..07f298ccfd6d795301fab6e35aad49b1
 +    }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 527685f60b1a471ab5ff63901daac71fd0946188..c602695c130c9924dead20d55f9c62d806014e90 100644
+index 1eb006c4124849750d7d49a00902fe65194ebdc0..98b72b3125ebf0927ea464f3b1d356b567ce658e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3414,7 +3414,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3446,7 +3446,7 @@ public abstract class LivingEntity extends Entity {
              return;
          }
          // Paper end - don't run getEntities if we're not going to use its result
--        List<Entity> list = this.level.getEntities((Entity) this, this.getBoundingBox(), EntitySelector.pushable(this, level.paperConfig.fixClimbingBypassingCrammingRule)); // Paper - fix climbing bypassing cramming rule
-+        List<Entity> list = this.level.getEntities(this, this.getBoundingBox(), io.sapphiremc.sapphire.EntityFilter.pushable(this, level.paperConfig.fixClimbingBypassingCrammingRule)); // Paper - fix climbing bypassing cramming rule // Sapphire - per entity type collision settings
+-        List<Entity> list = this.level.getEntities((Entity) this, this.getBoundingBox(), EntitySelector.pushable(this, level.paperConfig().collisions.fixClimbingBypassingCrammingRule)); // Paper - fix climbing bypassing cramming rule
++        List<Entity> list = this.level.getEntities((Entity) this, this.getBoundingBox(), io.sapphiremc.sapphire.EntityFilter.pushable(this, level.paperConfig().collisions.fixClimbingBypassingCrammingRule)); // Sapphire - per entity type collision settings // Paper - fix climbing bypassing cramming rule
  
          if (!list.isEmpty()) {
              // Paper - move up

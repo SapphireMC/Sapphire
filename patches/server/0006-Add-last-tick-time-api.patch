@@ -29,10 +29,10 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index be7ccc05834c507a3ad01e9970bf33206a0b5053..870bbc10e5f9e73c5fc94119ee4823ada6cb7933 100644
+index 49e3371a51d5469db673527e55d9f8284e48076c..47370aca05121221227c90c845254101d38d2578 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1157,6 +1157,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1115,6 +1115,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -41,21 +41,21 @@ index be7ccc05834c507a3ad01e9970bf33206a0b5053..870bbc10e5f9e73c5fc94119ee4823ad
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1222,7 +1224,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
-                     this.nextTickTime += 50L;
-                     this.startMetricsRecordingTick();
-                     this.profiler.push("tick");
+@@ -1184,7 +1186,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+                 this.nextTickTime += 50L;
+                 this.startMetricsRecordingTick();
+                 this.profiler.push("tick");
 +                    long tickStart = System.nanoTime(); // Sapphire
-                     this.tickServer(this::haveTime);
+                 this.tickServer(this::haveTime);
 +                    lastTickTime = java.time.Duration.ofNanos(System.nanoTime() - tickStart);
-                     this.profiler.popPush("nextTickWait");
-                     this.mayHaveDelayedTasks = true;
-                     this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
+                 this.profiler.popPush("nextTickWait");
+                 this.mayHaveDelayedTasks = true;
+                 this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 42e8beb60591dc227dc8760a7f3332b890e12e15..97bfe5d25030222dcaf8329aebe6a6e9b24615f3 100644
+index da88de4283b9471666ed36ab993464f2918f5588..7d500dc2555ad66827dcef6e27d874cc239a7e5f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2888,4 +2888,12 @@ public final class CraftServer implements Server {
+@@ -2878,4 +2878,12 @@ public final class CraftServer implements Server {
      }
  
      // Paper end

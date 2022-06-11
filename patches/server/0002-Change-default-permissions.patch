@@ -5,10 +5,10 @@ Subject: [PATCH] Change default permissions
 
 
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
-index 6cc517b394bafefce50d877761e5b2eee8e14c78..d4042edc989154503b51c7fe77c5397e16979f20 100644
+index 0467419fc8a06c241a46216c8f8c32abeb9fbc26..06b4bdd51557c632e1f13bb482f5ccf95608c4bf 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/permissions/CommandPermissions.java
-@@ -30,7 +30,7 @@ public final class CommandPermissions {
+@@ -29,7 +29,7 @@ public final class CommandPermissions {
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "seed", "Allows the user to view the seed of the world", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "effect", "Allows the user to add/remove effects on players", PermissionDefault.OP, commands);
          DefaultPermissions.registerPermission(CommandPermissions.PREFIX + "selector", "Allows the use of selectors", PermissionDefault.OP, commands);

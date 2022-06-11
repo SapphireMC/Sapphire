@@ -3708,10 +3708,10 @@ index 8bc6876c82935988436597161fa0ec94c032174b..2d781c6102268571b374ecb458e4549f
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index 62841846ec3e14daa46564509671cab146984cc6..37b38e5490eb29234cfccc1b58ec24b79d7515be 100644
+index b8a344fd900dcbd4b28085a54b85b16c742e9c6f..2f62877b1bbd2a56faf36f492e6d98ac386a95f2 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
-@@ -979,4 +979,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+@@ -978,4 +978,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
          return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
      }
      // Paper end
@@ -3755,7 +3755,7 @@ index 62841846ec3e14daa46564509671cab146984cc6..37b38e5490eb29234cfccc1b58ec24b7
 +    // Sapphire end
  }
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index 57cf9fab2501da6f1abd12e14697630ca82b0a6d..a51bbfc6927e60414c2a7b3dab3093124fdb535e 100644
+index bbe81f7a420f913ffdcad913a3c43ff41ead41f5..9efd19904816658bad892393a9a07aa2c399d293 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
 @@ -57,8 +57,45 @@ public class AnnotationTest {

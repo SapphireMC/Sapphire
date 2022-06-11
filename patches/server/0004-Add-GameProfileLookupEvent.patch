@@ -5,7 +5,7 @@ Subject: [PATCH] Add GameProfileLookupEvent
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-index 2041376dfd5520776f7e32c1828973f2b719d82a..cb5bce337b428b9954ea04f6c960ee3e8fa7b41f 100644
+index d945ea3484d0350096046d43112490b94e3b9bcd..3c26e32832bcc6a89e78d84da9dec7ee09129321 100644
 --- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 @@ -226,12 +226,23 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
@@ -39,10 +39,10 @@ index 2041376dfd5520776f7e32c1828973f2b719d82a..cb5bce337b428b9954ea04f6c960ee3e
          }
          return profile.isComplete() && (!onlineMode || !textures || hasTextures());
 diff --git a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
-index 5840cf6d22029cf1599ae9460b4498d5c8c5ae7d..1acb929a517d11b45ead1d6b99e69a4162df1a0b 100644
+index e017020b7630f54c506d93ab0504c6f3299fc80b..07ebdf82ee9dc460391b1b4a2b50f105fd28d716 100644
 --- a/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
 +++ b/src/main/java/net/minecraft/world/level/block/entity/SkullBlockEntity.java
-@@ -167,7 +167,18 @@ public class SkullBlockEntity extends BlockEntity {
+@@ -139,7 +139,18 @@ public class SkullBlockEntity extends BlockEntity {
                      Util.ifElse(profile, (profilex) -> {
                          Property property = Iterables.getFirst(profilex.getProperties().get("textures"), (Property)null);
                          if (property == null) {

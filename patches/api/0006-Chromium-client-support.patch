@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index e65dc831974ca501f69d2cc43858b838e8866676..346eae40597eaf0af7d8c684b19aea53a7d02004 100644
+index 6cd0b10d1dc4506cfb1e4db5e1260cb705566cec..cbbdc94e1e71550dde955b76227d379fc3f73399 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2689,6 +2689,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2694,6 +2694,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      String getClientBrandName();
      // Paper end
  

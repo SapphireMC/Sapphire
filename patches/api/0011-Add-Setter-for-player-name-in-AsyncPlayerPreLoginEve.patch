@@ -8,7 +8,7 @@ This is so we can change the players name early in login process
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
-index 356d1154b0732e2daf242d60fa715dba9f2dc9db..af16734457ec0077039e71012422de0e123aaa0d 100644
+index 635b8787fc235b61c0d5677def034656e4ec4cef..f4888710731b15caa3e1ec05e1342a18e5d229ff 100644
 --- a/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
 +++ b/src/main/java/org/bukkit/event/player/AsyncPlayerPreLoginEvent.java
 @@ -250,6 +250,19 @@ public class AsyncPlayerPreLoginEvent extends Event {

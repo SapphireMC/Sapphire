@@ -32,10 +32,11 @@ jobs:
         run: ./gradlew build renamedReobfPaperclipJar --stacktrace
       - name: Publish release
         uses: marvinpinto/action-automatic-releases@latest
+        if: ${{ github.ref_name != 'dev/1.19' }}
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: 1.18.2
+          automatic_release_tag: 1.19
           prerelease: false
           title: Latest Build
           files: |
-            build/libs/sapphire-1.18.2.jar
+            build/libs/sapphire-1.19.jar

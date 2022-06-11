@@ -5,10 +5,10 @@ Subject: [PATCH] Option for simpler Villagers
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index dee8fc64be513d18976f0fafbc243be3e7628039..9e5eeba23e54f2f00015b5b3c93e594afb2eb624 100644
+index 1e70892e4fd9e7401ea269ba6c9eae1facab708f..4175d30bd89e37a9457792be50ef9212ca1e0ca5 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -179,6 +179,13 @@ public class SapphireConfig {
+@@ -175,6 +175,13 @@ public class SapphireConfig {
          itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
      }
  
@@ -23,7 +23,7 @@ index dee8fc64be513d18976f0fafbc243be3e7628039..9e5eeba23e54f2f00015b5b3c93e594a
      public static boolean animalCollisions = true;
      public static boolean ambientCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 268524e256a034520438d5c825e5e419d72d29ce..4b09f030cbbd401bb4b93ab4ba583688381b187a 100644
+index 10b45ec24a5a0867106d1694312385ad1e267f43..ad17e981e8cb06de9f55a6e6c88b3d6fb7b0827c 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
 @@ -100,6 +100,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;

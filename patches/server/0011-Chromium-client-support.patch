@@ -1,0 +1,63 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Fri, 11 Feb 2022 00:38:44 +0500
+Subject: [PATCH] Chromium client support
+
+
+diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+index c8057f98e16ba6e19640e0b250e5201e0f4f57db..744fed401605781b11e244022b90beaaf5f5e023 100644
+--- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
++++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
+@@ -260,6 +260,7 @@ public class ServerPlayer extends Player {
+     public Integer clientViewDistance;
+     // CraftBukkit end
+     public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper
++    public boolean chromiumClient = false; // Sapphire
+ 
+     public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
+     public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
+diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+index 03507b5ac5908962e9ebc4b98f53f23110573baa..46025360dbba4c6ec49dc3ef5ce3fe4cf687edf2 100644
+--- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
++++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
+@@ -3373,6 +3373,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+ 
+     private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
+ 
++    private static final ResourceLocation CHROMIUM_CLIENT = new ResourceLocation("sapphiremc", "chromium"); // Sapphire - Chromium client support
++
+     @Override
+     public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
+         PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
+@@ -3396,6 +3398,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+                 ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
+                 this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
+             }
++        // Sapphire start - Chromium client support
++        } else if (packet.identifier.equals(CHROMIUM_CLIENT)) {
++            try {
++                player.chromiumClient = true;
++            } catch (Exception ignored) {
++            }
++        // Sapphire end
+         } else {
+             try {
+                 byte[] data = new byte[packet.data.readableBytes()];
+diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+index abcce6bd0b32d0188751393a6f56f2e82530912c..6e50f76dc6a73ef6d0e2f0aa57bfea464fabe1f9 100644
+--- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
++++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
+@@ -2784,6 +2784,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+     }
+     // Paper end
+ 
++    // Sapphire start - Chromium client support
++    @Override
++    public boolean usesChromiumClient() {
++        return getHandle().chromiumClient;
++    }
++    // Sapphire end
++
+     public Player.Spigot spigot()
+     {
+         return this.spigot;

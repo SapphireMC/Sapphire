@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb66486d748f8 100644
+index eefbd0a742b5875e0e9826b87c6bd4da66b2d7f7..76fb0a271fc75d2acde32922650d9b63cec0271a 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,8 +9,8 @@ plugins {
@@ -19,7 +19,7 @@ index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb664
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
      implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -59,7 +59,7 @@ tasks.jar {
+@@ -62,7 +62,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -28,7 +28,7 @@ index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb664
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -76,6 +76,7 @@ tasks.jar {
+@@ -80,6 +80,7 @@ tasks.jar {
  publishing {
      publications.create<MavenPublication>("maven") {
          artifact(tasks.shadowJar)
@@ -36,7 +36,7 @@ index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb664
      }
  }
  
-@@ -147,11 +148,11 @@ fun TaskContainer.registerRunTask(
+@@ -150,11 +151,11 @@ fun TaskContainer.registerRunTask(
      name: String,
      block: JavaExec.() -> Unit
  ): TaskProvider<JavaExec> = register<JavaExec>(name) {
@@ -50,7 +50,7 @@ index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb664
          .asFile
      javaLauncher.set(project.javaToolchains.defaultJavaLauncher(project))
  
-@@ -163,11 +164,11 @@ fun TaskContainer.registerRunTask(
+@@ -166,11 +167,11 @@ fun TaskContainer.registerRunTask(
  
      args("--nogui")
      systemProperty("net.kyori.adventure.text.warnWhenLegacyFormattingDetected", true)
@@ -65,7 +65,7 @@ index dd8f449dddbe0838835ae8f8d5033aa422db403d..6ff879fb679ecd35b76a721a9ffbb664
      modifiedJvmArgs.addAll(listOf("-Xms${memoryGb}G", "-Xmx${memoryGb}G"))
      jvmArgs = modifiedJvmArgs
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..a5cb6b84959536bfe38586f3714d24bfb22ddec1 100644
+index 7b1843e16745ca8db2244e17490d291401f22679..794696c1a94bdc0f3f3cb171776b3fc2ae10f34d 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
@@ -87,7 +87,7 @@ index 218f5bafeed8551b55b91c7fccaf6935c8b631ca..a5cb6b84959536bfe38586f3714d24bf
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index ece77f5ea4b14bbed7c070131b3251ea86764538..1d280f5370b0da6d144fc154acc3b53c8ea70197 100644
+index bf42969859545a8a520923ef1836ffa4a5cc24a0..9af775480403571a269d7f6beaca703fd153a27f 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -19,8 +19,8 @@ import java.util.stream.StreamSupport;
@@ -143,7 +143,7 @@ index ece77f5ea4b14bbed7c070131b3251ea86764538..1d280f5370b0da6d144fc154acc3b53c
          switch (distance) {
              case -1:
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index e0b1f0671d16ddddcb6725acd25a1d1d69e42701..48d7316050f3802a56470838b2801d189169976a 100644
+index b0390eedb507d27426d1e1d73bd4ab63aec89ebe..cad22bf2869f8e54693bf615743b6ba797ca82cb 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -156,10 +156,10 @@ index e0b1f0671d16ddddcb6725acd25a1d1d69e42701..48d7316050f3802a56470838b2801d18
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index c8d56947305c981a3268ce4ae3e975db350ceff2..b2ae011b924c8e9a70d58d748fda175eead8da58 100644
+index 9e1d3a22ed7e34e4968b5fb34cc77b661eb4747d..699f022f1d23dc1085d69ab8e31268063ae4001a 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1693,7 +1693,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1654,7 +1654,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
  
      @DontObfuscate
      public String getServerModName() {
@@ -169,10 +169,10 @@ index c8d56947305c981a3268ce4ae3e975db350ceff2..b2ae011b924c8e9a70d58d748fda175e
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 15278bb897e6169bc5d02bf47b455634baec7be1..d3613eb94e3d1af63aeab12f9fa54e013e5e6772 100644
+index f1e5ccfbcd08a73ac3aba9a1cb7b414faef81f9e..0fa193be20792884dd4841970a6a715cfd4ad984 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -249,7 +249,7 @@ import javax.annotation.Nullable; // Paper
+@@ -243,7 +243,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -182,7 +182,7 @@ index 15278bb897e6169bc5d02bf47b455634baec7be1..d3613eb94e3d1af63aeab12f9fa54e01
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index fbe68bd4739d9a0e7d9bc4c3d5ba8ecfd2d13954..eeb2a157e66821423b18ab9d648c2d2c24887dba 100644
+index 344d93f1d7f25a3f26064469e78dd698af66dc0d..a5d3b22f11d07ae9e12682c5cc7777a0e9a337fa 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -265,7 +265,7 @@ public class Main {

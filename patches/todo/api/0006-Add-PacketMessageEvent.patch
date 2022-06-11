@@ -5,20 +5,20 @@ Subject: [PATCH] Add PacketMessageEvent
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index d76d2c6c51886fd9291535e5c50f73a63516126c..34e5b8f035bfceec87b8cfba145f6ac8e15cd026 100644
+index 0f3dd0b428536a8f2748285214d3890d266d046a..25df9c173eac7d4c9e9a478cc8cdb4f608b12c5c 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -43,6 +43,7 @@ dependencies {
+@@ -42,6 +42,7 @@ dependencies {
      apiAndDocs("net.kyori:adventure-text-serializer-gson")
      apiAndDocs("net.kyori:adventure-text-serializer-legacy")
      apiAndDocs("net.kyori:adventure-text-serializer-plain")
 +    apiAndDocs("net.kyori:adventure-text-serializer-bungeecord:4.0.1") // Sapphire
      api("org.apache.logging.log4j:log4j-api:2.17.1")
      api("org.slf4j:slf4j-api:1.8.0-beta4")
-     api("com.mojang:authlib:2.3.31")
+     api("com.mojang:authlib:2.3.31") // Sapphire
 diff --git a/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..63e40225a3748f2162fb241fa6d46ec4230b3206
+index 0000000000000000000000000000000000000000..2af09ff8eec83724673d21dea03da48e865d4242
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/api/event/PacketMessageEvent.java
 @@ -0,0 +1,164 @@
