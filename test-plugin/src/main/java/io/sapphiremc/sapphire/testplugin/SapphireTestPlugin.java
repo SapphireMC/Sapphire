@@ -47,8 +47,8 @@ public class SapphireTestPlugin extends JavaPlugin {
             public void onJoin(PlayerJoinEvent event) {
                 Player player = event.getPlayer();
                 if (player.usesChromiumClient()) {
-                    sendConsoleMessage("Player " + player.getName() + " uses sapphire client");
-                    player.sendMessage("You are using sapphire client!");
+                    sendConsoleMessage("Player " + player.getName() + " uses chromium client");
+                    player.sendMessage("You are using chromium client!");
                 }
                 player.sendMessage("Hello " + player.getName() + ", we are use %server-brand%!");
             }
