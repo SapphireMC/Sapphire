@@ -36,6 +36,6 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           automatic_release_tag: 1.19
           prerelease: true
-          title: Latest Build
+          title: Latest Build for 1.19
           files: |
             build/libs/sapphire-1.19.jar
