@@ -5,7 +5,7 @@ Subject: [PATCH] Add last tick time api
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index fc16e897f4ebaf9d79e49774e15a1cded33ef725..164595dabab348986afd247c98b94f1c1ff6efd1 100644
+index fc16e897f4ebaf9d79e49774e15a1cded33ef725..ff70e4a8e6c68c40c257548758fb33a5659c0701 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
 @@ -2381,4 +2381,27 @@ public final class Bukkit {
@@ -31,13 +31,13 @@ index fc16e897f4ebaf9d79e49774e15a1cded33ef725..164595dabab348986afd247c98b94f1c
 +     * @return duration time value
 +     */
 +    @NotNull
-+    public static java.time.Duration getLastTickTime() {
-+        return server.getLastTickTime();
++    public static java.time.Duration getLastTickDuration() {
++        return server.getLastTickDuration();
 +    }
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index c42a2e1e76aca93d2d47a4a9ec451efb45cb05a7..3836b6919d1a965bc6387be9b96db83f6d5e55e5 100644
+index c42a2e1e76aca93d2d47a4a9ec451efb45cb05a7..aa590bd0ef356984703ca0304f205ad65d727793 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
 @@ -2073,4 +2073,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
@@ -54,7 +54,7 @@ index c42a2e1e76aca93d2d47a4a9ec451efb45cb05a7..3836b6919d1a965bc6387be9b96db83f
 +     */
 +    @Deprecated
 +    default long getLastTickMs() {
-+        return getLastTickTime().toMillis();
++        return getLastTickDuration().toMillis();
 +    }
 +
 +    /**
@@ -63,6 +63,6 @@ index c42a2e1e76aca93d2d47a4a9ec451efb45cb05a7..3836b6919d1a965bc6387be9b96db83f
 +     * @return duration time value
 +     */
 +    @NotNull
-+    java.time.Duration getLastTickTime();
++    java.time.Duration getLastTickDuration();
 +    // Sapphire end
  }

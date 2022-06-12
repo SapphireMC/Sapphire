@@ -270,7 +270,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 699f022f1d23dc1085d69ab8e31268063ae4001a..49e3371a51d5469db673527e55d9f8284e48076c 100644
+index 4cf1ddc5707c34e7b1904b7cb7acda8b381be48f..ef3a2b1773daccf7aa443e782622e44764d84528 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1654,7 +1654,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -388,10 +388,10 @@ index 0fa193be20792884dd4841970a6a715cfd4ad984..da88de4283b9471666ed36ab993464f2
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index a5d3b22f11d07ae9e12682c5cc7777a0e9a337fa..09abb55f0a8e4505fea684dd7ff5dfcbf157946d 100644
+index 7ed1341db8fbd9ffbb8fac42b1bbfbf57083fd6b..7289f6d328c5538132eba66facc0fcde5d8a6ecd 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -146,6 +146,14 @@ public class Main {
+@@ -151,6 +151,14 @@ public class Main {
                          .defaultsTo(new File("paper.yml"))
                          .describedAs("Yml file");
  

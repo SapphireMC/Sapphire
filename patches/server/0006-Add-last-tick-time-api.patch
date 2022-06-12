@@ -29,14 +29,14 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 49e3371a51d5469db673527e55d9f8284e48076c..47370aca05121221227c90c845254101d38d2578 100644
+index ef3a2b1773daccf7aa443e782622e44764d84528..ff5f8abe240884fa63aa37362f951723ad587d43 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1115,6 +1115,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
-+    public static java.time.Duration lastTickTime = java.time.Duration.ZERO; // Sapphire
++    public static java.time.Duration lastTickDuration = java.time.Duration.ZERO; // Sapphire
 +
      protected void runServer() {
          try {
@@ -47,12 +47,12 @@ index 49e3371a51d5469db673527e55d9f8284e48076c..47370aca05121221227c90c845254101
                  this.profiler.push("tick");
 +                    long tickStart = System.nanoTime(); // Sapphire
                  this.tickServer(this::haveTime);
-+                    lastTickTime = java.time.Duration.ofNanos(System.nanoTime() - tickStart);
++                    lastTickDuration = java.time.Duration.ofNanos(System.nanoTime() - tickStart);
                  this.profiler.popPush("nextTickWait");
                  this.mayHaveDelayedTasks = true;
                  this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index da88de4283b9471666ed36ab993464f2918f5588..7d500dc2555ad66827dcef6e27d874cc239a7e5f 100644
+index da88de4283b9471666ed36ab993464f2918f5588..3c1cdaf6ba2c452d34edd9aef2b3bd4e43811911 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2878,4 +2878,12 @@ public final class CraftServer implements Server {
@@ -63,27 +63,34 @@ index da88de4283b9471666ed36ab993464f2918f5588..7d500dc2555ad66827dcef6e27d874cc
 +    // Sapphire start
 +    @Override
 +    @org.jetbrains.annotations.NotNull
-+    public java.time.Duration getLastTickTime() {
-+        return net.minecraft.server.MinecraftServer.lastTickTime;
++    public java.time.Duration getLastTickDuration() {
++        return net.minecraft.server.MinecraftServer.lastTickDuration;
 +    }
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/spigotmc/TicksPerSecondCommand.java b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
-index 9bede6a26c08ede063c7a38f1149c811df14b258..97bc32f42581fcd5c36f75665d86714fa52c8f1d 100644
+index 9bede6a26c08ede063c7a38f1149c811df14b258..77d20f9a30de06b6422849ffbe8d1e633b402e0e 100644
 --- a/src/main/java/org/spigotmc/TicksPerSecondCommand.java
 +++ b/src/main/java/org/spigotmc/TicksPerSecondCommand.java
-@@ -32,6 +32,10 @@ public class TicksPerSecondCommand extends Command
+@@ -1,6 +1,5 @@
+ package org.spigotmc;
+ 
+-import net.minecraft.server.MinecraftServer;
+ import org.bukkit.ChatColor;
+ import org.bukkit.command.Command;
+ import org.bukkit.command.CommandSender;
+@@ -32,6 +31,10 @@ public class TicksPerSecondCommand extends Command
              tpsAvg[i] = TicksPerSecondCommand.format( tps[i] );
          }
          sender.sendMessage(ChatColor.GOLD + "TPS from last 1m, 5m, 15m: " + org.apache.commons.lang.StringUtils.join(tpsAvg, ", "));
 +        // Sapphire start - Last tick time api
-+        java.time.Duration lastTickTime = org.bukkit.Bukkit.getLastTickTime();
++        java.time.Duration lastTickTime = org.bukkit.Bukkit.getLastTickDuration();
 +        sender.sendMessage(ChatColor.GOLD + "Last tick: " + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.MILLISECONDS ) + " (" + formatLastTickTime( lastTickTime, java.util.concurrent.TimeUnit.NANOSECONDS ) + ")");
 +        // Sapphire end
          if (args.length > 0 && args[0].equals("mem") && sender.hasPermission("bukkit.command.tpsmemory")) {
              sender.sendMessage(ChatColor.GOLD + "Current Memory Usage: " + ChatColor.GREEN + ((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory()) / (1024 * 1024)) + "/" + (Runtime.getRuntime().totalMemory() / (1024 * 1024)) + " mb (Max: " + (Runtime.getRuntime().maxMemory() / (1024 * 1024)) + " mb)");
              if (!hasShownMemoryWarning) {
-@@ -50,4 +54,18 @@ public class TicksPerSecondCommand extends Command
+@@ -50,4 +53,18 @@ public class TicksPerSecondCommand extends Command
          return ( ( tps > 18.0 ) ? ChatColor.GREEN : ( tps > 16.0 ) ? ChatColor.YELLOW : ChatColor.RED ).toString()
                  + ( ( tps > 21.0 ) ? "*" : "" ) + Math.min( Math.round( tps * 100.0 ) / 100.0, 20.0 ); // Paper - only print * at 21, we commonly peak to 20.02 as the tick sleep is not accurate enough, stop the noise
      }

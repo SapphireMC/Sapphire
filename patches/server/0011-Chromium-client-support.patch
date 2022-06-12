@@ -17,10 +17,10 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..744fed401605781b11e244022b90beaa
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 03507b5ac5908962e9ebc4b98f53f23110573baa..46025360dbba4c6ec49dc3ef5ce3fe4cf687edf2 100644
+index 630a762b71861bfe21c47a11d4fe05e1a3b7d339..e5792e89844c10c6af84f46dfb2ba2acf7a92c68 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3373,6 +3373,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3375,6 +3375,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
  
@@ -29,7 +29,7 @@ index 03507b5ac5908962e9ebc4b98f53f23110573baa..46025360dbba4c6ec49dc3ef5ce3fe4c
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -3396,6 +3398,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3398,6 +3400,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }

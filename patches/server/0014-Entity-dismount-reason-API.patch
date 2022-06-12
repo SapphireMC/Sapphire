@@ -18,7 +18,7 @@ index 027ca5b67c544048815ddef4bb36d0a8fc3d038c..4988e3ac6e3ed761ddf05d9f5dccf459
                  if (((ServerPlayer) target).isSleeping()) {
                      ((ServerPlayer) target).stopSleepInBed(true, true);
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index a436e9c543f0f1724868c82af8ef4bd1dba96ff3..799575978762cfa1b22d1d37603be4b9b0d4e393 100644
+index c10af6c60596d1ae40d29d145d3db777f00a397c..6f2336ba7fb841b662ca4194779ed465eac04db1 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -684,6 +684,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -93,7 +93,7 @@ index 20cdfdb3b9351f74e89bc45b3ab972384165659a..efda6c6064f4cd07926ec7c11941be22
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index ade1e37d20ef3021f73da6d1905cea76d3ff0aa7..ec7b2235052a04f9a620e7a7c897ef0d0a3918bf 100644
+index 89cecb3603b41ae22efc54a9f2858a6f60e52148..044388e441483ca2d8a36c85fac140fd254385be 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -534,6 +534,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -153,7 +153,7 @@ index ade1e37d20ef3021f73da6d1905cea76d3ff0aa7..ec7b2235052a04f9a620e7a7c897ef0d
              // Suppress during worldgen
              if (this.valid) {
                  Bukkit.getPluginManager().callEvent(event);
-@@ -4308,10 +4320,16 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4318,10 +4330,16 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
  
          if (this.removalReason.shouldDestroy()) {
