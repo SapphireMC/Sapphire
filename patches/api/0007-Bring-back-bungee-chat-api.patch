@@ -5,7 +5,7 @@ Subject: [PATCH] Bring back bungee chat api
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 0f3dd0b428536a8f2748285214d3890d266d046a..c977a24777ce2459c9f5e229cd8f9853d4004e31 100644
+index 4eb21675fa31c64186aa9f7c7d2c3075276ee73e..716f424f7b086fa74cc5e2903bee12f462b09aa7 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -29,7 +29,7 @@ dependencies {
@@ -17,7 +17,7 @@ index 0f3dd0b428536a8f2748285214d3890d266d046a..c977a24777ce2459c9f5e229cd8f9853
      api("org.yaml:snakeyaml:1.30")
      // Paper start
      api("com.googlecode.json-simple:json-simple:1.1.1") {
-@@ -106,8 +106,8 @@ tasks.withType<Javadoc> {
+@@ -107,8 +107,8 @@ tasks.withType<Javadoc> {
          "https://guava.dev/releases/31.0.1-jre/api/docs/",
          "https://javadoc.io/doc/org.yaml/snakeyaml/1.30/",
          "https://javadoc.io/doc/org.jetbrains/annotations/23.0.0/", // Paper - we don't want Java 5 annotations
