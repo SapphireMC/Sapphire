@@ -10,7 +10,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.item;
 import com.google.common.collect.Lists;
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -26,14 +26,14 @@ public class ItemConvertionTest implements NBTTest {
         item.setItemMeta(meta);
         String nbt = NBTItem.convertItemtoNBT(item).toString();
         if (!nbt.contains("Firest Line") || !nbt.contains("Second Line"))
-            throw new NbtApiException("The Item nbt '" + nbt + "' didn't contain the lore");
+            throw new NBTException("The Item nbt '" + nbt + "' didn't contain the lore");
         ItemStack rebuild = NBTItem.convertNBTtoItem(new NBTContainer(nbt));
         if (!item.isSimilar(rebuild))
-            throw new NbtApiException("Rebuilt item did not match the original!");
+            throw new NBTException("Rebuilt item did not match the original!");
 
         NBTContainer cont = new NBTContainer();
         cont.setItemStack("testItem", item);
         if (!cont.getItemStack("testItem").isSimilar(item))
-            throw new NbtApiException("Rebuilt item did not match the original!");
+            throw new NBTException("Rebuilt item did not match the original!");
     }
 }

@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -24,20 +24,20 @@ public class GsonTest implements NBTTest {
             nbtItem.setObject(JSON_TEST_KEY, new SimpleJsonTestObject());
 
             if (!nbtItem.hasKey(JSON_TEST_KEY)) {
-                throw new NbtApiException("Wasn't able to find JSON key! The Item-NBT-API may not work with Json serialization/deserialization!");
+                throw new NBTException("Wasn't able to find JSON key! The Item-NBT-API may not work with Json serialization/deserialization!");
             } else {
                 SimpleJsonTestObject simpleObject = nbtItem.getObject(JSON_TEST_KEY, SimpleJsonTestObject.class);
                 if (simpleObject == null) {
-                    throw new NbtApiException("Wasn't able to check JSON key! The Item-NBT-API may not work with Json serialization/deserialization!");
+                    throw new NBTException("Wasn't able to check JSON key! The Item-NBT-API may not work with Json serialization/deserialization!");
                 } else if (!(STRING_TEST_VALUE).equals(simpleObject.getTestString())
                     || simpleObject.getTestInteger() != INT_TEST_VALUE
                     || simpleObject.getTestDouble() != DOUBLE_TEST_VALUE
                     || !simpleObject.isTestBoolean() == BOOLEAN_TEST_VALUE) {
-                    throw new NbtApiException("One key does not equal the original value in JSON! The Item-NBT-API may not work with Json serialization/deserialization!");
+                    throw new NBTException("One key does not equal the original value in JSON! The Item-NBT-API may not work with Json serialization/deserialization!");
                 }
             }
         } catch (Exception ex) {
-            throw new NbtApiException("Exception during Gson check!", ex);
+            throw new NBTException("Exception during Gson check!", ex);
         }
     }
 

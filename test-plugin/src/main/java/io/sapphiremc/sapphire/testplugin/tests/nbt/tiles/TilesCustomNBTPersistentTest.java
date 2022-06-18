@@ -9,7 +9,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.tiles;
 
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
 import io.sapphiremc.sapphire.api.nbt.NBTTileEntity;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -31,12 +31,12 @@ public class TilesCustomNBTPersistentTest implements NBTTest {
                     persistentData.setString("Foo", "Bar");
                     if (!new NBTTileEntity(block.getState()).getPersistentDataContainer().getString("Foo").equals("Bar")) {
                         block.setType(Material.AIR);
-                        throw new NbtApiException("Custom Data did not save to the Tile!");
+                        throw new NBTException("Custom Data did not save to the Tile!");
                     }
                     block.setType(Material.AIR);
                 }
             } catch (Exception ex) {
-                throw new NbtApiException("Wasn't able to use NBTTiles!", ex);
+                throw new NBTException("Wasn't able to use NBTTiles!", ex);
             }
         }
     }

@@ -10,7 +10,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import java.util.Arrays;
 
@@ -35,13 +35,13 @@ public class EqualsTest implements NBTTest {
         customData.setString("hello", "world");
         customData.getStringList("somelist").addAll(Arrays.asList("a", "b", "c"));
         if (!customData.equals(cont)) {
-            throw new NbtApiException("Compounds did not match! " + customData + " " + cont);
+            throw new NBTException("Compounds did not match! " + customData + " " + cont);
         }
 
         // empty test
 
         if (!new NBTContainer().equals(new NBTContainer())) {
-            throw new NbtApiException("Two empty tags did not match!");
+            throw new NBTException("Two empty tags did not match!");
         }
 
         // not equal test
@@ -52,7 +52,7 @@ public class EqualsTest implements NBTTest {
         part2.setString("a", "a");
         part2.setString("b", "a");
         if (part1.equals(part2)) {
-            throw new NbtApiException("Missmatched nbt did match!");
+            throw new NBTException("Missmatched nbt did match!");
         }
     }
 }

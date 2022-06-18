@@ -1,17 +1,15 @@
 repositories {
     maven("https://libraries.minecraft.net")
+    mavenCentral()
 }
 
 dependencies {
     implementation(project(":sapphire-api"))
-    implementation("io.papermc.paper:paper-mojangapi:${version}")
-
-    compileOnly("org.projectlombok:lombok:1.18.22")
-    annotationProcessor("org.projectlombok:lombok:1.18.22")
+   // implementation("io.papermc.paper:paper-mojangapi:${version}")
 }
 
 tasks.processResources {
-    val apiVersion = rootProject.providers.gradleProperty("mcVersion").forUseAtConfigurationTime().get()
+    val apiVersion = rootProject.providers.gradleProperty("mcVersion").get()
         .split(".", "-").take(2).joinToString(".")
     val props = mapOf(
         "version" to project.version,

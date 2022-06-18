@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.tiles;
 
 import io.sapphiremc.sapphire.api.nbt.NBTTileEntity;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -29,12 +29,12 @@ public class TileTest implements NBTTest {
                     tile.setString("Lock", "test");
                     if (!tile.hasKey("Lock") && !"test".equals(tile.getString("test"))) {
                         block.setType(Material.AIR);
-                        throw new NbtApiException("The Lock wasn't successfully set.");
+                        throw new NBTException("The Lock wasn't successfully set.");
                     }
                     block.setType(Material.AIR);
                 }
             } catch (Exception ex) {
-                throw new NbtApiException("Wasn't able to use NBTTiles!", ex);
+                throw new NBTException("Wasn't able to use NBTTiles!", ex);
             }
         }
     }

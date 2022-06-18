@@ -12,6 +12,6 @@ commands:
     permission: "sapphiretest.command.test"
 
 permissions:
-  sapphiretest.command.test:
+  sapphiretests.command.test:
     description: "Allows you to run all our tests"
     default: op

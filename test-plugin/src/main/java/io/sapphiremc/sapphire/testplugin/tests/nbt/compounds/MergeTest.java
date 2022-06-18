@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 public class MergeTest implements NBTTest {
@@ -22,7 +22,7 @@ public class MergeTest implements NBTTest {
         test2.addCompound("test").setLong("time", System.currentTimeMillis());
         test1.mergeCompound(test2);
         if (!test1.getString("test1").equals(test1.getString("test2"))) {
-            throw new NbtApiException("Wasn't able to merge Compounds!");
+            throw new NBTException("Wasn't able to merge Compounds!");
         }
     }
 }

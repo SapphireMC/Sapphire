@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 import java.io.ByteArrayInputStream;
@@ -26,7 +26,7 @@ public class StreamTest implements NBTTest {
         ByteArrayInputStream inputStream = new ByteArrayInputStream(data);
         NBTContainer container = new NBTContainer(inputStream);
         if (!container.toString().equals(base.getCompound("sub").toString())) {
-            throw new NbtApiException("Component content did not match! " + base.getCompound("sub") + " " + container);
+            throw new NBTException("Component content did not match! " + base.getCompound("sub") + " " + container);
         }
     }
 }

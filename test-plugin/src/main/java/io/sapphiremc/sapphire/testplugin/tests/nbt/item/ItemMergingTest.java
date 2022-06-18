@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.item;
 
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -30,32 +30,32 @@ public class ItemMergingTest implements NBTTest {
 
         nbti.mergeCustomNBT(item);
         if (!item.getNBT().hasKey("test"))
-            throw new NbtApiException("Couldn't merge custom NBT tag!");
+            throw new NBTException("Couldn't merge custom NBT tag!");
         if ("New Author".equals(item.getNBT().getString("author")))
-            throw new NbtApiException("Vanilla NBT tag was merged when shouldn't!");
+            throw new NBTException("Vanilla NBT tag was merged when shouldn't!");
 
         nbti.setString("test", "New Value");
         nbti.mergeNBT(item);
         if (!"New Author".equals(item.getNBT().getString("author")) || !"New Value".equals(item.getNBT().getString("test")))
-            throw new NbtApiException("Couldn't replace NBT tag while merging!");
+            throw new NBTException("Couldn't replace NBT tag while merging!");
 
         ItemStack test = new ItemStack(Material.WRITTEN_BOOK);
         nbti.applyNBT(test);
         if (!item.isSimilar(test))
-            throw new NbtApiException("ItemStacks didn't match! " + item.getNBT() + " " + new NBTItem(test));
+            throw new NBTException("ItemStacks didn't match! " + item.getNBT() + " " + new NBTItem(test));
 
         test = new ItemStack(Material.STONE);
         nbti.applyNBT(test);
         if (!nbti.hasKey("test"))
-            throw new NbtApiException("Couldn't merge custom NBT tag!");
+            throw new NBTException("Couldn't merge custom NBT tag!");
         if (!item.getItemMeta().getDisplayName().equals(test.getItemMeta().getDisplayName()))
-            throw new NbtApiException("Couldn't merge vanilla NBT tag!");
+            throw new NBTException("Couldn't merge vanilla NBT tag!");
 
         nbti.setBoolean("remove", true);
         nbti.clearCustomNBT();
         if (nbti.hasKey("remove"))
-            throw new NbtApiException("Couldn't clear custom NBT tags!");
+            throw new NBTException("Couldn't clear custom NBT tags!");
         if (!nbti.hasKey("author"))
-            throw new NbtApiException("Vanilla tag was removed!");
+            throw new NBTException("Vanilla tag was removed!");
     }
 }

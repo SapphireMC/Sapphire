@@ -9,6 +9,7 @@ package io.sapphiremc.sapphire.testplugin.command;
 
 import io.sapphiremc.sapphire.testplugin.SapphireTestPlugin;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTestsManager;
+import net.kyori.adventure.text.Component;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -39,18 +40,18 @@ public class TestCommand implements CommandExecutor, TabCompleter {
                 testsManager.runTests();
                 if (testsManager.isSuccess()) {
                     plugin.getLogger().info("All tests passed!");
-                    sender.sendMessage(plugin.getPrefix() + "All nbt tests passed, check console for more details!");
+                    sender.sendMessage(plugin.prefixedComponent(Component.text("All nbt tests passed, check console for more details!")));
                 } else {
                     plugin.getLogger().warning("Some tests didn't passed!");
-                    sender.sendMessage(plugin.getPrefix() + "Some nbt tests didn't passed, check console for more details!");
+                    sender.sendMessage(plugin.prefixedComponent(Component.text("Some nbt tests didn't passed, check console for more details!")));
                 }
             }
             case "chromium" -> {
                 if (sender instanceof Player player) {
                     if (player.usesChromiumClient()) {
-                        player.sendMessage(plugin.getPrefix() + "You are using chromium!");
+                        player.sendMessage(plugin.prefixedComponent(Component.text("You are using chromium!")));
                     } else {
-                        player.sendMessage(plugin.getPrefix() + "You are using vanilla minecraft!");
+                        player.sendMessage(plugin.prefixedComponent(Component.text("You are using vanilla minecraft!")));
                     }
                 }
             }

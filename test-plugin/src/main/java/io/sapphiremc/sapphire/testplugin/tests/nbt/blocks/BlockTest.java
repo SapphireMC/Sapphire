@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.blocks;
 
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -28,15 +28,15 @@ public class BlockTest implements NBTTest {
                     NBTCompound data = block.getNBTCompound();
                     data.removeKey("Too");
                     if (data.hasKey("Too")) {
-                        throw new NbtApiException("Unable to remove key from Block!");
+                        throw new NBTException("Unable to remove key from Block!");
                     }
                     data.setString("Too", "Bar");
                     if (!block.getNBTCompound().getString("Too").equals("Bar")) {
-                        throw new NbtApiException("Custom Data did not save to a Block!");
+                        throw new NBTException("Custom Data did not save to a Block!");
                     }
                 }
             } catch (Exception ex) {
-                throw new NbtApiException("Wasn't able to use NBTBlocks!", ex);
+                throw new NBTException("Wasn't able to use NBTBlocks!", ex);
             }
         }
     }

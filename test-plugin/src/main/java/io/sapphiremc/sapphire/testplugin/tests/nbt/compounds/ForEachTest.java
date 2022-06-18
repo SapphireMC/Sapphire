@@ -10,7 +10,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 import io.sapphiremc.sapphire.api.nbt.NBTCompoundList;
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
 import io.sapphiremc.sapphire.api.nbt.NBTListCompound;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 import java.util.ListIterator;
@@ -31,7 +31,7 @@ public class ForEachTest implements NBTTest {
                 count++;
             }
             if (count != compList.size())
-                throw new NbtApiException("For loop did not get all Entries!");
+                throw new NBTException("For loop did not get all Entries!");
             count = 0;
             ListIterator<NBTListCompound> lit = compList.listIterator();
             while (lit.hasNext()){
@@ -39,14 +39,14 @@ public class ForEachTest implements NBTTest {
                 count++;
             }
             if (count != compList.size())
-                throw new NbtApiException("ListIterator did not get all Entries!");
+                throw new NBTException("ListIterator did not get all Entries!");
             count = 0;
             while (lit.hasPrevious()){
                 lit.previous();
                 count++;
             }
             if (count != compList.size())
-                throw new NbtApiException("ListIterator previous did not get all Entries!");
+                throw new NBTException("ListIterator previous did not get all Entries!");
         }
     }
 }

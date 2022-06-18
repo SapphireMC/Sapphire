@@ -10,9 +10,9 @@ package io.sapphiremc.sapphire.testplugin;
 //import io.sapphiremc.sapphire.api.event.PacketMessageEvent;
 import io.sapphiremc.sapphire.testplugin.command.TestCommand;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTestsManager;
-import lombok.Getter;
-import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -27,11 +27,7 @@ public class SapphireTestPlugin extends JavaPlugin {
         return instance;
     }
 
-    @Getter
     private NBTTestsManager testsManager;
-
-    @Getter
-    private final String prefix = ChatColor.of("#004EFF") + "" + ChatColor.BOLD + this.getDescription().getName() + " " + ChatColor.of("#1F2B44") + "▶ " + ChatColor.of("#D4E1FF");
 
     @Override
     public void onLoad() {
@@ -47,10 +43,10 @@ public class SapphireTestPlugin extends JavaPlugin {
             public void onJoin(PlayerJoinEvent event) {
                 Player player = event.getPlayer();
                 if (player.usesChromiumClient()) {
-                    sendConsoleMessage("Player " + player.getName() + " uses chromium client");
-                    player.sendMessage("You are using chromium client!");
+                    sendConsoleMessage(prefixedComponent(Component.text("Player " + player.getName() + " uses chromium client")));
+                    player.sendMessage(prefixedComponent(Component.text("You are using chromium client!")));
                 }
-                player.sendMessage("Hello " + player.getName() + ", we are use %server-brand%!");
+               // player.sendMessage("Hello " + player.getName() + ", we are use %server-brand%!");
             }
 
             /*@EventHandler
@@ -67,10 +63,18 @@ public class SapphireTestPlugin extends JavaPlugin {
 
         this.getCommand("test").setExecutor(new TestCommand(this));
 
-        sendConsoleMessage("Sapphire test plugin successfully enabled!");
+        sendConsoleMessage(Component.text("Sapphire test plugin successfully enabled!"));
     }
 
-    public void sendConsoleMessage(String msg) {
-        this.getServer().getConsoleSender().sendMessage(prefix + msg);
+    public Component prefixedComponent(Component msg) {
+        return MiniMessage.miniMessage().deserialize("<#004EFF><bold><name> <#1F2B44>▶ <#D4E1FF><msg>", Placeholder.unparsed("name", getName()), Placeholder.component("msg", msg));
+    }
+
+    public void sendConsoleMessage(Component msg) {
+        this.getServer().getConsoleSender().sendMessage(prefixedComponent(msg));
+    }
+
+    public NBTTestsManager getTestsManager() {
+        return testsManager;
     }
 }

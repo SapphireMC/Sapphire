@@ -9,7 +9,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.gameprofile;
 
 import com.mojang.authlib.GameProfile;
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.api.nbt.NBTGameProfile;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
@@ -25,7 +25,7 @@ public class GameProfileTest implements NBTTest {
         profile = null;
         profile = NBTGameProfile.fromNBT(nbt);
         if (profile == null || !profile.getId().equals(uuid)) {
-            throw new NbtApiException("Error when converting a GameProfile from/to NBT!");
+            throw new NBTException("Error when converting a GameProfile from/to NBT!");
         }
     }
 }

@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.item;
 
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -20,7 +20,7 @@ public class EmptyItemTest implements NBTTest {
         ItemStack item = new ItemStack(Material.STONE);
         NBTItem nbti = item.getNBT();
         if (nbti.getBoolean("test") == null || nbti.getString("test") == null)
-            throw new NbtApiException("Getters return null instead of the default value");
+            throw new NBTException("Getters return null instead of the default value");
 
         try {
             Material barrel = Material.valueOf("BARREL");

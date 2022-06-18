@@ -9,7 +9,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.file;
 
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.api.nbt.NBTFile;
 import io.sapphiremc.sapphire.testplugin.SapphireTestPlugin;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
@@ -37,19 +37,19 @@ public class FileTest implements NBTTest {
         file.save();
 
         if (!"wool".equals(block.getString("type"))) {
-            throw new NbtApiException("SubCompounds did not work!");
+            throw new NBTException("SubCompounds did not work!");
         }
 
         NBTFile fileLoaded = new NBTFile(testFile);
         if (!fileLoaded.getString("test").equals("test")) {
-            throw new NbtApiException("Wasn't able to load NBT File with the correct content!");
+            throw new NBTException("Wasn't able to load NBT File with the correct content!");
         }
         Files.deleteIfExists(fileLoaded.getFile().toPath());
         // String
-        String str = fileLoaded.asNBTString();
+        String str = fileLoaded.toString();
         NBTContainer rebuild = new NBTContainer(str);
-        if (!str.equals(rebuild.asNBTString())) {
-            throw new NbtApiException("Wasn't able to parse NBT from a String!");
+        if (!str.equals(rebuild.toString())) {
+            throw new NBTException("Wasn't able to parse NBT from a String!");
         }
     }
 }

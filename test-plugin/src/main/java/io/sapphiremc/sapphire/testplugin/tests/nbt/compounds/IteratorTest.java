@@ -9,7 +9,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
 import io.sapphiremc.sapphire.api.nbt.NBTList;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 import java.util.Iterator;
@@ -58,14 +58,14 @@ public class IteratorTest implements NBTTest {
         } catch (NoSuchElementException expected) {
             return;
         } catch (Exception e) {
-            throw new NbtApiException("iterator threw wrong exception: " + e);
+            throw new NBTException("iterator threw wrong exception: " + e);
         }
-        throw new NbtApiException("iterator did not throw exception");
+        throw new NBTException("iterator did not throw exception");
     }
 
     private static void assertTrue(boolean condition) {
         if (!condition) {
-            throw new NbtApiException("iterator test failed");
+            throw new NBTException("iterator test failed");
         }
     }
 }

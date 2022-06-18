@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 public class RemovingKeysTest implements NBTTest {
@@ -51,7 +51,7 @@ public class RemovingKeysTest implements NBTTest {
         comp.setByteArray(BYTEARRAY_TEST_KEY, BYTEARRAY_TEST_VALUE);
 
         if (comp.getKeys().size() != 10) {
-            throw new NbtApiException("Key amount did not match after setting keys!");
+            throw new NBTException("Key amount did not match after setting keys!");
         }
 
         comp.setString(STRING_TEST_KEY, null);
@@ -66,7 +66,7 @@ public class RemovingKeysTest implements NBTTest {
         comp.setByteArray(BYTEARRAY_TEST_KEY, null);
 
         if (comp.getKeys().size() != 0) {
-            throw new NbtApiException("Keys where not removed using the setter with null!");
+            throw new NBTException("Keys where not removed using the setter with null!");
         }
     }
 }

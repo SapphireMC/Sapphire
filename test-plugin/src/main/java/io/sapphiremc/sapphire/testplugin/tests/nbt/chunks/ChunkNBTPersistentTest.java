@@ -9,7 +9,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.chunks;
 
 import io.sapphiremc.sapphire.api.nbt.NBTChunk;
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Bukkit;
 import org.bukkit.Chunk;
@@ -28,15 +28,15 @@ public class ChunkNBTPersistentTest implements NBTTest {
                     NBTCompound persistentData = comp.getPersistentDataContainer();
                     persistentData.removeKey("Foo");
                     if (persistentData.hasKey("Foo")) {
-                        throw new NbtApiException("Unable to remove key from Chunk!");
+                        throw new NBTException("Unable to remove key from Chunk!");
                     }
                     persistentData.setString("Foo", "Bar");
                     if (!new NBTChunk(chunk).getPersistentDataContainer().getString("Foo").equals("Bar")) {
-                        throw new NbtApiException("Custom Data did not save to the Chunk!");
+                        throw new NBTException("Custom Data did not save to the Chunk!");
                     }
                 }
             } catch (Exception ex) {
-                throw new NbtApiException("Wasn't able to use NBTChunks!", ex);
+                throw new NBTException("Wasn't able to use NBTChunks!", ex);
             }
         }
     }

@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.item;
 
 import io.sapphiremc.sapphire.api.nbt.NBTItem;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -21,7 +21,7 @@ public class DirectApplyTest implements NBTTest {
         NBTItem nbti = baseItem.getNBT(true);
         nbti.setString("SomeKey", "SomeValue");
         if (!baseItem.equals(nbti.getItem()) || !baseItem.getNBT().hasKey("SomeKey")) {
-            throw new NbtApiException("The item's where not equal!");
+            throw new NBTException("The item's where not equal!");
         }
     }
 }

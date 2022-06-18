@@ -8,7 +8,7 @@
 package io.sapphiremc.sapphire.testplugin.tests.nbt.entity;
 
 import io.sapphiremc.sapphire.api.nbt.NBTEntity;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -27,7 +27,7 @@ public class EntityTest implements NBTTest {
                     nbte.setString("INVALIDEKEY", "test");
                 }
             } catch (Exception ex) {
-                throw new NbtApiException("Wasn't able to use NBTEntities!", ex);
+                throw new NBTException("Wasn't able to use NBTEntities!", ex);
             }
         }
     }

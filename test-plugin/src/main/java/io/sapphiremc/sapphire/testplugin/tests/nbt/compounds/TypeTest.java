@@ -10,7 +10,7 @@ package io.sapphiremc.sapphire.testplugin.tests.nbt.compounds;
 import io.sapphiremc.sapphire.api.nbt.NBTCompound;
 import io.sapphiremc.sapphire.api.nbt.NBTContainer;
 import io.sapphiremc.sapphire.api.nbt.NBTType;
-import io.sapphiremc.sapphire.api.nbt.exceptions.NbtApiException;
+import io.sapphiremc.sapphire.api.nbt.exceptions.NBTException;
 import io.sapphiremc.sapphire.testplugin.tests.nbt.NBTTest;
 
 public class TypeTest implements NBTTest {
@@ -23,6 +23,6 @@ public class TypeTest implements NBTTest {
         comp.addCompound("c");
         if (comp.getType("s") != NBTType.NBTTagString || comp.getType("i") != NBTType.NBTTagInt
             || comp.getType("c") != NBTType.NBTTagCompound)
-            throw new NbtApiException("One parsed type did not match what it should have been!");
+            throw new NBTException("One parsed type did not match what it should have been!");
     }
 }
