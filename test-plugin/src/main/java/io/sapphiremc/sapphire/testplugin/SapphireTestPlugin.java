@@ -67,7 +67,7 @@ public class SapphireTestPlugin extends JavaPlugin {
     }
 
     public Component prefixedComponent(Component msg) {
-        return MiniMessage.miniMessage().deserialize("<#004EFF><bold><name> <#1F2B44>▶ <#D4E1FF><msg>", Placeholder.unparsed("name", getName()), Placeholder.component("msg", msg));
+        return MiniMessage.miniMessage().deserialize("<#004EFF><bold><name> <reset><#1F2B44>▶ <#D4E1FF><msg>", Placeholder.unparsed("name", getName()), Placeholder.component("msg", msg));
     }
 
     public void sendConsoleMessage(Component msg) {
