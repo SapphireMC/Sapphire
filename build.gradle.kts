@@ -10,7 +10,7 @@ plugins {
 
 repositories {
     mavenCentral()
-    maven("https://papermc.io/repo/repository/maven-public/") {
+    maven("https://repo.papermc.io/repository/maven-public/") {
         content { onlyForConfigurations("paperclip") }
     }
 }
@@ -24,9 +24,6 @@ dependencies {
 allprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
-
-    group = project.group
-    version = project.version
 
     java {
         toolchain {
@@ -58,7 +55,7 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven("https://papermc.io/repo/repository/maven-public/")
+        maven("https://repo.papermc.io/repository/maven-public/")
     }
 }
 
@@ -85,8 +82,7 @@ tasks.generateDevelopmentBundle {
     libraryRepositories.set(
         listOf(
             "https://repo.maven.apache.org/maven2/",
-            "https://libraries.minecraft.net/",
-            "https://papermc.io/repo/repository/maven-public/",
+            "https://repo.papermc.io/repository/maven-public/",
             "https://maven.quiltmc.org/repository/release/",
             "http://repo.denaryworld.ru/snapshots/",
         )
@@ -111,9 +107,8 @@ allprojects {
     // ./gradlew :sapphire-api:publish[ToMavenLocal]
     publishing {
         repositories {
-            maven {
+            maven("http://repo.denaryworld.ru/snapshots/") {
                 name = "SapphireMC"
-                url = uri("http://repo.denaryworld.ru/snapshots/")
                 isAllowInsecureProtocol = true
                 credentials(PasswordCredentials::class)
             }
@@ -122,13 +117,9 @@ allprojects {
 }
 
 publishing {
-    // Publishing dev bundle:
-    // ./gradlew publishDevBundlePublicationTo(MavenLocal|MyRepoSnapshotsRepository) -PpublishDevBundle
-    if (project.hasProperty("publishDevBundle")) {
-        publications.create<MavenPublication>("devBundle") {
-            artifact(tasks.generateDevelopmentBundle) {
-                artifactId = "dev-bundle"
-            }
+    publications.create<MavenPublication>("devBundle") {
+        artifact(tasks.generateDevelopmentBundle) {
+            artifactId = "dev-bundle"
         }
     }
 }
