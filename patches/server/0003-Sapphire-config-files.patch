@@ -270,7 +270,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4cf1ddc5707c34e7b1904b7cb7acda8b381be48f..ef3a2b1773daccf7aa443e782622e44764d84528 100644
+index 4113e0785931a5db12a39aeafc39b6767decc447..3c243b58be83ca2dddccf6403d35df184be55f2e 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1654,7 +1654,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -302,7 +302,7 @@ index aea18838a17fc52e1bf8cd84cd185565e6e2246d..93057d47ac360b790d7ad3e781314ed2
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index e8dc99752d06ca40f17f3ad2c829b2447b703d7c..1eb006c4124849750d7d49a00902fe65194ebdc0 100644
+index 279051442ac6cf288a03a16a35ddbf66d1cd1e90..02ac19527f487df5ae4ade8d866ea86478722aa7 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -399,16 +399,18 @@ public abstract class LivingEntity extends Entity {
@@ -354,10 +354,10 @@ index d59dea221ba0f1b9c14f403d3c6ea61b2c454316..f4b660bad6d5266b8e77e362e1bd4fd6
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 0fa193be20792884dd4841970a6a715cfd4ad984..da88de4283b9471666ed36ab993464f2918f5588 100644
+index cdc2f8dbbc6ad6708eb88deb120413bf5f3954f2..75ce55d3fb72165e161a931228641a469d1c30ec 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -950,6 +950,7 @@ public final class CraftServer implements Server {
+@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -365,7 +365,7 @@ index 0fa193be20792884dd4841970a6a715cfd4ad984..da88de4283b9471666ed36ab993464f2
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -965,6 +966,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +973,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -373,7 +373,7 @@ index 0fa193be20792884dd4841970a6a715cfd4ad984..da88de4283b9471666ed36ab993464f2
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2694,6 +2696,13 @@ public final class CraftServer implements Server {
+@@ -2716,6 +2718,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -388,7 +388,7 @@ index 0fa193be20792884dd4841970a6a715cfd4ad984..da88de4283b9471666ed36ab993464f2
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 7ed1341db8fbd9ffbb8fac42b1bbfbf57083fd6b..7289f6d328c5538132eba66facc0fcde5d8a6ecd 100644
+index d78aec7fb361ad17cad7842c00594692aecab480..8840922d362720c3431f0bd33399f6219cd9b02d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -151,6 +151,14 @@ public class Main {

@@ -173,10 +173,10 @@ index 77cd45f616e2ff38ad6a648b8b865a99e544f3ec..4113e0785931a5db12a39aeafc39b676
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 72311b27bb642ee05dba45b76935277d183012eb..41d911f9b1657ba381b736476ef9b57a48911ce3 100644
+index 61c2f864bb23e75f6c377f7ccbf2ec44a670348c..cdc2f8dbbc6ad6708eb88deb120413bf5f3954f2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -243,7 +243,7 @@ import javax.annotation.Nullable; // Paper
+@@ -245,7 +245,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -186,7 +186,7 @@ index 72311b27bb642ee05dba45b76935277d183012eb..41d911f9b1657ba381b736476ef9b57a
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index fbd604602024522bdd73aa1bde6fe2ccec63e442..7ed1341db8fbd9ffbb8fac42b1bbfbf57083fd6b 100644
+index 1b9e91b20dd9a9375a0a2a6a4d7a0bcdce9e7b1a..d78aec7fb361ad17cad7842c00594692aecab480 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -270,7 +270,7 @@ public class Main {
