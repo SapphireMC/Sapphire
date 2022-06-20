@@ -117,9 +117,11 @@ allprojects {
 }
 
 publishing {
-    publications.create<MavenPublication>("devBundle") {
-        artifact(tasks.generateDevelopmentBundle) {
-            artifactId = "dev-bundle"
+    if (project.hasProperty("publishDevBundle")) {
+        publications.create<MavenPublication>("devBundle") {
+            artifact(tasks.generateDevelopmentBundle) {
+                artifactId = "dev-bundle"
+            }
         }
     }
 }
