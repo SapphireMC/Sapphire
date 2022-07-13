@@ -270,7 +270,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 4113e0785931a5db12a39aeafc39b6767decc447..3c243b58be83ca2dddccf6403d35df184be55f2e 100644
+index c4cd7251fc932ba647d648be85a8a9bfcae640c6..676df1304e9ae78794bbb5c10520954caff935aa 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1654,7 +1654,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -283,7 +283,7 @@ index 4113e0785931a5db12a39aeafc39b6767decc447..3c243b58be83ca2dddccf6403d35df18
  
      public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index aea18838a17fc52e1bf8cd84cd185565e6e2246d..93057d47ac360b790d7ad3e781314ed2adfc16af 100644
+index b42327dcf0cc9feaf4fdb67de949dd36cf71bbaa..35fd63a1ffb65bb3b6c5b7435a9d6523a43e1436 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -226,6 +226,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -354,10 +354,10 @@ index d59dea221ba0f1b9c14f403d3c6ea61b2c454316..f4b660bad6d5266b8e77e362e1bd4fd6
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 7d32e55779feac8ce9eeb5ce51535bfbde111316..b0ea7287bbc905107abc00b77f74eec8c3e4a8db 100644
+index 1a6ee3605b4b254432effbe5cb18b28e7de637ba..5f3204513b809a7550f0bd9dfd0f7f70e8a7d955 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -957,6 +957,7 @@ public final class CraftServer implements Server {
+@@ -959,6 +959,7 @@ public final class CraftServer implements Server {
  
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
@@ -365,7 +365,7 @@ index 7d32e55779feac8ce9eeb5ce51535bfbde111316..b0ea7287bbc905107abc00b77f74eec8
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -972,6 +973,7 @@ public final class CraftServer implements Server {
+@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
                  }
              }
              world.spigotConfig.init(); // Spigot
@@ -373,7 +373,7 @@ index 7d32e55779feac8ce9eeb5ce51535bfbde111316..b0ea7287bbc905107abc00b77f74eec8
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2717,6 +2719,13 @@ public final class CraftServer implements Server {
+@@ -2724,6 +2726,13 @@ public final class CraftServer implements Server {
              return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
          }
  
@@ -388,7 +388,7 @@ index 7d32e55779feac8ce9eeb5ce51535bfbde111316..b0ea7287bbc905107abc00b77f74eec8
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index d78aec7fb361ad17cad7842c00594692aecab480..8840922d362720c3431f0bd33399f6219cd9b02d 100644
+index c1b2ef753a67d81badd82d7e3330ed9af0dc6618..7300dcd97e908b434abacba53a34f04ed7e48d3d 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -151,6 +151,14 @@ public class Main {

@@ -29,7 +29,7 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 3c243b58be83ca2dddccf6403d35df184be55f2e..ad8ff606de3301792c101681fb7f498eef397222 100644
+index 676df1304e9ae78794bbb5c10520954caff935aa..92ee17b311c9077509de87a343d6972533151634 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1115,6 +1115,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -52,10 +52,10 @@ index 3c243b58be83ca2dddccf6403d35df184be55f2e..ad8ff606de3301792c101681fb7f498e
                  this.mayHaveDelayedTasks = true;
                  this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b0ea7287bbc905107abc00b77f74eec8c3e4a8db..9e4b898ad80c5c181c5f07be6ccdd40fc6ad1251 100644
+index 5f3204513b809a7550f0bd9dfd0f7f70e8a7d955..22cfb88492dcbbf2dd558ba223b07ac9d8777c9e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2901,4 +2901,12 @@ public final class CraftServer implements Server {
+@@ -2908,4 +2908,12 @@ public final class CraftServer implements Server {
      }
  
      // Paper end

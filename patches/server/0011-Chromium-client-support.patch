@@ -5,7 +5,7 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index c8057f98e16ba6e19640e0b250e5201e0f4f57db..744fed401605781b11e244022b90beaaf5f5e023 100644
+index 353463084d90eb684717e65c56da52cd25a1e375..4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -260,6 +260,7 @@ public class ServerPlayer extends Player {
@@ -17,7 +17,7 @@ index c8057f98e16ba6e19640e0b250e5201e0f4f57db..744fed401605781b11e244022b90beaa
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 630a762b71861bfe21c47a11d4fe05e1a3b7d339..e5792e89844c10c6af84f46dfb2ba2acf7a92c68 100644
+index 1290f1c33062b2ea821abca33433a53662b6d340..3eab75be4dbe694eae179c0d86e4e665e1ec3a66 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -3375,6 +3375,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
@@ -44,10 +44,10 @@ index 630a762b71861bfe21c47a11d4fe05e1a3b7d339..e5792e89844c10c6af84f46dfb2ba2ac
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index abcce6bd0b32d0188751393a6f56f2e82530912c..6e50f76dc6a73ef6d0e2f0aa57bfea464fabe1f9 100644
+index 287520f91e22309e1268be1940e0fafb628980a9..e7b591ddc7926d4ded85c2b630a2f1c2c4f41443 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2784,6 +2784,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2791,6 +2791,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
      // Paper end
  
