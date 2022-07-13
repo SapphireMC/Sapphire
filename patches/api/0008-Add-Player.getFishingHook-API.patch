@@ -6,10 +6,10 @@ Subject: [PATCH] Add Player.getFishingHook API
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index ef3e3bae602fd47cd23f03bc87f8f4d565564a8a..c2a84d20ddf184d5590d88675ef9a4f65a97c676 100644
+index ef3e3bae602fd47cd23f03bc87f8f4d565564a8a..218e00a11cd06a2bcbc9b1a26a77b8da01242c85 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2701,13 +2701,21 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2701,13 +2701,25 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      String getClientBrandName();
      // Paper end
  
@@ -26,9 +26,13 @@ index ef3e3bae602fd47cd23f03bc87f8f4d565564a8a..c2a84d20ddf184d5590d88675ef9a4f6
 +     * Gets the current {@link FishHook} a player has attached.
 +     *
 +     * @return current fisging hook or null if the player is not fishing
++     * @deprecated use {@link HumanEntity#getFishHook()}
 +     */
 +    @Nullable
-+    FishHook getFishingHook();
++    @Deprecated
++    default FishHook getFishingHook() {
++        return getFishHook();
++    }
      // Sapphire end
  
      @NotNull
