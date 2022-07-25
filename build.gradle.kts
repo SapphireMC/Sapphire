@@ -65,8 +65,13 @@ paperweight {
     remapRepo.set("https://maven.fabricmc.net/")
     decompileRepo.set("https://maven.quiltmc.org/repository/release/")
 
-    usePaperUpstream(providers.gradleProperty("paperRef")) {
-        withPaperPatcher {
+    useStandardUpstream("purpur") {
+        url.set(github("PurpurMC", "Purpur"))
+        ref.set(providers.gradleProperty("purpurRef"))
+
+        withStandardPatcher {
+            baseName("Purpur")
+
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
             apiOutputDir.set(layout.projectDirectory.dir("sapphire-api"))
 
