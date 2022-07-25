@@ -93,7 +93,7 @@ index 20cdfdb3b9351f74e89bc45b3ab972384165659a..efda6c6064f4cd07926ec7c11941be22
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 19a64b582bc042e426220e080d9c21b3a82cf3f7..8958fc3438ba3915d5473f680d8341552b69dd59 100644
+index 76b9beb0d8ebeee0f603d2740ba71beabbf19e25..f35688e2843851c5577b004d88fa3bdee35fb7d7 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -540,6 +540,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -153,7 +153,7 @@ index 19a64b582bc042e426220e080d9c21b3a82cf3f7..8958fc3438ba3915d5473f680d834155
              // Suppress during worldgen
              if (this.valid) {
                  Bukkit.getPluginManager().callEvent(event);
-@@ -4331,10 +4343,16 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4339,10 +4351,16 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
  
          if (this.removalReason.shouldDestroy()) {

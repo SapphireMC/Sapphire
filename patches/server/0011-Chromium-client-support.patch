@@ -17,10 +17,10 @@ index 353463084d90eb684717e65c56da52cd25a1e375..4e8cb41cc82b1553f7a9c84e44b28ed5
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 1290f1c33062b2ea821abca33433a53662b6d340..3eab75be4dbe694eae179c0d86e4e665e1ec3a66 100644
+index 935c482be4bf3767e197a576d0e38eac51115dd4..037ec4f5bcecf7fee2a026bcbad6681f79144f83 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3375,6 +3375,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3381,6 +3381,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
  
@@ -29,7 +29,7 @@ index 1290f1c33062b2ea821abca33433a53662b6d340..3eab75be4dbe694eae179c0d86e4e665
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -3398,6 +3400,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3404,6 +3406,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
                  ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
                  this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
@@ -44,14 +44,14 @@ index 1290f1c33062b2ea821abca33433a53662b6d340..3eab75be4dbe694eae179c0d86e4e665
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 287520f91e22309e1268be1940e0fafb628980a9..e7b591ddc7926d4ded85c2b630a2f1c2c4f41443 100644
+index d7ba155d9485128f4c7ad8ab4a2b7302a86aeb67..723cadb7fa7842fce27aa601a0745cc1b96d10c6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2791,6 +2791,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2870,6 +2870,13 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
      }
      // Paper end
  
-+    // Sapphire start - Chromium client support
++    // Sapphire start
 +    @Override
 +    public boolean usesChromiumClient() {
 +        return getHandle().chromiumClient;

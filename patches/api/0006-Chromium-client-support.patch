@@ -5,14 +5,14 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index c0fc38cacf441273e8430dda31958c15a48fc9b6..ef3e3bae602fd47cd23f03bc87f8f4d565564a8a 100644
+index b39afbcd1fa88a7f00cd5f4482d52f2d089497dc..637fbbceac1ad88daec867b81292d84546c179be 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2701,6 +2701,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-     String getClientBrandName();
-     // Paper end
+@@ -2766,6 +2766,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+     void lookAt(@NotNull org.bukkit.entity.Entity entity, @NotNull io.papermc.paper.entity.LookAnchor playerAnchor, @NotNull io.papermc.paper.entity.LookAnchor entityAnchor);
+     // Paper end - Teleport API
  
-+    // Sapphire start - Chromium client support
++    // Sapphire start
 +    /**
 +     * Allows you to get if player uses Chromium Client
 +     *

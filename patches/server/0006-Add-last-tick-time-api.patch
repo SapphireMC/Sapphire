@@ -29,10 +29,10 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 676df1304e9ae78794bbb5c10520954caff935aa..92ee17b311c9077509de87a343d6972533151634 100644
+index 7c9306ed3e821cc7764193ee267bc94d4c4355eb..1827533678a9693ff111fe0d6d90246772785ea4 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1115,6 +1115,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1116,6 +1116,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -41,7 +41,7 @@ index 676df1304e9ae78794bbb5c10520954caff935aa..92ee17b311c9077509de87a343d69725
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1184,7 +1186,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1185,7 +1187,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  this.nextTickTime += 50L;
                  this.startMetricsRecordingTick();
                  this.profiler.push("tick");
@@ -52,7 +52,7 @@ index 676df1304e9ae78794bbb5c10520954caff935aa..92ee17b311c9077509de87a343d69725
                  this.mayHaveDelayedTasks = true;
                  this.delayedTasksMaxNextTickTime = Math.max(Util.getMillis() + 50L, this.nextTickTime);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5f3204513b809a7550f0bd9dfd0f7f70e8a7d955..22cfb88492dcbbf2dd558ba223b07ac9d8777c9e 100644
+index 682ad7477316ab5e866e7c441c4c1cdf56f9922c..d3cbb48bd0a51dd94aaeed31c3ea1b4b296aae24 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -2908,4 +2908,12 @@ public final class CraftServer implements Server {
