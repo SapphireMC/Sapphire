@@ -5,7 +5,7 @@ Subject: [PATCH] Add GameProfileLookupEvent
 
 
 diff --git a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
-index d945ea3484d0350096046d43112490b94e3b9bcd..3c26e32832bcc6a89e78d84da9dec7ee09129321 100644
+index 3ff790cec1ad89caec4be64421dd7d51652be598..620a273d0a5d5fd5e8afe7c95e4460b9f6620ba0 100644
 --- a/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 +++ b/src/main/java/com/destroystokyo/paper/profile/CraftPlayerProfile.java
 @@ -226,12 +226,23 @@ public class CraftPlayerProfile implements PlayerProfile, SharedPlayerProfile {
