@@ -5,25 +5,26 @@ Subject: [PATCH] Sapphire config files
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index 06bff37e4c1fddd3be6343049a66787c63fb420c..c5e169b1bdad7ac796b16a63a0b782847afcabb5 100644
+index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..fe104c36773f8e8f095a6c075919f0ba8c5e2fc5 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -241,7 +241,8 @@ public class TimingsExport extends Thread {
-         parent.put("config", createObject(
+@@ -245,8 +245,9 @@ public class TimingsExport extends Thread {
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
-             pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
--            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null))
-+            pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
-+            pair("sapphire", mapAsJSON(Bukkit.spigot().getSapphireConfig(), null))
+             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
+             pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
+-            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null))
++            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null)),
+             // Purpur end
++            pair("sapphire", mapAsJSON(Bukkit.spigot().getSapphireConfig(), null)) // Sapphire
          ));
  
          new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1b9aa1fa1de0842b3b1d8a3af1623ca1d0ac6769
+index 0000000000000000000000000000000000000000..1e10cd5eb8c8274b8355b57703f0b7f19eb6167d
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -0,0 +1,175 @@
+@@ -0,0 +1,186 @@
 +package io.sapphiremc.sapphire;
 +
 +import com.google.common.base.Throwables;
@@ -31,6 +32,7 @@ index 0000000000000000000000000000000000000000..1b9aa1fa1de0842b3b1d8a3af1623ca1
 +import org.bukkit.Bukkit;
 +import org.bukkit.configuration.InvalidConfigurationException;
 +import org.bukkit.configuration.file.YamlConfiguration;
++import org.purpurmc.purpur.PurpurConfig;
 +
 +import java.io.File;
 +import java.io.IOException;
@@ -71,9 +73,21 @@ index 0000000000000000000000000000000000000000..1b9aa1fa1de0842b3b1d8a3af1623ca1
 +        config.options().copyDefaults(true);
 +        verbose = getBoolean("verbose", false);
 +
-+        version = getInt("config-version", 1);
-+        set("config-version", 1);
++        version = getInt("config-version", 2);
++        updateConfig();
++        set("config-version", 2);
 +        readConfig(SapphireConfig.class, null);
++    }
++
++    private static void updateConfig() {
++        if (version == 1) {
++            String s = config.getString("general.server-mod-name");
++            if (s != null) {
++                Bukkit.getLogger().warning("The general.server-mod-name setting in sapphire.yml will be removed as purpur.yml already contains such a setting. The value will be moved to purpur.yml");
++                PurpurConfig.setServerModName(s);
++                set("general.server-mod-name", null);
++            }
++        }
 +    }
 +
 +    protected static void log(String s) {
@@ -188,10 +202,8 @@ index 0000000000000000000000000000000000000000..1b9aa1fa1de0842b3b1d8a3af1623ca1
 +    }
 +
 +    public static boolean debug = false;
-+    public static String serverModName = "Sapphire";
 +    private static void general() {
 +        debug = getBoolean("general.debug", debug);
-+        serverModName = getString("general.server-mod-name", serverModName);
 +    }
 +
 +    public static boolean disableEntityStuckChecks = false;
@@ -269,27 +281,14 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +        return config.getList("world-settings." + worldName + "." + path, config.getList("world-settings.default." + path));
 +    }
 +}
-diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index f578958346f030246a7baba0d204eb40b9d00f51..7c9306ed3e821cc7764193ee267bc94d4c4355eb 100644
---- a/src/main/java/net/minecraft/server/MinecraftServer.java
-+++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1655,7 +1655,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
- 
-     @DontObfuscate
-     public String getServerModName() {
--        return "Sapphire"; // Sapphire - Sapphire // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
-+        return io.sapphiremc.sapphire.SapphireConfig.serverModName; // Sapphire - use server mod name from sapphire config // Paper - Paper > // Spigot - Spigot > // CraftBukkit - cb > vanilla!
-     }
- 
-     public SystemReport fillSystemReport(SystemReport details) {
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index b42327dcf0cc9feaf4fdb67de949dd36cf71bbaa..35fd63a1ffb65bb3b6c5b7435a9d6523a43e1436 100644
+index 13b0f7fb6bc2d8c1fc23e71d7bb2cc86b6efa1ef..77e735dd805e198885f1a1df8618208f1e697498 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -226,6 +226,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         com.destroystokyo.paper.VersionHistoryManager.INSTANCE.getClass(); // load version history now
-         io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
+@@ -237,6 +237,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          // Paper end
+         gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
+         gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
 +        // Sapphire start
 +        try {
 +            io.sapphiremc.sapphire.SapphireConfig.init((java.io.File) options.valueOf("sapphire-settings"));
@@ -302,38 +301,20 @@ index b42327dcf0cc9feaf4fdb67de949dd36cf71bbaa..35fd63a1ffb65bb3b6c5b7435a9d6523
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 279051442ac6cf288a03a16a35ddbf66d1cd1e90..02ac19527f487df5ae4ade8d866ea86478722aa7 100644
+index 8872a9e62619f86288bc4a4e02eb49744c315cf9..fe01454e355997767006a8844ec61a7740fa0813 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -399,16 +399,18 @@ public abstract class LivingEntity extends Entity {
+@@ -404,6 +404,8 @@ public abstract class LivingEntity extends Entity {
+ 
          if (this.isAlive()) {
              boolean flag = this instanceof net.minecraft.world.entity.player.Player;
- 
--            if (this.isInWall()) {
--                this.hurt(DamageSource.IN_WALL, 1.0F);
--            } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
--                double d0 = this.level.getWorldBorder().getDistanceToBorder(this) + this.level.getWorldBorder().getDamageSafeZone();
-+            if (!io.sapphiremc.sapphire.SapphireConfig.disableEntityStuckChecks) { // Sapphire
-+                if (this.isInWall()) {
-+                    this.hurt(DamageSource.IN_WALL, 1.0F);
-+                } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
-+                    double d0 = this.level.getWorldBorder().getDistanceToBorder(this) + this.level.getWorldBorder().getDamageSafeZone();
- 
--                if (d0 < 0.0D) {
--                    double d1 = this.level.getWorldBorder().getDamagePerBlock();
-+                    if (d0 < 0.0D) {
-+                        double d1 = this.level.getWorldBorder().getDamagePerBlock();
- 
--                    if (d1 > 0.0D) {
--                        this.hurt(DamageSource.IN_WALL, (float) Math.max(1, Mth.floor(-d0 * d1)));
-+                        if (d1 > 0.0D) {
-+                            this.hurt(DamageSource.IN_WALL, (float) Math.max(1, Mth.floor(-d0 * d1)));
-+                        }
-                     }
-                 }
-             }
++
++            if (!io.sapphiremc.sapphire.SapphireConfig.disableEntityStuckChecks) // Sapphire
+             if ((!gg.pufferfish.pufferfish.PufferfishConfig.enableSuffocationOptimization || (tickCount % 10 == 0 && couldPossiblyBeHurt(1.0F))) && this.isInWall()) { // Pufferfish - optimize suffocation
+                 this.hurt(DamageSource.IN_WALL, 1.0F);
+             } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 9467ccaa1d73e1913495a46919aee530e749977d..20a93e4320a21f93359c77f7ec640928f9fb0dc4 100644
+index ee54cbdaecbdd285fe3f74f902f01f964b569521..68514bd9834a5e8b491a6d8449919ca01b74781b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -172,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -343,38 +324,38 @@ index 9467ccaa1d73e1913495a46919aee530e749977d..20a93e4320a21f93359c77f7ec640928
 +    public final io.sapphiremc.sapphire.SapphireWorldConfig sapphireConfig; // Sapphire
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
-     public final co.aikar.timings.WorldTimingsHandler timings; // Paper
-@@ -274,6 +275,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
-     protected Level(WritableLevelData worlddatamutable, ResourceKey<Level> resourcekey, Holder<DimensionType> holder, Supplier<ProfilerFiller> supplier, boolean flag, boolean flag1, long i, int j, org.bukkit.generator.ChunkGenerator gen, org.bukkit.generator.BiomeProvider biomeProvider, org.bukkit.World.Environment env, java.util.function.Function<org.spigotmc.SpigotWorldConfig, io.papermc.paper.configuration.WorldConfiguration> paperWorldConfigCreator, java.util.concurrent.Executor executor) { // Paper - Async-Anti-Xray - Pass executor
-         this.spigotConfig = new org.spigotmc.SpigotWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Spigot
+     public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
+@@ -332,6 +333,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
+         this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
+         this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
 +        this.sapphireConfig = new io.sapphiremc.sapphire.SapphireWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName()); // Sapphire
          this.generator = gen;
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5088d985026f9bb031a4e878f5a392605d0d7bf0..682ad7477316ab5e866e7c441c4c1cdf56f9922c 100644
+index cc0774a2353e2674a575e5628b14f48b673a7e5c..e81606991f1a4807610c59afb58139a557e57b00 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -959,6 +959,7 @@ public final class CraftServer implements Server {
- 
+@@ -991,6 +991,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
+         org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
 +        io.sapphiremc.sapphire.SapphireConfig.init((File) console.options.valueOf("sapphire-settings")); // Sapphire
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -974,6 +975,7 @@ public final class CraftServer implements Server {
-                 }
+@@ -1007,6 +1008,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
+             world.purpurConfig.init(); // Purpur
 +            world.sapphireConfig.init(); // Sapphire
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2724,6 +2726,13 @@ public final class CraftServer implements Server {
-             return CraftServer.this.console.paperConfigurations.createLegacyObject(CraftServer.this.console);
+@@ -2789,6 +2791,13 @@ public final class CraftServer implements Server {
          }
+         // Purpur end
  
 +        // Sapphire start
 +        @Override
@@ -387,7 +368,7 @@ index 5088d985026f9bb031a4e878f5a392605d0d7bf0..682ad7477316ab5e866e7c441c4c1cdf
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index c1b2ef753a67d81badd82d7e3330ed9af0dc6618..7300dcd97e908b434abacba53a34f04ed7e48d3d 100644
+index 672dba24206df55f11a9d3b50829985ae41efaba..8f3c0d6a054cce1e6e8ba67108081eb5ae6ba1a2 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -151,6 +151,14 @@ public class Main {
@@ -405,3 +386,27 @@ index c1b2ef753a67d81badd82d7e3330ed9af0dc6618..7300dcd97e908b434abacba53a34f04e
                  acceptsAll(asList("add-plugin", "add-extra-plugin-jar"), "Specify paths to extra plugin jars to be loaded in addition to those in the plugins folder. This argument can be specified multiple times, once for each extra plugin jar path.")
                          .withRequiredArg()
                          .ofType(File.class)
+diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+index d44b8ce90db7c6c27f71aa841d6fb64b159b7b42..b912117e95f1b745a94f8ff834711470ceec5477 100644
+--- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
++++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
+@@ -235,6 +235,19 @@ public class PurpurConfig {
+         if (!TimingsManager.hiddenConfigs.contains("settings.seed")) TimingsManager.hiddenConfigs.add("settings.seed");
+     }
+ 
++    // Sapphire start - move server mod name from sapphire.yml to purpur.yml
++    public static void setServerModName(String s) {
++        if (serverModName.equals("Purpur")) {
++            set("settings.server-mod-name", s);
++            try {
++                config.save(CONFIG_FILE);
++            } catch (IOException ex) {
++                Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
++            }
++        }
++    }
++    // Sapphire end
++
+     public static String serverModName = "Purpur";
+     private static void serverModName() {
+         serverModName = getString("settings.server-mod-name", serverModName);

@@ -3690,13 +3690,13 @@ index 5c8517c5bcae10161952c104b6a4ff7c713bcdbd..12df0126e1437765d7352f93be81e66d
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 03b35d3ba8ba00c0fa0272450f19355244a014ea..402fde605b1d2005767008f9a3fbaedf9022f3dd 100644
+index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..d2526e07c435a52d85081b6eebc199593d6e5bf9 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -897,4 +897,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -935,4 +935,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
-     boolean isInPowderedSnow();
-     // Paper end
+     boolean isInDaylight();
+     // Purpur end
 +
 +    // Sapphire start
 +    /**
@@ -3721,13 +3721,13 @@ index 03b35d3ba8ba00c0fa0272450f19355244a014ea..402fde605b1d2005767008f9a3fbaedf
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/inventory/ItemStack.java b/src/main/java/org/bukkit/inventory/ItemStack.java
-index b8a344fd900dcbd4b28085a54b85b16c742e9c6f..2f62877b1bbd2a56faf36f492e6d98ac386a95f2 100644
+index 91444a8bb400d1db36df118c8c24645c26fa72be..80e7eedba15f01df13787d9a5f3b0f7402ceaf1d 100644
 --- a/src/main/java/org/bukkit/inventory/ItemStack.java
 +++ b/src/main/java/org/bukkit/inventory/ItemStack.java
-@@ -978,4 +978,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
-         return Bukkit.getUnsafe().isValidRepairItemStack(toBeRepaired, this);
+@@ -1612,4 +1612,42 @@ public class ItemStack implements Cloneable, ConfigurationSerializable, net.kyor
+         return random.nextInt(unbreaking + 1) > 0;
      }
-     // Paper end
+     // Purpur end
 +
 +    // Sapphire start
 +    /**
@@ -3768,10 +3768,10 @@ index b8a344fd900dcbd4b28085a54b85b16c742e9c6f..2f62877b1bbd2a56faf36f492e6d98ac
 +    // Sapphire end
  }
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index bbe81f7a420f913ffdcad913a3c43ff41ead41f5..9efd19904816658bad892393a9a07aa2c399d293 100644
+index 49de298146814fdf238929e10270ac6717dd73bd..bf66bf06eca3a04dc972c6495b5f43ce5b285660 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
-@@ -57,8 +57,45 @@ public class AnnotationTest {
+@@ -61,8 +61,45 @@ public class AnnotationTest {
          "co/aikar/timings/TimingHistory$2$1$2",
          "co/aikar/timings/TimingHistory$3",
          "co/aikar/timings/TimingHistory$4",

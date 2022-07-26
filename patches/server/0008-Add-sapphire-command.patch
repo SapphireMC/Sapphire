@@ -89,10 +89,10 @@ index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 93057d47ac360b790d7ad3e781314ed2adfc16af..16ae8849722cf92aea95e8c468da28c86bf0dd55 100644
+index 77e735dd805e198885f1a1df8618208f1e697498..5354b5c4bf030166a03b6a127bd0ad5554b5a716 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -233,6 +233,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -244,6 +244,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.error("Unable to load sapphire configuration", e);
              return false;
          }

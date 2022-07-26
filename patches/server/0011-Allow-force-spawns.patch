@@ -6,10 +6,10 @@ Subject: [PATCH] Allow force spawns
 Ported from EmpireCraft
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index 1a918eabbaaed26d9bdf5c01e0488b5a117ba516..938f70ed76d7e32250be23769a11e1b69b80eadb 100644
+index 655b9e8ffb941a0777f3895bf39c38fe488dbfa4..c1a1b0dbff82e0bd70dd3d205915543f984b4dcb 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1368,7 +1368,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1449,7 +1449,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
          // since it is only an implementation detail, that a new entity is created when
          // they are traveling between worlds.
@@ -19,10 +19,10 @@ index 1a918eabbaaed26d9bdf5c01e0488b5a117ba516..938f70ed76d7e32250be23769a11e1b6
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 03d389f3458cd77166a0319fa38c7207e8714e6f..8d510cb149665ccb009576647898fee8fb8052e6 100644
+index 902e420d19288df124da2292a60f95e97afb9fee..25bcd76ac7ab153766b9970eb13502684099ec35 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -702,7 +702,7 @@ public class CraftEventFactory {
+@@ -711,7 +711,7 @@ public class CraftEventFactory {
              event = CraftEventFactory.callEntitySpawnEvent(entity);
          }
  
