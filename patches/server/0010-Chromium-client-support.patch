@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 353463084d90eb684717e65c56da52cd25a1e375..4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb 100644
+index 5f0d934399991ae94795ad0a94da689c242ffeba..01eeeb4437498512724d476fda000c53965fe53c 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -260,6 +260,7 @@ public class ServerPlayer extends Player {
+@@ -261,6 +261,7 @@ public class ServerPlayer extends Player {
      public Integer clientViewDistance;
      // CraftBukkit end
      public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper

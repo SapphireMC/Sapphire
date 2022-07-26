@@ -39,10 +39,10 @@ index 938f70ed76d7e32250be23769a11e1b69b80eadb..e2c64880c485ca728a730fb321ce0d60
          }
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb..04117823f0084c51df809363134c24a1b1df76dd 100644
+index 01eeeb4437498512724d476fda000c53965fe53c..6e0639bb0df56960550ac80dd148bdaded257cec 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1682,10 +1682,11 @@ public class ServerPlayer extends Player {
+@@ -1683,10 +1683,11 @@ public class ServerPlayer extends Player {
  
      public void disconnect() {
          this.disconnected = true;
@@ -55,7 +55,7 @@ index 4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb..04117823f0084c51df809363134c24a1
              this.stopRiding();
          }
          // Paper end
-@@ -1844,6 +1845,7 @@ public class ServerPlayer extends Player {
+@@ -1845,6 +1846,7 @@ public class ServerPlayer extends Player {
              this.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.CHANGE_GAME_MODE, (float) gameMode.getId()));
              if (gameMode == GameType.SPECTATOR) {
                  this.removeEntitiesOnShoulder();
@@ -63,7 +63,7 @@ index 4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb..04117823f0084c51df809363134c24a1
                  this.stopRiding();
              } else {
                  this.setCamera(this);
-@@ -2042,7 +2044,7 @@ public class ServerPlayer extends Player {
+@@ -2043,7 +2045,7 @@ public class ServerPlayer extends Player {
  
          if (entity != this) {
              // Make sure we're in the right place
@@ -72,7 +72,7 @@ index 4e8cb41cc82b1553f7a9c84e44b28ed5013abbdb..04117823f0084c51df809363134c24a1
              this.getBukkitEntity().teleport(new Location(entity.getCommandSenderWorld().getWorld(), entity.getX(), entity.getY(), entity.getZ(), this.getYRot(), this.getXRot()), TeleportCause.SPECTATE); // Correctly handle cross-world entities from api calls by using CB teleport
  
              // Make sure we're tracking the entity before sending
-@@ -2110,6 +2112,7 @@ public class ServerPlayer extends Player {
+@@ -2111,6 +2113,7 @@ public class ServerPlayer extends Player {
      public void teleportTo(ServerLevel worldserver, double d0, double d1, double d2, float f, float f1, org.bukkit.event.player.PlayerTeleportEvent.TeleportCause cause) {
          // CraftBukkit end
          this.setCamera(this);
@@ -93,7 +93,7 @@ index 20cdfdb3b9351f74e89bc45b3ab972384165659a..efda6c6064f4cd07926ec7c11941be22
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 76b9beb0d8ebeee0f603d2740ba71beabbf19e25..f35688e2843851c5577b004d88fa3bdee35fb7d7 100644
+index 99f454b4a3a12fb9bf8e1d506ab311e4166700da..f977be90ee986984bdf39aa1ef2c2728debc445c 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -540,6 +540,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
