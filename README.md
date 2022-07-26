@@ -2,9 +2,9 @@
 [downloads]: https://github.com/SapphireMC/Sapphire/releases/
 [wiki]: https://github.com/SapphireMC/Sapphire/wiki/
 
-# Sapphire
+# Sapphire purpur edition
 
-Paper fork that is used on our server.
+Another purpur fork
 
 [Downloads][downloads] - [wiki (coming soon)][wiki]
 
@@ -19,7 +19,7 @@ Paper fork that is used on our server.
 ```xml
 <repository>
     <id>sapphiremc</id>
-    <url>http://repo.denaryworld.ru/snapshots/</url>
+    <url>http://repo.denaryworld.ru/purpur/</url>
 </repository>
 ```
 ```xml
@@ -36,7 +36,7 @@ Paper fork that is used on our server.
 ```groovy
 repositories {
     maven {
-        url 'http://repo.denaryworld.ru/snapshots/'
+        url 'http://repo.denaryworld.ru/purpur/'
         allowInsecureProtocol = true
     }
 }
@@ -51,7 +51,7 @@ dependencies {
 #### Gradle kotlin
 ```kotlin
 repositories {
-    maven("http://repo.denaryworld.ru/snapshots/") {
+    maven("http://repo.denaryworld.ru/purpur/") {
         isAllowInsecureProtocol = true
     }
 }
