@@ -88,7 +88,7 @@ index acd95cf1dc7f009b63e44e4404e1736283fd458e..11d1b086f3cb233fdfbf6fdb279ff338
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index fba5dbdb7bcbb55400ef18342c9b54612972a718..cd602b224a47682ce56cadd3004f5aa3a919411b 100644
+index fba5dbdb7bcbb55400ef18342c9b54612972a718..9f95d698462243bd38ba2a71ee0e47ef6ad66c84 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
@@ -107,7 +107,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..cd602b224a47682ce56cadd3004f5aa3
 -        String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]"); // Purpur
 -        final Component updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", "ver/" + getMinecraftVersion(), parts[0]); // Purpur
 +        String[] parts = serverVersion.substring("git-Sapphire-".length()).split("[-\\s]"); // Sapphire
-+        final Component updateMessage = getUpdateStatusMessage("SapphireMC/Sapphire", "purpur/" + getMinecraftVersion(), parts[0]); // Sapphire
++        final Component updateMessage = getUpdateStatusMessage("SapphireMC/Sapphire", "ver/" + getMinecraftVersion(), parts[0]); // Sapphire
          final Component history = getHistory();
  
          return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur

@@ -6,10 +6,10 @@ Subject: [PATCH] Add Player.getFishingHook API
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 02b59ab102ccf59f9c420e80c06fe9db10140a76..9138c69f8ae7d0b982ccfe7914c69e448f2caa79 100644
+index 58aee8efafa09561f5b1f7a16283d32e6ad40f8a..7b5f952fd37f1454a4cf8e8abdb2afd9679b8756 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2773,6 +2773,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2780,6 +2780,18 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       * @return True if Player uses Chromium Client
       */
      boolean usesChromiumClient();

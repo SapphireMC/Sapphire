@@ -90,7 +90,7 @@ tasks.generateDevelopmentBundle {
             "https://repo.maven.apache.org/maven2/",
             "https://repo.papermc.io/repository/maven-public/",
             "https://maven.quiltmc.org/repository/release/",
-            "http://repo.denaryworld.ru/purpur/",
+            "http://repo.denaryworld.ru/snapshots/",
         )
     )
 }
@@ -113,7 +113,7 @@ allprojects {
     // ./gradlew :sapphire-api:publish[ToMavenLocal]
     publishing {
         repositories {
-            maven("http://repo.denaryworld.ru/purpur/") {
+            maven("http://repo.denaryworld.ru/snapshots/") {
                 name = "SapphireMC"
                 isAllowInsecureProtocol = true
                 credentials(PasswordCredentials::class)

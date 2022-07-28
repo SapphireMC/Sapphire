@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index a8a3de5b23e4e5ce5d7d5bb84d85c3a7d62431ac..bb1ce0d9e583fcd236018e381eeb032fbee31c51 100644
+index 1013618b91df8b2bdf2aa3f5f9f91f0af5a8a7f0..d2a70c7a25ba7ff2003e6158ea0470dce6549b75 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -264,6 +264,7 @@ public class ServerPlayer extends Player {
+@@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
      public boolean acceptingResourcePack = false; // Purpur
      private boolean tpsBar = false; // Purpur
      private boolean compassBar = false; // Purpur
@@ -17,10 +17,10 @@ index a8a3de5b23e4e5ce5d7d5bb84d85c3a7d62431ac..bb1ce0d9e583fcd236018e381eeb032f
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 2b3640dc691bf04e8e463a219551c98703647216..42874acf9934f442893e22db37c3218e397e8f5e 100644
+index 322bb76994dc3bf3eb21ac6c41c6d744743c766f..1deca736062d44ffa5c8b9c6988597ce6b44a95c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3484,6 +3484,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3704,6 +3704,8 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
  
@@ -29,7 +29,7 @@ index 2b3640dc691bf04e8e463a219551c98703647216..42874acf9934f442893e22db37c3218e
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
          PacketUtils.ensureRunningOnSameThread(packet, this, this.player.getLevel());
-@@ -3514,6 +3516,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Ser
+@@ -3734,6 +3736,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -44,10 +44,10 @@ index 2b3640dc691bf04e8e463a219551c98703647216..42874acf9934f442893e22db37c3218e
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 619e73ff2270bbfab93c11dabdae95c601362342..e7d799e43f4f0336df1c2a9632b777cd1adfd552 100644
+index 753ef343b7daab339a4308935e3cec86e49481f0..f7d22d565f5d978b987d6d1e8c9e94787aa1add9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -2958,4 +2958,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -2964,4 +2964,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          return getHandle().flyingFallDamage;
      }
      // Purpur end

@@ -2,7 +2,7 @@
 [downloads]: https://github.com/SapphireMC/Sapphire/releases/
 [wiki]: https://github.com/SapphireMC/Sapphire/wiki/
 
-# Sapphire purpur edition
+# Sapphire
 
 Another purpur fork
 
@@ -19,7 +19,7 @@ Another purpur fork
 ```xml
 <repository>
     <id>sapphiremc</id>
-    <url>http://repo.denaryworld.ru/purpur/</url>
+    <url>http://repo.denaryworld.ru/snapshots/</url>
 </repository>
 ```
 ```xml
@@ -27,7 +27,7 @@ Another purpur fork
     <groupId>io.sapphiremc.sapphire</groupId>
     <!-- For API use sapphire-api, for Server use sapphire-server -->
     <artifactId>sapphire-api</artifactId>
-    <version>1.19-R0.1-SNAPSHOT</version>
+    <version>1.19.1-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
 ```
@@ -36,7 +36,7 @@ Another purpur fork
 ```groovy
 repositories {
     maven {
-        url 'http://repo.denaryworld.ru/purpur/'
+        url 'http://repo.denaryworld.ru/snapshots/'
         allowInsecureProtocol = true
     }
 }
@@ -44,14 +44,14 @@ repositories {
 ```groovy
 dependencies {
     // For API use sapphire-api, for Server use sapphire-server
-    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19-R0.1-SNAPSHOT'
+    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.1-R0.1-SNAPSHOT'
 }
 ```
 
 #### Gradle kotlin
 ```kotlin
 repositories {
-    maven("http://repo.denaryworld.ru/purpur/") {
+    maven("http://repo.denaryworld.ru/snapshots/") {
         isAllowInsecureProtocol = true
     }
 }
@@ -59,7 +59,7 @@ repositories {
 ```kotlin
 dependencies {
     // For API use sapphire-api, for Server use sapphire-server
-    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19-R0.1-SNAPSHOT")
+    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.1-R0.1-SNAPSHOT")
 }
 ```
 
