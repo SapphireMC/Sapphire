@@ -6,10 +6,10 @@ Subject: [PATCH] Add sapphire command
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4fdca37c2
+index 0000000000000000000000000000000000000000..0bba66fbe64a160010222e2d1fee1179dceebec1
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-@@ -0,0 +1,78 @@
+@@ -0,0 +1,111 @@
 +package io.sapphiremc.sapphire;
 +
 +import io.papermc.paper.util.JarManifests;
@@ -17,13 +17,18 @@ index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4
 +import net.md_5.bungee.api.ChatColor;
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.Bukkit;
++import org.bukkit.Location;
 +import org.bukkit.command.Command;
 +import org.bukkit.command.CommandSender;
 +import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
 +
 +import java.io.File;
++import java.util.ArrayList;
++import java.util.Collection;
 +import java.util.Collections;
 +import java.util.List;
++import java.util.Set;
 +import java.util.stream.Collectors;
 +import java.util.stream.Stream;
 +
@@ -56,25 +61,53 @@ index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4
 +        if (!testPermission(sender)) return true;
 +        String prefix = ChatColor.of("#004EFF") + "" + ChatColor.BOLD + "Sapphire " + ChatColor.of("#1F2B44") + "▶ " + ChatColor.of("#D4E1FF");
 +
-+        if (args.length != 1) {
++        if (args.length < 1) {
 +            sender.sendMessage(prefix + "Usage: " + usageMessage);
 +            return true;
 +        }
 +
 +        switch (args[0]) {
 +            case "reload" -> {
-+                MinecraftServer console = MinecraftServer.getServer();
-+                SapphireConfig.init((File) console.options.valueOf("sapphire-settings"));
-+                console.server.reloadCount++;
++                if (args.length == 1) {
++                    MinecraftServer console = MinecraftServer.getServer();
++                    SapphireConfig.init((File) console.options.valueOf("sapphire-settings"));
++                    console.server.reloadCount++;
 +
-+                sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
++                    sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
++                }
 +            }
 +            case "ver", "version" -> {
-+                sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
-+                sender.sendMessage(prefix + "Implementing API version " + Bukkit.getBukkitVersion() + " and NMS version " + MinecraftVersion.getVersion().getPackageName());
++                if (args.length == 1) {
++                    sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
++                    sender.sendMessage(prefix + "Implementing API version " + Bukkit.getBukkitVersion() + " and NMS version " + MinecraftVersion.getVersion().getPackageName());
++                }
 +            }
++            default -> sender.sendMessage(prefix + "Usage: " + usageMessage);
 +        }
 +        return true;
++    }
++
++    private final Collection<String> allAliases = Set.of("reload", "version", "ver");
++
++    @Override
++    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args, @Nullable Location location) throws IllegalArgumentException {
++        if (!testPermission(sender)) return Collections.emptyList();
++
++        List<String> aliases = new ArrayList<>();
++
++        if (args.length == 1) {
++            if (args[0].isEmpty()) {
++                aliases.addAll(allAliases);
++            } else {
++                String arg = args[0];
++                aliases.addAll(allAliases.stream()
++                    .filter(s -> s.contains(arg))
++                    .toList()
++                );
++            }
++        }
++
++        return aliases;
 +    }
 +
 +    private String getGitInfo() {
@@ -89,7 +122,7 @@ index 0000000000000000000000000000000000000000..f11a5d19e28cc9c330ac20220a1d76f4
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 77e735dd805e198885f1a1df8618208f1e697498..5354b5c4bf030166a03b6a127bd0ad5554b5a716 100644
+index 28ee5e3645bddb4e850d098e50f8195fa15918ea..e36038677630a120c5e17ea3f63553df1b949fdf 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -244,6 +244,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
