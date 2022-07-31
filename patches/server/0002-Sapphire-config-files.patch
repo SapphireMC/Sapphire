@@ -282,7 +282,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 13b0f7fb6bc2d8c1fc23e71d7bb2cc86b6efa1ef..77e735dd805e198885f1a1df8618208f1e697498 100644
+index 0bfdc4247a651f6c1caf7a95114be68bc7d77d7b..28ee5e3645bddb4e850d098e50f8195fa15918ea 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -237,6 +237,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -301,7 +301,7 @@ index 13b0f7fb6bc2d8c1fc23e71d7bb2cc86b6efa1ef..77e735dd805e198885f1a1df8618208f
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8872a9e62619f86288bc4a4e02eb49744c315cf9..fe01454e355997767006a8844ec61a7740fa0813 100644
+index cd414a9275e6d9f8c704854763b18f4ee43b67b7..6e4aeba81404021da575b01645215f239472edc2 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -404,6 +404,8 @@ public abstract class LivingEntity extends Entity {
@@ -314,7 +314,7 @@ index 8872a9e62619f86288bc4a4e02eb49744c315cf9..fe01454e355997767006a8844ec61a77
                  this.hurt(DamageSource.IN_WALL, 1.0F);
              } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index ee54cbdaecbdd285fe3f74f902f01f964b569521..68514bd9834a5e8b491a6d8449919ca01b74781b 100644
+index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..c702d8e5d0114cb685f8cee2defc88475b26635b 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -172,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -334,7 +334,7 @@ index ee54cbdaecbdd285fe3f74f902f01f964b569521..68514bd9834a5e8b491a6d8449919ca0
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index cc0774a2353e2674a575e5628b14f48b673a7e5c..e81606991f1a4807610c59afb58139a557e57b00 100644
+index 5b02e7e9a47f9a962aa3da062105756863ffa4e0..cfd35158f414745d06ca05b9d003c71c1c680e06 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -991,6 +991,7 @@ public final class CraftServer implements Server {
@@ -353,7 +353,7 @@ index cc0774a2353e2674a575e5628b14f48b673a7e5c..e81606991f1a4807610c59afb58139a5
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2789,6 +2791,13 @@ public final class CraftServer implements Server {
+@@ -2825,6 +2827,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -368,7 +368,7 @@ index cc0774a2353e2674a575e5628b14f48b673a7e5c..e81606991f1a4807610c59afb58139a5
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 672dba24206df55f11a9d3b50829985ae41efaba..8f3c0d6a054cce1e6e8ba67108081eb5ae6ba1a2 100644
+index 01ffcda7d78ba5c274f12a038b45a78392b5e865..4e337171442044b887a93b50ca3cd5c91fc792ab 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -151,6 +151,14 @@ public class Main {

@@ -29,7 +29,7 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index e78170ae888146c2aab6b218f7501b911a70add6..fb42658f477a0a79d1248b23c1bdfda89b8ec10a 100644
+index d678c6e0109dabe93485fb214622a0213c790f26..451b94876d89c1e78eb465bb5f61a29d5701e1b8 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -1134,6 +1134,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -52,10 +52,10 @@ index e78170ae888146c2aab6b218f7501b911a70add6..fb42658f477a0a79d1248b23c1bdfda8
                  this.mayHaveDelayedTasks = true;
                      // Purpur start - tps catchup
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index e81606991f1a4807610c59afb58139a557e57b00..f435fab20ba200103c299e98ff6855ac2cfa0b85 100644
+index cfd35158f414745d06ca05b9d003c71c1c680e06..68362ef482a8cb3f261e3e1a21f93134afe145bb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -2985,4 +2985,12 @@ public final class CraftServer implements Server {
+@@ -3021,4 +3021,12 @@ public final class CraftServer implements Server {
          return getServer().lagging;
      }
      // Purpur end

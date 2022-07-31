@@ -5,11 +5,11 @@ Subject: [PATCH] Add last tick time api
 
 
 diff --git a/src/main/java/org/bukkit/Bukkit.java b/src/main/java/org/bukkit/Bukkit.java
-index 9b9af189b3865055570ba533b97c92c105cc5a37..f89f8c1e5272d0cbcc6489c4d5a7b6b1e8b430d3 100644
+index ef478e1d21e9b134641faa5060152125d5c5ea13..2d919ab426f280b64ad6617f0e367e341c029144 100644
 --- a/src/main/java/org/bukkit/Bukkit.java
 +++ b/src/main/java/org/bukkit/Bukkit.java
-@@ -2468,4 +2468,27 @@ public final class Bukkit {
-         server.removeFuel(material);
+@@ -2552,4 +2552,27 @@ public final class Bukkit {
+         server.clearBlockHighlights();
      }
      // Purpur end
 +
@@ -37,12 +37,12 @@ index 9b9af189b3865055570ba533b97c92c105cc5a37..f89f8c1e5272d0cbcc6489c4d5a7b6b1
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index 689a579eba6100de0d432918ffbbb800b829deb1..29fc0c39f241362fda86a7d7a790c189ff9693d8 100644
+index bd06eb3de61d75820314470b41b24e0d7b26d9aa..9592f7d7312eec80979ad4a070ad679ced09058f 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -2156,4 +2156,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -2226,4 +2226,25 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
       */
-     public void removeFuel(@NotNull Material material);
+     void clearBlockHighlights();
      // Purpur end
 +
 +    // Sapphire start

@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 4766ebb24bdf02a045e2e8aba18b8ae314a0e201..58aee8efafa09561f5b1f7a16283d32e6ad40f8a 100644
+index 5e06858d68f725508e0055de3f5d8c0f6a56601b..e7642be6723849e00989637bb0385505c46b1f00 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2773,6 +2773,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -2792,6 +2792,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      void lookAt(@NotNull org.bukkit.entity.Entity entity, @NotNull io.papermc.paper.entity.LookAnchor playerAnchor, @NotNull io.papermc.paper.entity.LookAnchor entityAnchor);
      // Paper end - Teleport API
  
