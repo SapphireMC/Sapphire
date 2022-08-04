@@ -70,7 +70,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 1013618b91df8b2bdf2aa3f5f9f91f0af5a8a7f0..d2a70c7a25ba7ff2003e6158ea0470dce6549b75 100644
+index fb0980743d765e16e2a1dcf37a00cdb0c68c3350..e840204e5731a423978172520da698902086846a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
@@ -82,10 +82,10 @@ index 1013618b91df8b2bdf2aa3f5f9f91f0af5a8a7f0..d2a70c7a25ba7ff2003e6158ea0470dc
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index eedc75417d06eb8c5ac5ed1885847c4556bd3195..b1960a7acbfd053a033c039c25e0dd337f5098b7 100644
+index e766dbabf6e0868d79f33aef3ee3ac466e40c2a1..41ab0f6c428d28b3dbfd98eb613ded780c83038c 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3725,6 +3725,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3755,6 +3755,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index eedc75417d06eb8c5ac5ed1885847c4556bd3195..b1960a7acbfd053a033c039c25e0dd33
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3756,6 +3757,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3786,6 +3787,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end

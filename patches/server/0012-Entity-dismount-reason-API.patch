@@ -39,7 +39,7 @@ index c41715e2884ba3d082e5678b33313de7c7723022..46ad60de5ccaa3b4b071bc1ad1c73d99
          }
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index d2a70c7a25ba7ff2003e6158ea0470dce6549b75..d47f146d00229f12d60ecd6095f379edfd5174aa 100644
+index e840204e5731a423978172520da698902086846a..95091d4a896e4c16afb83f830fd6a35bab2599be 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -1719,10 +1719,11 @@ public class ServerPlayer extends Player {
@@ -63,7 +63,7 @@ index d2a70c7a25ba7ff2003e6158ea0470dce6549b75..d47f146d00229f12d60ecd6095f379ed
                  this.stopRiding();
              } else {
                  this.setCamera(this);
-@@ -2141,7 +2143,7 @@ public class ServerPlayer extends Player {
+@@ -2146,7 +2148,7 @@ public class ServerPlayer extends Player {
  
          if (entity != this) {
              // Make sure we're in the right place
@@ -72,7 +72,7 @@ index d2a70c7a25ba7ff2003e6158ea0470dce6549b75..d47f146d00229f12d60ecd6095f379ed
              this.getBukkitEntity().teleport(new Location(entity.getCommandSenderWorld().getWorld(), entity.getX(), entity.getY(), entity.getZ(), this.getYRot(), this.getXRot()), TeleportCause.SPECTATE); // Correctly handle cross-world entities from api calls by using CB teleport
  
              // Make sure we're tracking the entity before sending
-@@ -2209,6 +2211,7 @@ public class ServerPlayer extends Player {
+@@ -2214,6 +2216,7 @@ public class ServerPlayer extends Player {
      public void teleportTo(ServerLevel worldserver, double d0, double d1, double d2, float f, float f1, org.bukkit.event.player.PlayerTeleportEvent.TeleportCause cause) {
          // CraftBukkit end
          this.setCamera(this);
@@ -81,7 +81,7 @@ index d2a70c7a25ba7ff2003e6158ea0470dce6549b75..d47f146d00229f12d60ecd6095f379ed
          /* CraftBukkit start - replace with bukkit handling for multi-world
          if (worldserver == this.level) {
 diff --git a/src/main/java/net/minecraft/server/players/PlayerList.java b/src/main/java/net/minecraft/server/players/PlayerList.java
-index 366530e2bceb0680c99627abc2c4c48b67f9829d..c52943177b8c6817deccac29d6cbe985ec153163 100644
+index 7a5213d74f563c15dbcb4cf5a9865d33cf0e6c36..ce897b03f872be20cbdafb7bfc962a4934ee4203 100644
 --- a/src/main/java/net/minecraft/server/players/PlayerList.java
 +++ b/src/main/java/net/minecraft/server/players/PlayerList.java
 @@ -651,6 +651,7 @@ public abstract class PlayerList {

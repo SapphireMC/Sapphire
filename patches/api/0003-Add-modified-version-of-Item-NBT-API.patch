@@ -3638,10 +3638,10 @@ index 049c36807d2a970842442c1b7517c06f3f150041..c562c5760e6e7cdae48d9b4067587786
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/block/Block.java b/src/main/java/org/bukkit/block/Block.java
-index e405c279f6135c94c775a856ab88fd3cace6bd5c..0fb9340f224bcc0a328f4e8361426705281fad84 100644
+index 9930ebe7a23d306c602840fd43652fbdaba481b3..c493ba17747517eb0fd5b99062043e4a06ec3641 100644
 --- a/src/main/java/org/bukkit/block/Block.java
 +++ b/src/main/java/org/bukkit/block/Block.java
-@@ -745,4 +745,16 @@ public interface Block extends Metadatable, net.kyori.adventure.translation.Tran
+@@ -760,4 +760,16 @@ public interface Block extends Metadatable, net.kyori.adventure.translation.Tran
      @NotNull
      float getDestroySpeed(@NotNull ItemStack itemStack, boolean considerEnchants);
      // Paper end
@@ -3690,10 +3690,10 @@ index 5c8517c5bcae10161952c104b6a4ff7c713bcdbd..12df0126e1437765d7352f93be81e66d
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index ffd3d7f4c0c86806bcf70bd90edf3041834d401c..d2526e07c435a52d85081b6eebc199593d6e5bf9 100644
+index 1f116f33e6dbce8d8d67d799beeedecf792cd728..42ccb3eddf4d8bb1e68dc6a027cd2f46c5502166 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -935,4 +935,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -957,4 +957,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInDaylight();
      // Purpur end
