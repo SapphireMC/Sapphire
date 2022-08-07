@@ -5,16 +5,15 @@ Subject: [PATCH] Sapphire config files
 
 
 diff --git a/src/main/java/co/aikar/timings/TimingsExport.java b/src/main/java/co/aikar/timings/TimingsExport.java
-index fa8eb9fb4122097d2a5cb1d07f75c830ad6b2f57..fe104c36773f8e8f095a6c075919f0ba8c5e2fc5 100644
+index 2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31..176ce96bf720fab9e714661ff5671906e01e6b57 100644
 --- a/src/main/java/co/aikar/timings/TimingsExport.java
 +++ b/src/main/java/co/aikar/timings/TimingsExport.java
-@@ -245,8 +245,9 @@ public class TimingsExport extends Thread {
+@@ -242,7 +242,8 @@ public class TimingsExport extends Thread {
              pair("spigot", mapAsJSON(Bukkit.spigot().getSpigotConfig(), null)),
-             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)),
-             pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
--            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null))
-+            pair("purpur", mapAsJSON(Bukkit.spigot().getPurpurConfig(), null)),
-             // Purpur end
+             pair("bukkit", mapAsJSON(Bukkit.spigot().getBukkitConfig(), null)),
+             pair("paper", mapAsJSON(Bukkit.spigot().getPaperConfig(), null)), // Pufferfish
+-            pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)) // Pufferfish
++            pair("pufferfish", mapAsJSON(gg.pufferfish.pufferfish.PufferfishConfig.getConfigCopy(), null)), // Pufferfish
 +            pair("sapphire", mapAsJSON(Bukkit.spigot().getSapphireConfig(), null)) // Sapphire
          ));
  
