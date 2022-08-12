@@ -5,10 +5,10 @@ Subject: [PATCH] Sapphire configuration
 
 
 diff --git a/src/main/java/org/bukkit/Server.java b/src/main/java/org/bukkit/Server.java
-index d73b7d72d00fa0edd6542226348af14c5203cf8d..689a579eba6100de0d432918ffbbb800b829deb1 100644
+index fea1283dcbac2794402bcd97f072ad3f84fcced1..ed80d5553a1d4a6496b5513d2bc264ea817121d3 100644
 --- a/src/main/java/org/bukkit/Server.java
 +++ b/src/main/java/org/bukkit/Server.java
-@@ -1949,6 +1949,14 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
+@@ -1960,6 +1960,14 @@ public interface Server extends PluginMessageRecipient, net.kyori.adventure.audi
          }
          // Purpur end
  

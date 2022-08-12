@@ -52,10 +52,10 @@ index 626f97882f2335ccf22d25c40aa389e6b4884207..94956adbdac5b0f9430353fdd69c2516
                  this.mayHaveDelayedTasks = true;
                      // Purpur start - tps catchup
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index cfd35158f414745d06ca05b9d003c71c1c680e06..68362ef482a8cb3f261e3e1a21f93134afe145bb 100644
+index aea4c2691bb1c1a3f01ed296d10d45533767f2c4..02277d262f3a8efa5f1aaa0ed544341d23011315 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -3021,4 +3021,12 @@ public final class CraftServer implements Server {
+@@ -3028,4 +3028,12 @@ public final class CraftServer implements Server {
          return getServer().lagging;
      }
      // Purpur end
