@@ -333,7 +333,7 @@ index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..c702d8e5d0114cb685f8cee2defc8847
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b427da3fea62b5d6ce2bddafba09d8fac0b2cc39..aea4c2691bb1c1a3f01ed296d10d45533767f2c4 100644
+index edcf09524a46df1ef2757302782b0b7544b691f3..18d996a99f78d4269af482ac9d244ff15ea469df 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -993,6 +993,7 @@ public final class CraftServer implements Server {
@@ -367,10 +367,10 @@ index b427da3fea62b5d6ce2bddafba09d8fac0b2cc39..aea4c2691bb1c1a3f01ed296d10d4553
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 01ffcda7d78ba5c274f12a038b45a78392b5e865..4e337171442044b887a93b50ca3cd5c91fc792ab 100644
+index 8bc03a849d88bef6cbeb09a000487d95d27e581c..80263e723202144940a4033ce3643953af8a2308 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -151,6 +151,14 @@ public class Main {
+@@ -157,6 +157,14 @@ public class Main {
                          .defaultsTo(new File("paper.yml"))
                          .describedAs("Yml file");
  

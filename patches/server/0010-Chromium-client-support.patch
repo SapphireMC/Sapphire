@@ -82,10 +82,10 @@ index 08c46cdc626e89fed0d769d50735e983f2fb7f23..216af59273f05480c3383899c475fcd6
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index e3aa852788ff16e2b52b00a09783721a747726c9..63d3fef0ab130c16dd2212dc08be5e0bf9d85efd 100644
+index 9adc717cffee5065863e2972ad749517e5a4a2a3..b8a59ac3be5314f3aa40fa97be72da30b7a0eba0 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3756,6 +3756,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3764,6 +3764,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index e3aa852788ff16e2b52b00a09783721a747726c9..63d3fef0ab130c16dd2212dc08be5e0b
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3787,6 +3788,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3795,6 +3796,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,7 +108,7 @@ index e3aa852788ff16e2b52b00a09783721a747726c9..63d3fef0ab130c16dd2212dc08be5e0b
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index f3839c16815b50dfce41c31bc6992dcbbd6759a5..f856a5cb8f79e01bc825ce146ac28e3decd45d2a 100644
+index 284624683d0e593bc7996fa90a6eee2b6a22ad9e..1fbbc0c824161e10d9aa5dd971603ad4fdc4c11c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 @@ -3023,4 +3023,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {

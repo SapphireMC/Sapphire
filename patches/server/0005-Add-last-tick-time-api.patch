@@ -29,10 +29,10 @@ index 0000000000000000000000000000000000000000..ca0579ea56903778f469ada986c7b244
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 626f97882f2335ccf22d25c40aa389e6b4884207..94956adbdac5b0f9430353fdd69c25160663d2f5 100644
+index 24f767663b1190dcada3da554375e3a01064c462..88c2dc098e797a44965216bf3b3713e0d116ba84 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -1135,6 +1135,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1136,6 +1136,8 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
      // Paper End
      // Spigot End
  
@@ -41,7 +41,7 @@ index 626f97882f2335ccf22d25c40aa389e6b4884207..94956adbdac5b0f9430353fdd69c2516
      protected void runServer() {
          try {
              long serverStartTime = Util.getNanos(); // Paper
-@@ -1210,7 +1212,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -1211,7 +1213,9 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
                  this.nextTickTime += 50L;
                  //this.startMetricsRecordingTick(); // Purpur
                  //this.profiler.push("tick"); // Purpur
@@ -52,7 +52,7 @@ index 626f97882f2335ccf22d25c40aa389e6b4884207..94956adbdac5b0f9430353fdd69c2516
                  this.mayHaveDelayedTasks = true;
                      // Purpur start - tps catchup
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index aea4c2691bb1c1a3f01ed296d10d45533767f2c4..02277d262f3a8efa5f1aaa0ed544341d23011315 100644
+index 18d996a99f78d4269af482ac9d244ff15ea469df..d3736e9202c158b7d66927b4b6b3fd1fb05b25c9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -3028,4 +3028,12 @@ public final class CraftServer implements Server {
