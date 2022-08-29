@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index a9acec9feef3c5322ce2c312cd8800bcdaca0947..e29cfa71a540dd9579e0c4417cdfcbed6a2b491f 100644
+index dc00d06f9bd4cc7403e0fe89822ed40ed2e148c8..04b4b3c64039045d143d2b308fec86785c62cf23 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -9,9 +9,9 @@ plugins {
@@ -15,8 +15,8 @@ index a9acec9feef3c5322ce2c312cd8800bcdaca0947..e29cfa71a540dd9579e0c4417cdfcbed
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":sapphire-api")) // Sapphire
      // Pufferfish start
--    implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") { // Purpur
-+    implementation("io.papermc.paper:paper-mojangapi:${rootProject.version}") { // Purpur // Sapphire
+-    implementation("io.papermc.paper:paper-mojangapi:1.19.2-R0.1-SNAPSHOT") {
++    implementation("io.papermc.paper:paper-mojangapi:${rootProject.version}") { // Sapphire
          exclude("io.papermc.paper", "paper-api")
      }
      // Pufferfish end
@@ -153,7 +153,7 @@ index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..cad22bf2869f8e54693bf615743b6ba7
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b9c0d8d598aeac99e1fbc77063e5e2f280ca1693..edcf09524a46df1ef2757302782b0b7544b691f3 100644
+index d182eac78879b5e124bb62aded8a405b327275b4..040d0a86a451fcb1c8a201eae25a143b6e593ce4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -248,7 +248,7 @@ import javax.annotation.Nullable; // Paper
@@ -166,10 +166,10 @@ index b9c0d8d598aeac99e1fbc77063e5e2f280ca1693..edcf09524a46df1ef2757302782b0b75
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 420300ce19d01f36f071eae44efd4cb32beb0ed6..8bc03a849d88bef6cbeb09a000487d95d27e581c 100644
+index 3080b2a7920a736880c48b66164ed45686ab1d44..6c25a651243397e9a2df2caadf2c39f1c9a74ba1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -284,7 +284,7 @@ public class Main {
+@@ -290,7 +290,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");

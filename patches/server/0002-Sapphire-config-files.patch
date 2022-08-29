@@ -281,11 +281,11 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 0bfdc4247a651f6c1caf7a95114be68bc7d77d7b..28ee5e3645bddb4e850d098e50f8195fa15918ea 100644
+index 33ec9cb7efd5623866c03506b8dcb28831b54b21..15daa2ba01bd3fe711ded1b6e9f552f8acc9c26c 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -237,6 +237,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
-         // Paper end
+@@ -238,6 +238,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+         gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
          gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
 +        // Sapphire start
@@ -333,7 +333,7 @@ index 018a5c13d3f0321d4346e6c1845f1aed2b8de3dd..c702d8e5d0114cb685f8cee2defc8847
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index edcf09524a46df1ef2757302782b0b7544b691f3..18d996a99f78d4269af482ac9d244ff15ea469df 100644
+index 040d0a86a451fcb1c8a201eae25a143b6e593ce4..80d321635a258784c89c01582c48ebb69a3b24b5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -993,6 +993,7 @@ public final class CraftServer implements Server {
@@ -367,7 +367,7 @@ index edcf09524a46df1ef2757302782b0b7544b691f3..18d996a99f78d4269af482ac9d244ff1
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 8bc03a849d88bef6cbeb09a000487d95d27e581c..80263e723202144940a4033ce3643953af8a2308 100644
+index 6c25a651243397e9a2df2caadf2c39f1c9a74ba1..7ae5186c007ae5b9cb4d2abab4c94b7878a389f9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -157,6 +157,14 @@ public class Main {
