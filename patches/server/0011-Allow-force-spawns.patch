@@ -6,10 +6,10 @@ Subject: [PATCH] Allow force spawns
 Ported from EmpireCraft
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index f561fa1acfcfc78fc2a3a5fe1c12d43a9e708146..a8a126f7fb65867a6e47cfb048218abff5d8a64b 100644
+index 6859e2054e8eb4fc8ac005e0bf646a30defa47a6..71ec14d45557f0a17d38a816a162bfb52eb93b5a 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
-@@ -1453,7 +1453,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
+@@ -1455,7 +1455,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
          // SPIGOT-6415: Don't call spawn event for entities which travel trough worlds,
          // since it is only an implementation detail, that a new entity is created when
          // they are traveling between worlds.

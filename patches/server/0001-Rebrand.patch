@@ -140,7 +140,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..9f95d698462243bd38ba2a71ee0e47ef
          switch (distance) {
              case -1:
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 005fdd2e2ebc0b6f7cb06b2efdb705b9ed23a1ea..cad22bf2869f8e54693bf615743b6ba797ca82cb 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..1abd60741ece7982bdb6a2d90f81df365f0eb223 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -166,10 +166,10 @@ index d182eac78879b5e124bb62aded8a405b327275b4..040d0a86a451fcb1c8a201eae25a143b
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 3080b2a7920a736880c48b66164ed45686ab1d44..6c25a651243397e9a2df2caadf2c39f1c9a74ba1 100644
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..1dd306acaf08b090c0416508de69fdc2e81e1450 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -290,7 +290,7 @@ public class Main {
+@@ -292,7 +292,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");

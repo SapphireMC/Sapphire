@@ -3690,10 +3690,10 @@ index 5c8517c5bcae10161952c104b6a4ff7c713bcdbd..12df0126e1437765d7352f93be81e66d
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 1f116f33e6dbce8d8d67d799beeedecf792cd728..42ccb3eddf4d8bb1e68dc6a027cd2f46c5502166 100644
+index be7ad89699619aba9df4699403c9a70fd2bc9da1..a0f36eaae349417b1c180139de86b9937130032f 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -957,4 +957,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -984,4 +984,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
      boolean isInDaylight();
      // Purpur end

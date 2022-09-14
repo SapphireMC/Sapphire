@@ -82,10 +82,10 @@ index 08c46cdc626e89fed0d769d50735e983f2fb7f23..216af59273f05480c3383899c475fcd6
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
      public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..36323d959f41f7585fdca1d3bd05411206d27d4d 100644
+index 8533b31b31138b000308107ce4215746edd1f16b..b5ae603afc786e9fd8b1ba4b3eafe09992539b17 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3758,6 +3758,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3756,6 +3756,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..36323d959f41f7585fdca1d3bd054112
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3789,6 +3790,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3787,6 +3788,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,10 +108,10 @@ index d70c9d4a77edce10f783ab6c53b1e2d66b44c5fe..36323d959f41f7585fdca1d3bd054112
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 9fbac26b30f89b94f1ac686fce14c7d1c78d7043..347ec8d3dcba14c11e8b04d3d5d18d7b9fde9134 100644
+index cac6bd2f6ee4e9603a860ca7ddabbe7d002daa53..27f848a6c2a6d359d52c1df0e757427486bb65e1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3030,4 +3030,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3020,4 +3020,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.DEBUG_GAME_TEST_CLEAR, new FriendlyByteBuf(io.netty.buffer.Unpooled.buffer())));
      }
      // Purpur end
