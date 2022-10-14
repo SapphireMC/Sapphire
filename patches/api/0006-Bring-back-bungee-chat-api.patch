@@ -5,7 +5,7 @@ Subject: [PATCH] Bring back bungee chat api
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 82b4f76e0c75677f06e4d360b70e5309c9df3e0f..62aff9d11eebc6cfb5ec71051b426f58255887e7 100644
+index 0b3d83d287649daf7e7a50a322c17611a432336a..a73295135b37752e458d31ade32fe55fec3eb882 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -25,7 +25,7 @@ dependencies {
@@ -14,12 +14,12 @@ index 82b4f76e0c75677f06e4d360b70e5309c9df3e0f..62aff9d11eebc6cfb5ec71051b426f58
      api("com.google.code.gson:gson:2.8.9")
 -    api("net.md-5:bungeecord-chat:1.16-R0.4-deprecated+build.6") // Paper
 +    api("net.md-5:bungeecord-chat:1.16-R0.4") // Sapphire - bring back bungee chat api
-     api("org.yaml:snakeyaml:1.30")
+     api("org.yaml:snakeyaml:1.33")
      // Paper start
      api("com.googlecode.json-simple:json-simple:1.1.1") {
 @@ -114,8 +114,8 @@ tasks.withType<Javadoc> {
          "https://guava.dev/releases/31.0.1-jre/api/docs/",
-         "https://javadoc.io/doc/org.yaml/snakeyaml/1.30/",
+         "https://javadoc.io/doc/org.yaml/snakeyaml/1.33/",
          "https://javadoc.io/doc/org.jetbrains/annotations/23.0.0/", // Paper - we don't want Java 5 annotations
 +        "https://javadoc.io/doc/net.md-5/bungeecord-chat/1.16-R0.4/", // Sapphire - bring back bungee chat api
          // Paper start

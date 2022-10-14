@@ -70,22 +70,22 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 08c46cdc626e89fed0d769d50735e983f2fb7f23..216af59273f05480c3383899c475fcd600ecd00a 100644
+index 12637019da44019475042e4cf88d3e0ebd0fd068..80b450f3c0d7a49b9b9025b8335148d86c3c0e51 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
-     public boolean acceptingResourcePack = false; // Purpur
+     private boolean ramBar = false; // Purpur
      private boolean tpsBar = false; // Purpur
      private boolean compassBar = false; // Purpur
 +    public boolean chromiumClient = false; // Sapphire
  
+     public boolean isRealPlayer; // Paper
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
-     public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 8533b31b31138b000308107ce4215746edd1f16b..b5ae603afc786e9fd8b1ba4b3eafe09992539b17 100644
+index b05a632576099c8d06152bae57a5f1f69909408d..75689b7462ca197bb4d0d32348110c1aa110e33e 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3756,6 +3756,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3757,6 +3757,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index 8533b31b31138b000308107ce4215746edd1f16b..b5ae603afc786e9fd8b1ba4b3eafe099
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3787,6 +3788,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3788,6 +3789,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,11 +108,11 @@ index 8533b31b31138b000308107ce4215746edd1f16b..b5ae603afc786e9fd8b1ba4b3eafe099
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index cac6bd2f6ee4e9603a860ca7ddabbe7d002daa53..27f848a6c2a6d359d52c1df0e757427486bb65e1 100644
+index e8e47b23707988a821951896cb8877cf14f56220..2d7faeb5bf9fd5fd5595e6763072d90eb7814bb7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3020,4 +3020,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundCustomPayloadPacket(ClientboundCustomPayloadPacket.DEBUG_GAME_TEST_CLEAR, new FriendlyByteBuf(io.netty.buffer.Unpooled.buffer())));
+@@ -3083,4 +3083,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         this.getHandle().connection.send(packet);
      }
      // Purpur end
 +

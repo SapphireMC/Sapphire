@@ -5,10 +5,10 @@ Subject: [PATCH] Disable timings by default
 
 
 diff --git a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-index bc72131afa1ae9986ee311a9b371e97c8feb38f8..7f304551bbc083963140c3b2a46b3a09dec4c8c5 100644
+index a7f4b791894c5d8b7af4b0c067cf167b29272a27..2f7d17d5f3860cee962886212d28eaa46f9a1d20 100644
 --- a/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
 +++ b/src/main/java/io/papermc/paper/configuration/GlobalConfiguration.java
-@@ -53,7 +53,7 @@ public class GlobalConfiguration extends ConfigurationPart {
+@@ -52,7 +52,7 @@ public class GlobalConfiguration extends ConfigurationPart {
      public Timings timings;
  
      public class Timings extends ConfigurationPart.Post {

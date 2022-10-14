@@ -6,10 +6,10 @@ Subject: [PATCH] Allow force spawns
 Ported from EmpireCraft
 
 diff --git a/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java b/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
-index e9de00e9e434d36117a672fa9fbfc7c52f284b67..d6c7facb3ba6ab5527cccc38f8a673c7c0122462 100644
+index 9a06487e0f76cd7765e6f900b7458a3cf0aa44e7..702998379c6ddbbbac6eedbf99a7f105afbf3e79 100644
 --- a/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
 +++ b/src/main/java/org/bukkit/event/entity/CreatureSpawnEvent.java
-@@ -201,6 +201,12 @@ public class CreatureSpawnEvent extends EntitySpawnEvent {
+@@ -202,6 +202,12 @@ public class CreatureSpawnEvent extends EntitySpawnEvent {
           * When a creature is spawned by plugins
           */
          CUSTOM,

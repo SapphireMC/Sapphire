@@ -281,7 +281,7 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 33ec9cb7efd5623866c03506b8dcb28831b54b21..15daa2ba01bd3fe711ded1b6e9f552f8acc9c26c 100644
+index a029f51983bcfe49beab1359f282f0f957723ef2..98f07164016ff77524e63890abb2196f3e5bf676 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 @@ -238,6 +238,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
@@ -300,7 +300,7 @@ index 33ec9cb7efd5623866c03506b8dcb28831b54b21..15daa2ba01bd3fe711ded1b6e9f552f8
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8f80b2f14c582d248988a824193d1fd0df177dc5..bb26f55974c1b90b482d4d628c205bf410ba38e0 100644
+index ad4bd5fa9bcd085a1eb99c4da5fc95ebc126d028..f2c802fac8ccb50f384f4fd057ef16c1bf4f5a40 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -404,6 +404,8 @@ public abstract class LivingEntity extends Entity {
@@ -313,7 +313,7 @@ index 8f80b2f14c582d248988a824193d1fd0df177dc5..bb26f55974c1b90b482d4d628c205bf4
                  this.hurt(DamageSource.IN_WALL, 1.0F);
              } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 5e0fb02ccd1204a72b2d730a25e35844a07c5759..1a7e633e748de4209d3c570dc002bc7f6e7d6ad1 100644
+index cf8693d02de53f1e02d55936f889c5724889e3f5..2804cbf0e04b8b033a536f9ec8099b2e013010e2 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
 @@ -172,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
@@ -333,10 +333,10 @@ index 5e0fb02ccd1204a72b2d730a25e35844a07c5759..1a7e633e748de4209d3c570dc002bc7f
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 040d0a86a451fcb1c8a201eae25a143b6e593ce4..80d321635a258784c89c01582c48ebb69a3b24b5 100644
+index c04daaddc1098d460836bf306e38c9f2070944d8..38647fa82c6b725b98d69362ba79147d085f9176 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -993,6 +993,7 @@ public final class CraftServer implements Server {
+@@ -1013,6 +1013,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -344,7 +344,7 @@ index 040d0a86a451fcb1c8a201eae25a143b6e593ce4..80d321635a258784c89c01582c48ebb6
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1009,6 +1010,7 @@ public final class CraftServer implements Server {
+@@ -1029,6 +1030,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -352,7 +352,7 @@ index 040d0a86a451fcb1c8a201eae25a143b6e593ce4..80d321635a258784c89c01582c48ebb6
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2832,6 +2834,13 @@ public final class CraftServer implements Server {
+@@ -2852,6 +2854,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -386,10 +386,10 @@ index 1dd306acaf08b090c0416508de69fdc2e81e1450..5b402a01f591897a8ddff707fd061788
                          .withRequiredArg()
                          .ofType(File.class)
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index d44b8ce90db7c6c27f71aa841d6fb64b159b7b42..b912117e95f1b745a94f8ff834711470ceec5477 100644
+index 3cfbb4300e82cce409a7a0b53ef98987f166143c..564b789622ebf31782449474c2f9144aa61a17a8 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -235,6 +235,19 @@ public class PurpurConfig {
+@@ -244,6 +244,19 @@ public class PurpurConfig {
          if (!TimingsManager.hiddenConfigs.contains("settings.seed")) TimingsManager.hiddenConfigs.add("settings.seed");
      }
  
