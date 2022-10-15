@@ -93,7 +93,7 @@ index 3fb2323c89d04f1a545897a1e67f6f637f5ab9c1..a20cfcbc47f21b9d430ab3146b255bab
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 2fea14c75d161d542c7694373763ddfa061ea699..b184693f938895f9be6aa4900d7c0c2cd31d22be 100644
+index 2fea14c75d161d542c7694373763ddfa061ea699..fb403898b1e5c66ab30af521e9f14f452e35a13b 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -570,6 +570,9 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -155,7 +155,7 @@ index 2fea14c75d161d542c7694373763ddfa061ea699..b184693f938895f9be6aa4900d7c0c2c
              // Suppress during worldgen
              if (this.valid) {
                  Bukkit.getPluginManager().callEvent(event);
-@@ -4497,10 +4511,18 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4497,10 +4511,16 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
          }
  
          if (this.removalReason.shouldDestroy()) {
@@ -163,10 +163,9 @@ index 2fea14c75d161d542c7694373763ddfa061ea699..b184693f938895f9be6aa4900d7c0c2c
              this.stopRiding();
          }
  
-         if (reason != RemovalReason.UNLOADED_TO_CHUNK) this.getPassengers().forEach(Entity::stopRiding); // Paper - chunk system - don't adjust passenger state when unloading, it's just not safe (and messes with our logic in entity chunk unload)
-+
+-        if (reason != RemovalReason.UNLOADED_TO_CHUNK) this.getPassengers().forEach(Entity::stopRiding); // Paper - chunk system - don't adjust passenger state when unloading, it's just not safe (and messes with our logic in entity chunk unload)
 +        // Sapphire start
-+        this.getPassengers().forEach(entity -> {
++        if (reason != RemovalReason.UNLOADED_TO_CHUNK) this.getPassengers().forEach(entity -> { // Paper - chunk system - don't adjust passenger state when unloading, it's just not safe (and messes with our logic in entity chunk unload)
 +            entity.dismountReason = org.spigotmc.event.entity.EntityDismountEvent.DismountReason.DEAD_VEHICLE;
 +            entity.stopRiding();
 +        });
