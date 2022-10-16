@@ -173,10 +173,10 @@ index 1e10cd5eb8c8274b8355b57703f0b7f19eb6167d..5851b8f4eb11fa2e6f3599c47a8725b9
 +    }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index f2c802fac8ccb50f384f4fd057ef16c1bf4f5a40..badfcfd60ea4905a4eb0e1b6c159b9bf2e76e010 100644
+index ae6bfead4ce168c261a076a4b58a89f2cd0314fe..709f849fc990d875a72c61e6ff06242a1247ebdb 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3584,7 +3584,7 @@ public abstract class LivingEntity extends Entity {
+@@ -3583,7 +3583,7 @@ public abstract class LivingEntity extends Entity {
              return;
          }
          // Paper end - don't run getEntities if we're not going to use its result

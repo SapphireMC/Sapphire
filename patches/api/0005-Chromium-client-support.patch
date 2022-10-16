@@ -5,13 +5,14 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 80f0d631a9780ec853b2ab44d5bcbec45f7d4051..78b9cbb0049f696b69c7d1700f4d28b579e79bf0 100644
+index 9c2dcca0b6e34a3083226360575f0956a077d767..f7607df0269a72d6cea697b666ad3329c3325fe1 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -2836,6 +2836,15 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-     void lookAt(@NotNull org.bukkit.entity.Entity entity, @NotNull io.papermc.paper.entity.LookAnchor playerAnchor, @NotNull io.papermc.paper.entity.LookAnchor entityAnchor);
-     // Paper end - Teleport API
- 
+@@ -3007,4 +3007,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      */
+     void sendDeathScreen(@NotNull Component message, @Nullable Entity killer);
+     // Purpur end
++
 +    // Sapphire start
 +    /**
 +     * Allows you to get if player uses Chromium Client
@@ -20,7 +21,4 @@ index 80f0d631a9780ec853b2ab44d5bcbec45f7d4051..78b9cbb0049f696b69c7d1700f4d28b5
 +     */
 +    boolean usesChromiumClient();
 +    // Sapphire end
-+
-     @NotNull
-     @Override
-     Spigot spigot();
+ }
