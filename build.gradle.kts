@@ -119,7 +119,7 @@ allprojects {
         repositories {
             if (env.containsKey("MAVEN_URL")) {
                 maven(env["MAVEN_URL"]!!) {
-                    if (url.host.startsWith("http://"))
+                    if (env["MAVEN_URL"]!!.startsWith("http://"))
                         isAllowInsecureProtocol = true
                     credentials {
                         username = env["MAVEN_USERNAME"]
