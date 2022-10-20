@@ -3,7 +3,6 @@ From: DenaryDev <denaryplanet@gmail.com>
 Date: Mon, 6 Jun 2022 00:15:47 +0500
 Subject: [PATCH] Skip event if no listeners
 
-Ported from JettPack
 
 diff --git a/src/main/java/org/bukkit/plugin/SimplePluginManager.java b/src/main/java/org/bukkit/plugin/SimplePluginManager.java
 index 6bb115923767c4bd65b18e67eeff5408f2894ab0..4d8d9e214829552f35d2e7ac58b0fae5e7a99a01 100644

@@ -70,7 +70,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 43be9e2af0711773103af63eb4e15572e5fee39b..b2b3a0c8d7c3b0d5b78cba46da3928673f468a4d 100644
+index 26d73eec3633cebc85972dbdeb14975d2dbb9b5b..c7a0ae3fb84b4a3b8c7c4f535d0b3823f4d70f6e 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
@@ -82,10 +82,10 @@ index 43be9e2af0711773103af63eb4e15572e5fee39b..b2b3a0c8d7c3b0d5b78cba46da392867
      public boolean isRealPlayer; // Paper
      public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index b05a632576099c8d06152bae57a5f1f69909408d..75689b7462ca197bb4d0d32348110c1aa110e33e 100644
+index 66c632f9a824e705420b9bb86de294f0e7305c50..9d38353727d1cd83b40a069bd18738f78fee20cc 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3757,6 +3757,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3758,6 +3758,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index b05a632576099c8d06152bae57a5f1f69909408d..75689b7462ca197bb4d0d32348110c1a
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3788,6 +3789,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3789,6 +3790,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
