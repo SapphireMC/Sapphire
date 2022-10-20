@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.gradle.api.tasks.testing.logging.TestLogEvent
 
@@ -108,15 +110,22 @@ tasks.register<Copy>("renamedReobfPaperclipJar") {
     }
 }
 
+val env: Map<String, String> = System.getenv()
+
 allprojects {
     // Publishing API:
     // ./gradlew :sapphire-api:publish[ToMavenLocal]
     publishing {
         repositories {
-            maven("http://repo.denaryworld.ru/snapshots/") {
-                name = "SapphireMC"
-                isAllowInsecureProtocol = true
-                credentials(PasswordCredentials::class)
+            if (env.containsKey("MAVEN_URL")) {
+                maven(env["MAVEN_URL"]!!) {
+                    if (url.host.startsWith("http://"))
+                        isAllowInsecureProtocol = true
+                    credentials {
+                        username = env["MAVEN_USERNAME"]
+                        password = env["MAVEN_PASSWORD"]
+                    }
+                }
             }
         }
     }
