@@ -7,7 +7,7 @@ plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-    id("io.papermc.paperweight.patcher") version "1.3.8"
+    id("io.papermc.paperweight.patcher") version "1.3.9"
 }
 
 repositories {
@@ -18,7 +18,7 @@ repositories {
 }
 
 dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.8.2:fat")
+    remapper("net.fabricmc:tiny-remapper:0.8.6:fat")
     decompiler("org.quiltmc:quiltflower:1.8.1")
     paperclip("io.papermc:paperclip:3.0.2")
 }
@@ -132,11 +132,11 @@ allprojects {
 }
 
 publishing {
-    if (project.hasProperty("publishDevBundle")) {
+    //if (project.hasProperty("publishDevBundle")) {
         publications.create<MavenPublication>("devBundle") {
             artifact(tasks.generateDevelopmentBundle) {
                 artifactId = "dev-bundle"
             }
         }
-    }
+    //}
 }

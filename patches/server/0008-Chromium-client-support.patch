@@ -70,7 +70,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 26d73eec3633cebc85972dbdeb14975d2dbb9b5b..c7a0ae3fb84b4a3b8c7c4f535d0b3823f4d70f6e 100644
+index 467f60dcbed645d773e7e3e042d2bbbd8f5bb589..f531de6f54efadc2cd75566418f835072d4a889b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
@@ -108,10 +108,10 @@ index 66c632f9a824e705420b9bb86de294f0e7305c50..9d38353727d1cd83b40a069bd18738f7
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 1ca26e7757fa8af885bfb3870128f8b48e0a7745..4e664a664372f48e2c6045013c2342b44aa2afeb 100644
+index bd363cd808f294f47298258ee7b99aeb36150887..09f9b55ee2e1fc76fce520379e4a5fb62682dd14 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3090,4 +3090,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3094,4 +3094,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(packet);
      }
      // Purpur end

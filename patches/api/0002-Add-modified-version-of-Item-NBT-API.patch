@@ -3714,12 +3714,12 @@ index 5c8517c5bcae10161952c104b6a4ff7c713bcdbd..12df0126e1437765d7352f93be81e66d
 +    // Sapphire end
  }
 diff --git a/src/main/java/org/bukkit/entity/Entity.java b/src/main/java/org/bukkit/entity/Entity.java
-index 28be71aa677ed8cb9a9d06b3aba7af40f0992f68..42bf8bf45732cb77718e42b9d930bcedb769ee9e 100644
+index 3959765b110b6fed91348c11ff85e302a885776c..e57af42da85b9fec60c9cd4e4a10548dca3e4ca5 100644
 --- a/src/main/java/org/bukkit/entity/Entity.java
 +++ b/src/main/java/org/bukkit/entity/Entity.java
-@@ -989,4 +989,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
+@@ -1002,4 +1002,26 @@ public interface Entity extends Metadatable, CommandSender, Nameable, Persistent
       */
-     boolean isInDaylight();
+     void setImmuneToFire(@Nullable Boolean fireImmune);
      // Purpur end
 +
 +    // Sapphire start
