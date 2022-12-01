@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 9c2dcca0b6e34a3083226360575f0956a077d767..f7607df0269a72d6cea697b666ad3329c3325fe1 100644
+index 93e18658bb7a83a35f812811c2c87630a4b7eb0b..684a8a43aeb21e1fac7f4338d3c5e1bed61395fb 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3007,4 +3007,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -3060,4 +3060,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
       */
      void sendDeathScreen(@NotNull Component message, @Nullable Entity killer);
      // Purpur end

@@ -300,10 +300,10 @@ index d6c563dff2e816e043e096f8286e3d975cc86290..524bceb3f135daa0cc067f57958e113f
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 1ec9a48f2f44f5bd647e0661423ae90970aee262..e242d38bf6cc1f8aac06689973cff6157a20716a 100644
+index f23829690d2be20af50256e4d985e3e342415d54..6ac905e761219812c2d10141de77afea2e4ef04e 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -403,6 +403,8 @@ public abstract class LivingEntity extends Entity {
+@@ -404,6 +404,8 @@ public abstract class LivingEntity extends Entity {
  
          if (this.isAlive()) {
              boolean flag = this instanceof net.minecraft.world.entity.player.Player;
@@ -333,7 +333,7 @@ index 0bb14272d024af90e7aef40f2f694e184af607d3..9326b6945d717fd37b498ff9addd18f7
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 1a9accc5963f4f48867d03dfbefc429c052d3a2f..f4bcd1c364a327d029cccf3feecddc3672ba68f2 100644
+index 9724d65f7935299f4c5363a7a7e526bad463bd8c..152a599c8aba76ce2f959c44c2b55e432f0a8f51 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1013,6 +1013,7 @@ public final class CraftServer implements Server {
