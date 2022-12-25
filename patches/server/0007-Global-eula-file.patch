@@ -5,10 +5,10 @@ Subject: [PATCH] Global eula file
 
 
 diff --git a/src/main/java/net/minecraft/server/Eula.java b/src/main/java/net/minecraft/server/Eula.java
-index 920a0e6540bc8b8ce34dfaf57d58c200013b7b2c..dba4278cc25ff50000b46bf890ae4192a4b33660 100644
+index 5528a4b7a67e0c257966c587437006004a2e1292..8075290752dc35fa0d44aefa93efa0a2e6c0f13b 100644
 --- a/src/main/java/net/minecraft/server/Eula.java
 +++ b/src/main/java/net/minecraft/server/Eula.java
-@@ -16,12 +16,24 @@ public class Eula {
+@@ -16,13 +16,25 @@ public class Eula {
  
      public Eula(Path eulaFile) {
          this.file = eulaFile;
@@ -29,10 +29,20 @@ index 920a0e6540bc8b8ce34dfaf57d58c200013b7b2c..dba4278cc25ff50000b46bf890ae4192
 +    }
 +    // Sapphire end
 +
-+    private boolean readFile(java.nio.file.Path path) {
++    private boolean readFile(java.nio.file.Path path) { // Sapphire - Global eula file
          try {
--            InputStream inputStream = Files.newInputStream(this.file);
-+            InputStream inputStream = Files.newInputStream(path);
- 
              boolean var3;
-             try {
+-            try (InputStream inputStream = Files.newInputStream(this.file)) {
++            try (InputStream inputStream = Files.newInputStream(path)) { // Sapphire - Global eula file
+                 Properties properties = new Properties();
+                 properties.load(inputStream);
+                 var3 = Boolean.parseBoolean(properties.getProperty("eula", "false"));
+@@ -30,7 +42,7 @@ public class Eula {
+ 
+             return var3;
+         } catch (Exception var6) {
+-            LOGGER.warn("Failed to load {}", (Object)this.file);
++            LOGGER.warn("Failed to load {}", (Object)path); // Sapphire - Global eula file
+             this.saveDefaults();
+             return false;
+         }

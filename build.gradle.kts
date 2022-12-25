@@ -7,7 +7,7 @@ plugins {
     java
     `maven-publish`
     id("com.github.johnrengelman.shadow") version "7.1.2" apply false
-    id("io.papermc.paperweight.patcher") version "1.3.11"
+    id("io.papermc.paperweight.patcher") version "1.4.0"
 }
 
 repositories {
@@ -70,7 +70,7 @@ paperweight {
 
     useStandardUpstream("purpur") {
         url.set(github("PurpurMC", "Purpur"))
-        ref.set(providers.gradleProperty("purpurRef"))
+        ref.set(providers.gradleProperty("purpurCommit"))
 
         withStandardPatcher {
             baseName("Purpur")
@@ -97,16 +97,14 @@ tasks.generateDevelopmentBundle {
     )
 }
 
-val mcVersion: String by project
-val projVersion = project.version
 tasks.register<Copy>("renamedReobfPaperclipJar") {
     group = "sapphire"
     dependsOn(tasks.createReobfPaperclipJar)
-    from("build/libs/sapphire-paperclip-$projVersion-reobf.jar")
+    from("build/libs/sapphire-paperclip-${project.version}-reobf.jar")
     into("build/libs")
 
     rename {
-        it.replace("paperclip-$projVersion-reobf", mcVersion)
+        it.replace("paperclip-${project.version}-reobf", project.properties["mcVersion"].toString())
     }
 }
 
@@ -119,6 +117,7 @@ allprojects {
         repositories {
             if (env.containsKey("MAVEN_URL")) {
                 maven(env["MAVEN_URL"]!!) {
+                    name = "SapphireMC"
                     if (env["MAVEN_URL"]!!.startsWith("http://"))
                         isAllowInsecureProtocol = true
                     credentials {

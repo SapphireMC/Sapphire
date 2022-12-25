@@ -281,10 +281,10 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index d6c563dff2e816e043e096f8286e3d975cc86290..524bceb3f135daa0cc067f57958e113fdda1a38a 100644
+index 46858fb57f122033a68aeb4ad3943132a677fb46..de07744a513236a6e3b7ee3275349b9a4cdc9633 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -238,6 +238,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -233,6 +233,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          gg.pufferfish.pufferfish.PufferfishConfig.pufferfishFile = (java.io.File) options.valueOf("pufferfish-settings"); // Purpur
          gg.pufferfish.pufferfish.PufferfishConfig.load(); // Pufferfish
          gg.pufferfish.pufferfish.PufferfishCommand.init(); // Pufferfish
@@ -300,23 +300,22 @@ index d6c563dff2e816e043e096f8286e3d975cc86290..524bceb3f135daa0cc067f57958e113f
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index f23829690d2be20af50256e4d985e3e342415d54..6ac905e761219812c2d10141de77afea2e4ef04e 100644
+index 454cd09309f581b43a521fcb8fd184b7788c6a88..89fd3a0355b44e21721078cfc8f762459a1555d2 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -404,6 +404,8 @@ public abstract class LivingEntity extends Entity {
- 
-         if (this.isAlive()) {
+@@ -407,6 +407,7 @@ public abstract class LivingEntity extends Entity {
              boolean flag = this instanceof net.minecraft.world.entity.player.Player;
-+
-+            if (!io.sapphiremc.sapphire.SapphireConfig.disableEntityStuckChecks) // Sapphire
-             if ((!gg.pufferfish.pufferfish.PufferfishConfig.enableSuffocationOptimization || (tickCount % 10 == 0 && couldPossiblyBeHurt(1.0F))) && this.isInWall()) { // Pufferfish - optimize suffocation
-                 this.hurt(DamageSource.IN_WALL, 1.0F);
-             } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
+ 
+             if (!this.level.isClientSide) {
++                if (!io.sapphiremc.sapphire.SapphireConfig.disableEntityStuckChecks) // Sapphire
+                 if ((!gg.pufferfish.pufferfish.PufferfishConfig.enableSuffocationOptimization || (tickCount % 10 == 0 && couldPossiblyBeHurt(1.0F))) && this.isInWall()) { // Pufferfish - optimize suffocation
+                     this.hurt(DamageSource.IN_WALL, 1.0F);
+                 } else if (flag && !this.level.getWorldBorder().isWithinBounds(this.getBoundingBox())) {
 diff --git a/src/main/java/net/minecraft/world/level/Level.java b/src/main/java/net/minecraft/world/level/Level.java
-index 0bb14272d024af90e7aef40f2f694e184af607d3..9326b6945d717fd37b498ff9addd18f7b8e7e7d4 100644
+index a9289072b048095330ea32d7c965e8dda61a36fc..c1816582fbcecdafddd51b3bb50e7530c2127492 100644
 --- a/src/main/java/net/minecraft/world/level/Level.java
 +++ b/src/main/java/net/minecraft/world/level/Level.java
-@@ -172,6 +172,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -171,6 +171,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          return this.paperConfig;
      }
      // Paper end
@@ -324,7 +323,7 @@ index 0bb14272d024af90e7aef40f2f694e184af607d3..9326b6945d717fd37b498ff9addd18f7
  
      public final com.destroystokyo.paper.antixray.ChunkPacketBlockController chunkPacketBlockController; // Paper - Anti-Xray
      public final org.purpurmc.purpur.PurpurWorldConfig purpurConfig; // Purpur
-@@ -332,6 +333,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
+@@ -331,6 +332,7 @@ public abstract class Level implements LevelAccessor, AutoCloseable {
          this.paperConfig = paperWorldConfigCreator.apply(this.spigotConfig); // Paper
          this.purpurConfig = new org.purpurmc.purpur.PurpurWorldConfig(((net.minecraft.world.level.storage.PrimaryLevelData) worlddatamutable).getLevelName(), env); // Purpur
          this.playerBreedingCooldowns = this.getNewBreedingCooldownCache(); // Purpur
@@ -333,10 +332,10 @@ index 0bb14272d024af90e7aef40f2f694e184af607d3..9326b6945d717fd37b498ff9addd18f7
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 9724d65f7935299f4c5363a7a7e526bad463bd8c..152a599c8aba76ce2f959c44c2b55e432f0a8f51 100644
+index 4bfc58592a8e9c95075d9d73b2c15fb0dfadfba0..c7509c78c241755ac5e8a7c2dab17addcd4adab3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -1013,6 +1013,7 @@ public final class CraftServer implements Server {
+@@ -1026,6 +1026,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -344,7 +343,7 @@ index 9724d65f7935299f4c5363a7a7e526bad463bd8c..152a599c8aba76ce2f959c44c2b55e43
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -1029,6 +1030,7 @@ public final class CraftServer implements Server {
+@@ -1042,6 +1043,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -352,7 +351,7 @@ index 9724d65f7935299f4c5363a7a7e526bad463bd8c..152a599c8aba76ce2f959c44c2b55e43
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2852,6 +2854,13 @@ public final class CraftServer implements Server {
+@@ -2879,6 +2881,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -367,7 +366,7 @@ index 9724d65f7935299f4c5363a7a7e526bad463bd8c..152a599c8aba76ce2f959c44c2b55e43
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 1dd306acaf08b090c0416508de69fdc2e81e1450..5b402a01f591897a8ddff707fd061788e15c9275 100644
+index 52d0216938b0ef68d82bc91dbdcee37755a1a0cd..7bd1ea4d8d5e990c0b8aa0a15aa0979a2c8bdcfb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -159,6 +159,14 @@ public class Main {
@@ -386,7 +385,7 @@ index 1dd306acaf08b090c0416508de69fdc2e81e1450..5b402a01f591897a8ddff707fd061788
                          .withRequiredArg()
                          .ofType(File.class)
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index ccca392a45cb05abb55ddd5c6c36e6f9c7a5d171..7ebf7cc46fed5c1cd8c311428df6d2b4fb24c5b1 100644
+index 76cbfb7e900bf2698776f54cfe498f4b42965221..247ae19a85bf8126c1b450b5c5d2fec768e91a48 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -244,6 +244,19 @@ public class PurpurConfig {

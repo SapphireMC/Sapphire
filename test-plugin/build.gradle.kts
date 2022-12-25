@@ -9,7 +9,7 @@ dependencies {
 }
 
 tasks.processResources {
-    val apiVersion = rootProject.providers.gradleProperty("mcVersion").get()
+    val apiVersion = rootProject.properties["mcVersion"].toString()
         .split(".", "-").take(2).joinToString(".")
     val props = mapOf(
         "version" to project.version,

@@ -6,14 +6,13 @@ Subject: [PATCH] Add sapphire command
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..0bba66fbe64a160010222e2d1fee1179dceebec1
+index 0000000000000000000000000000000000000000..c337948c82263af20e55570a2c65288aa0123334
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-@@ -0,0 +1,111 @@
+@@ -0,0 +1,110 @@
 +package io.sapphiremc.sapphire;
 +
 +import io.papermc.paper.util.JarManifests;
-+import io.sapphiremc.sapphire.api.nbt.utils.MinecraftVersion;
 +import net.md_5.bungee.api.ChatColor;
 +import net.minecraft.server.MinecraftServer;
 +import org.bukkit.Bukkit;
@@ -79,7 +78,7 @@ index 0000000000000000000000000000000000000000..0bba66fbe64a160010222e2d1fee1179
 +            case "ver", "version" -> {
 +                if (args.length == 1) {
 +                    sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
-+                    sender.sendMessage(prefix + "Implementing API version " + Bukkit.getBukkitVersion() + " and NMS version " + MinecraftVersion.getVersion().getPackageName());
++                    sender.sendMessage(prefix + "Implementing API version " + Bukkit.getBukkitVersion() + " and NMS version " + Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3]);
 +                }
 +            }
 +            default -> sender.sendMessage(prefix + "Usage: " + usageMessage);
@@ -122,10 +121,10 @@ index 0000000000000000000000000000000000000000..0bba66fbe64a160010222e2d1fee1179
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 98f07164016ff77524e63890abb2196f3e5bf676..4ef24cebdb20cbdce8d18535b5576fdead119da4 100644
+index de07744a513236a6e3b7ee3275349b9a4cdc9633..ec1519a699e92f181448d2461310e75bdc180213 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -245,6 +245,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -240,6 +240,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.error("Unable to load sapphire configuration", e);
              return false;
          }

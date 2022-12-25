@@ -20,10 +20,10 @@ index 5851b8f4eb11fa2e6f3599c47a8725b9c0e3d25c..d6c54fe09a0c3319d3532eb242f66d34
  
      public static boolean playerCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index d7e102024b495067335fe008ec1649708f3a4016..b21a6fa36441e106484e270fb5a927c63a028657 100644
+index 9c3db8f774e5c11df18d2c317c874e8ac26e7f8e..41a13f76d82f7173358e8029d06c9bd6ba00c03e 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -148,7 +148,7 @@ public class ItemEntity extends Entity {
+@@ -146,7 +146,7 @@ public class ItemEntity extends Entity {
  
              if (this.level.isClientSide) {
                  this.noPhysics = false;

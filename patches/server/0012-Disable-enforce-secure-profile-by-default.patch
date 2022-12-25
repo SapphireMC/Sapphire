@@ -5,15 +5,15 @@ Subject: [PATCH] Disable enforce-secure-profile by default
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 01ca7156d86243a80cd343a2a66be9ebedcc3b7c..d73dfc3d265d397b3ec7aadead2956004ff13464 100644
+index 5134fed0cd0eedbe0c2177bce91b978b20061517..260a2af2e2661bb6087d2ead59aeede61ed300e2 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-@@ -148,7 +148,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
-         this.previewsChat = this.get("previews-chat", false);
+@@ -155,7 +155,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+         this.textFilteringConfig = this.get("text-filtering-config", "");
          this.playerIdleTimeout = this.getMutable("player-idle-timeout", 0);
          this.whiteList = this.getMutable("white-list", false);
 -        this.enforceSecureProfile = this.get("enforce-secure-profile", true);
 +        this.enforceSecureProfile = this.get("enforce-secure-profile", false); // Sapphire - disable by default
-         this.worldGenProperties = new DedicatedServerProperties.WorldGenProperties(this.get("level-seed", ""), (JsonObject) this.get("generator-settings", (s) -> {
-             return GsonHelper.parse(!s.isEmpty() ? s : "{}");
-         }, new JsonObject()), this.get("generate-structures", true), (String) this.get("level-type", (s) -> {
+         String s = this.get("level-seed", "");
+         boolean flag = this.get("generate-structures", true);
+         long i = WorldOptions.parseSeed(s).orElse(WorldOptions.randomSeed());

@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd2ef45b07 100644
+index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc400dea306 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
+@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
  import org.bukkit.Location;
  import org.bukkit.command.Command;
  import org.bukkit.command.CommandSender;
@@ -16,7 +16,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
  
-@@ -64,6 +65,22 @@ public class SapphireCommand extends Command {
+@@ -63,6 +64,22 @@ public class SapphireCommand extends Command {
                      sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
                  }
              }
@@ -39,7 +39,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
              case "ver", "version" -> {
                  if (args.length == 1) {
                      sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
-@@ -75,7 +92,7 @@ public class SapphireCommand extends Command {
+@@ -74,7 +91,7 @@ public class SapphireCommand extends Command {
          return true;
      }
  
@@ -48,7 +48,7 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
      @Override
      public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args, @Nullable Location location) throws IllegalArgumentException {
-@@ -93,6 +110,20 @@ public class SapphireCommand extends Command {
+@@ -92,6 +109,20 @@ public class SapphireCommand extends Command {
                      .toList()
                  );
              }
@@ -70,22 +70,22 @@ index 0bba66fbe64a160010222e2d1fee1179dceebec1..eb53599f609f78b5a4d8258aac1e01dd
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index b96b2973c64921000d49191730d34784bf573f53..4613609803db2ee7fdc60f449d9cbd723c5d60f0 100644
+index d62bf95fb067c2e2a4fc9b2757c636bd4ee75bea..6700520e2023dfb03748d4b6a5afc9d6aa9783ae 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -266,6 +266,7 @@ public class ServerPlayer extends Player {
+@@ -273,6 +273,7 @@ public class ServerPlayer extends Player {
      private boolean ramBar = false; // Purpur
      private boolean tpsBar = false; // Purpur
      private boolean compassBar = false; // Purpur
 +    public boolean chromiumClient = false; // Sapphire
  
-     public boolean isRealPlayer; // Paper
-     public double lastEntitySpawnRadiusSquared; // Paper - optimise isOutsideRange, this field is in blocks
+     public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
+         super(world, world.getSharedSpawnPos(), world.getSharedSpawnAngle(), profile);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index ba08b9f454b6dc40a363a125ae29f47db34ee59f..2960494ec9b6a1701e8a64c1dc073461c50b1c11 100644
+index a37849179a34d0ba5997f7d83c10bd1851135835..3c0a7ec3313fec8f53033cff62b90b2275668f5b 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3759,6 +3759,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3613,6 +3613,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index ba08b9f454b6dc40a363a125ae29f47db34ee59f..2960494ec9b6a1701e8a64c1dc073461
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3790,6 +3791,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3644,6 +3645,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,10 +108,10 @@ index ba08b9f454b6dc40a363a125ae29f47db34ee59f..2960494ec9b6a1701e8a64c1dc073461
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 6c816179a2fef2c913580339eb68040e5af3fd92..0ced030ee360c7d5ba907a399ef951f4f1b3193d 100644
+index b0fab5197b07cc81828ddb41ad07ccba4e58ebe2..6b9c3fef66e7d9995716c61b76da6d9b5d25d6ee 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3129,4 +3129,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3143,4 +3143,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(packet);
      }
      // Purpur end
