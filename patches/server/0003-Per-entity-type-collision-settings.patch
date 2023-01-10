@@ -130,10 +130,10 @@ index 0000000000000000000000000000000000000000..bb4d50c1aa0fb76bc3413b49e2cc21f7
 +    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 1e10cd5eb8c8274b8355b57703f0b7f19eb6167d..5851b8f4eb11fa2e6f3599c47a8725b9c0e3d25c 100644
+index 5991ccc435f47c3ac410dc0a2de8c3ad16f8058b..f0f30a085313bb5af290fa674c226fcd4583e9bc 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -183,4 +183,38 @@ public class SapphireConfig {
+@@ -132,4 +132,38 @@ public class SapphireConfig {
      private static void settings() {
          disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
      }
@@ -173,7 +173,7 @@ index 1e10cd5eb8c8274b8355b57703f0b7f19eb6167d..5851b8f4eb11fa2e6f3599c47a8725b9
 +    }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 89fd3a0355b44e21721078cfc8f762459a1555d2..b5bb1c052e5a6479291ba4d260c3e9a533435b96 100644
+index 82ed0bccf96464b48e93cf6564a15b9156a4a14b..77c6cc24b8cc4144c67277648bfc8e54e0724a27 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -3645,7 +3645,7 @@ public abstract class LivingEntity extends Entity {

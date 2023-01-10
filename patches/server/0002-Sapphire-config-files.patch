@@ -20,10 +20,10 @@ index 2cc44fbf8e5bd436b6d4e19f6c06b351e750cb31..176ce96bf720fab9e714661ff5671906
          new TimingsExport(listeners, parent, history).start();
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1e10cd5eb8c8274b8355b57703f0b7f19eb6167d
+index 0000000000000000000000000000000000000000..5991ccc435f47c3ac410dc0a2de8c3ad16f8058b
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -0,0 +1,186 @@
+@@ -0,0 +1,135 @@
 +package io.sapphiremc.sapphire;
 +
 +import com.google.common.base.Throwables;
@@ -38,11 +38,9 @@ index 0000000000000000000000000000000000000000..1e10cd5eb8c8274b8355b57703f0b7f1
 +import java.lang.reflect.InvocationTargetException;
 +import java.lang.reflect.Method;
 +import java.lang.reflect.Modifier;
-+import java.util.concurrent.TimeUnit;
 +import java.util.logging.Level;
-+import java.util.regex.Pattern;
 +
-+@SuppressWarnings({"unused", "deprecation"})
++@SuppressWarnings("unused")
 +public class SapphireConfig {
 +
 +    public static File CONFIG_FILE;
@@ -120,55 +118,6 @@ index 0000000000000000000000000000000000000000..1e10cd5eb8c8274b8355b57703f0b7f1
 +        } catch (IOException ex) {
 +            Bukkit.getLogger().log(Level.SEVERE, "Could not save " + CONFIG_FILE, ex);
 +        }
-+    }
-+
-+    private static final Pattern SPACE = Pattern.compile(" ");
-+    private static final Pattern NOT_NUMERIC = Pattern.compile("[^-\\d.]");
-+
-+    public static int getSeconds(String str) {
-+        str = SPACE.matcher(str).replaceAll("");
-+        final char unit = str.charAt(str.length() - 1);
-+        str = NOT_NUMERIC.matcher(str).replaceAll("");
-+        double num;
-+        try {
-+            num = Double.parseDouble(str);
-+        } catch (Exception e) {
-+            num = 0D;
-+        }
-+        switch (unit) {
-+            case 'd':
-+                num *= (double) 60 * 60 * 24;
-+                break;
-+            case 'h':
-+                num *= (double) 60 * 60;
-+                break;
-+            case 'm':
-+                num *= 60;
-+                break;
-+            default:
-+            case 's':
-+                break;
-+        }
-+        return (int) num;
-+    }
-+
-+    protected static String timeSummary(int seconds) {
-+        String time = "";
-+
-+        if (seconds > 60 * 60 * 24) {
-+            time = TimeUnit.SECONDS.toDays(seconds) + "d";
-+            seconds %= 60 * 60 * 24;
-+        }
-+
-+        if (seconds > 60 * 60) {
-+            time = TimeUnit.SECONDS.toHours(seconds) + "h";
-+            seconds %= 60 * 60;
-+        }
-+
-+        if (seconds > 0) {
-+            time = TimeUnit.SECONDS.toMinutes(seconds) + "m";
-+        }
-+        return time;
 +    }
 +
 +    private static void set(String path, Object val) {
@@ -300,7 +249,7 @@ index 46858fb57f122033a68aeb4ad3943132a677fb46..de07744a513236a6e3b7ee3275349b9a
          this.setPvpAllowed(dedicatedserverproperties.pvp);
          this.setFlightAllowed(dedicatedserverproperties.allowFlight);
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 454cd09309f581b43a521fcb8fd184b7788c6a88..89fd3a0355b44e21721078cfc8f762459a1555d2 100644
+index 094afd5636590608c8ec31c9fec97614dfef60db..82ed0bccf96464b48e93cf6564a15b9156a4a14b 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -407,6 +407,7 @@ public abstract class LivingEntity extends Entity {
@@ -366,7 +315,7 @@ index 4bfc58592a8e9c95075d9d73b2c15fb0dfadfba0..c7509c78c241755ac5e8a7c2dab17add
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 52d0216938b0ef68d82bc91dbdcee37755a1a0cd..7bd1ea4d8d5e990c0b8aa0a15aa0979a2c8bdcfb 100644
+index f5a56c8322ac4fccb71d564a18693e2774be2949..95e7bb85370d0943c86ded3e5086abef2234a74b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -159,6 +159,14 @@ public class Main {
@@ -385,14 +334,14 @@ index 52d0216938b0ef68d82bc91dbdcee37755a1a0cd..7bd1ea4d8d5e990c0b8aa0a15aa0979a
                          .withRequiredArg()
                          .ofType(File.class)
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 76cbfb7e900bf2698776f54cfe498f4b42965221..247ae19a85bf8126c1b450b5c5d2fec768e91a48 100644
+index c7c0ed8dfe58c841faf684a1fe228eeda6cd57b7..197cd620ead053a7593dd66c81f654a7c4e3e45b 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -244,6 +244,19 @@ public class PurpurConfig {
-         if (!TimingsManager.hiddenConfigs.contains("settings.seed")) TimingsManager.hiddenConfigs.add("settings.seed");
+@@ -232,6 +232,19 @@ public class PurpurConfig {
+         serverModName = getString("settings.server-mod-name", serverModName);
      }
  
-+    // Sapphire start - move server mod name from sapphire.yml to purpur.yml
++    // Sapphire start - Move server mod name from sapphire.yml to purpur.yml
 +    public static void setServerModName(String s) {
 +        if (serverModName.equals("Purpur")) {
 +            set("settings.server-mod-name", s);
@@ -405,6 +354,6 @@ index 76cbfb7e900bf2698776f54cfe498f4b42965221..247ae19a85bf8126c1b450b5c5d2fec7
 +    }
 +    // Sapphire end
 +
-     public static String serverModName = "Purpur";
-     private static void serverModName() {
-         serverModName = getString("settings.server-mod-name", serverModName);
+     public static double laggingThreshold = 19.0D;
+     private static void tickLoopSettings() {
+         laggingThreshold = getDouble("settings.lagging-threshold", laggingThreshold);
