@@ -108,10 +108,10 @@ index a8e205af936efe0909c94575e3b7f8ca50cead2f..e33250e59d821d98e0d7b7ae251ab675
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index ed5ee1f76aad6c27e742cb421a8e94990ebb7c59..780a59bcaf75b4f5254b718f3cf449ac716e718c 100644
+index 5a76c967e2d9c9c1b09e8de33fcde34e25b4646b..8ec5bc2167bdc1cb92080c0c05aee6b8c85cb8e0 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3147,4 +3147,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3153,4 +3153,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(packet);
      }
      // Purpur end
