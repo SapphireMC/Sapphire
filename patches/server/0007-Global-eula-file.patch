@@ -5,10 +5,10 @@ Subject: [PATCH] Global eula file
 
 
 diff --git a/src/main/java/net/minecraft/server/Eula.java b/src/main/java/net/minecraft/server/Eula.java
-index 5528a4b7a67e0c257966c587437006004a2e1292..8075290752dc35fa0d44aefa93efa0a2e6c0f13b 100644
+index 4996694ec43a894cbbb363e48bfdff6b6ae17b5f..f948b8531f8a397dac9379940ca25dbefc5da0b8 100644
 --- a/src/main/java/net/minecraft/server/Eula.java
 +++ b/src/main/java/net/minecraft/server/Eula.java
-@@ -16,13 +16,25 @@ public class Eula {
+@@ -16,16 +16,28 @@ public class Eula {
  
      public Eula(Path eulaFile) {
          this.file = eulaFile;
@@ -17,6 +17,7 @@ index 5528a4b7a67e0c257966c587437006004a2e1292..8075290752dc35fa0d44aefa93efa0a2
      }
  
 -    private boolean readFile() {
+-        try (InputStream inputStream = Files.newInputStream(this.file)) {
 +    // Sapphire start - Global eula file
 +    private boolean globalEula() {
 +        java.io.File globalEula = new java.io.File(System.getProperty("user.home"), "eula.txt");
@@ -30,16 +31,10 @@ index 5528a4b7a67e0c257966c587437006004a2e1292..8075290752dc35fa0d44aefa93efa0a2
 +    // Sapphire end
 +
 +    private boolean readFile(java.nio.file.Path path) { // Sapphire - Global eula file
-         try {
-             boolean var3;
--            try (InputStream inputStream = Files.newInputStream(this.file)) {
-+            try (InputStream inputStream = Files.newInputStream(path)) { // Sapphire - Global eula file
-                 Properties properties = new Properties();
-                 properties.load(inputStream);
-                 var3 = Boolean.parseBoolean(properties.getProperty("eula", "false"));
-@@ -30,7 +42,7 @@ public class Eula {
- 
-             return var3;
++        try (InputStream inputStream = Files.newInputStream(path)) { // Sapphire - Global eula file
+             Properties properties = new Properties();
+             properties.load(inputStream);
+             return Boolean.parseBoolean(properties.getProperty("eula", "false"));
          } catch (Exception var6) {
 -            LOGGER.warn("Failed to load {}", (Object)this.file);
 +            LOGGER.warn("Failed to load {}", (Object)path); // Sapphire - Global eula file
