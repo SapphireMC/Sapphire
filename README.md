@@ -63,7 +63,7 @@ dependencies {
 </dependency>
 ```
 
-Yes, this also includes all API provided by Paper, Spigot, and Bukkit.
+Yes, this also includes all API provided by Purpur, Pufferfish, Paper, Spigot, and Bukkit.
 
 ## Building and setting up
 
