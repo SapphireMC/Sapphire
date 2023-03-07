@@ -15,21 +15,19 @@ Another purpur fork
 
 ### Dependency Information
 
-#### Maven
-```xml
-<repository>
-    <id>sapphiremc</id>
-    <url>http://repo.denaryworld.ru/snapshots/</url>
-</repository>
+#### Gradle kotlin
+```kotlin
+repositories {
+    maven("http://repo.denaryworld.ru/snapshots/") {
+        isAllowInsecureProtocol = true
+    }
+}
 ```
-```xml
-<dependency>
-    <groupId>io.sapphiremc.sapphire</groupId>
-    <!-- For API use sapphire-api, for Server use sapphire-server -->
-    <artifactId>sapphire-api</artifactId>
-    <version>1.19.2-R0.1-SNAPSHOT</version>
-    <scope>provided</scope>
-</dependency>
+```kotlin
+dependencies {
+    // For API use sapphire-api, for Server use sapphire-server
+    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.3-R0.1-SNAPSHOT")
+}
 ```
 
 #### Gradle groovy
@@ -44,23 +42,25 @@ repositories {
 ```groovy
 dependencies {
     // For API use sapphire-api, for Server use sapphire-server
-    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.2-R0.1-SNAPSHOT'
+    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.3-R0.1-SNAPSHOT'
 }
 ```
 
-#### Gradle kotlin
-```kotlin
-repositories {
-    maven("http://repo.denaryworld.ru/snapshots/") {
-        isAllowInsecureProtocol = true
-    }
-}
+#### Maven
+```xml
+<repository>
+    <id>sapphiremc</id>
+    <url>http://repo.denaryworld.ru/snapshots/</url>
+</repository>
 ```
-```kotlin
-dependencies {
-    // For API use sapphire-api, for Server use sapphire-server
-    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.2-R0.1-SNAPSHOT")
-}
+```xml
+<dependency>
+    <groupId>io.sapphiremc.sapphire</groupId>
+    <!-- For API use sapphire-api, for Server use sapphire-server -->
+    <artifactId>sapphire-api</artifactId>
+    <version>1.19.3-R0.1-SNAPSHOT</version>
+    <scope>provided</scope>
+</dependency>
 ```
 
 Yes, this also includes all API provided by Paper, Spigot, and Bukkit.
@@ -79,7 +79,7 @@ Run the following command in the root directory:
 Use the command `./gradlew build` to build the API and server. Compiled JARs
 will be placed under `sapphire-api/build/libs` and `sapphire-server/build/libs`.
 
-To get a Paperclip jar, run `./gradlew createReobfPaperclipJar`.
+To get a Paperclip jar, run `./gradlew renamedReobfPaperclipJar`.
 
 To get a Bundled jar, run `./gradlew createReobfBundlerJar`
 
