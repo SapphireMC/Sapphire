@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b6fde7181a58037a2e2a6fd23daac9766127fc0e..5d9b68c75934c2c972d1367828dcd8aa6562af6a 100644
+index 0435c1eb5c1fa6f9180ee8dc36a61afbac0f952e..b592f98a638ff82e905e729fa4a7f1e697ced4a1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -17,7 +17,7 @@ index b6fde7181a58037a2e2a6fd23daac9766127fc0e..5d9b68c75934c2c972d1367828dcd8aa
      // Pufferfish start
      implementation("io.papermc.paper:paper-mojangapi:1.19.3-R0.1-SNAPSHOT") {
          exclude("io.papermc.paper", "paper-api")
-@@ -84,7 +84,7 @@ tasks.jar {
+@@ -85,7 +85,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -26,7 +26,7 @@ index b6fde7181a58037a2e2a6fd23daac9766127fc0e..5d9b68c75934c2c972d1367828dcd8aa
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -102,6 +102,7 @@ tasks.jar {
+@@ -103,6 +103,7 @@ tasks.jar {
  publishing {
      publications.create<MavenPublication>("maven") {
          artifact(tasks.shadowJar)
@@ -137,7 +137,7 @@ index 584596c8849b4dd7f955216f313eefb3229b375c..dd476926948f26f8e92d5991757238be
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 576cd8e20982bb20d10213b6c7a229428eec1c2f..f5a56c8322ac4fccb71d564a18693e2774be2949 100644
+index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..1dd306acaf08b090c0416508de69fdc2e81e1450 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -292,7 +292,7 @@ public class Main {
