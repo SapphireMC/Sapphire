@@ -52,3 +52,5 @@ sapphire-api
 !gradle/wrapper/gradle-wrapper.jar
 
 test-plugin.settings.gradle.kts
+
+.fleet/
