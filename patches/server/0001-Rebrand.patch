@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 0435c1eb5c1fa6f9180ee8dc36a61afbac0f952e..b592f98a638ff82e905e729fa4a7f1e697ced4a1 100644
+index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..9698359517bc7f0f6f72f91ec017ca3f75757e14 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,7 +7,7 @@ plugins {
@@ -14,19 +14,19 @@ index 0435c1eb5c1fa6f9180ee8dc36a61afbac0f952e..b592f98a638ff82e905e729fa4a7f1e6
  dependencies {
 -    implementation(project(":purpur-api")) // Purpur
 +    implementation(project(":sapphire-api")) // Sapphire
-     // Pufferfish start
-     implementation("io.papermc.paper:paper-mojangapi:1.19.3-R0.1-SNAPSHOT") {
-         exclude("io.papermc.paper", "paper-api")
-@@ -85,7 +85,7 @@ tasks.jar {
+     implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
+     // Paper start
+     implementation("org.jline:jline-terminal-jansi:3.21.0")
+@@ -81,7 +81,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
--            "Implementation-Version" to "git-Purpur-$implementationVersion", // Purpur
-+            "Implementation-Version" to "git-Sapphire-$implementationVersion", // Sapphire
+-            "Implementation-Version" to "git-Purpur-$implementationVersion", // Pufferfish // Purpur
++            "Implementation-Version" to "git-Sapphire-$implementationVersion", // Pufferfish // Purpur // Sapphire
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -103,6 +103,7 @@ tasks.jar {
+@@ -99,6 +99,7 @@ tasks.jar {
  publishing {
      publications.create<MavenPublication>("maven") {
          artifact(tasks.shadowJar)
@@ -35,15 +35,15 @@ index 0435c1eb5c1fa6f9180ee8dc36a61afbac0f952e..b592f98a638ff82e905e729fa4a7f1e6
  }
  
 diff --git a/src/main/java/com/destroystokyo/paper/Metrics.java b/src/main/java/com/destroystokyo/paper/Metrics.java
-index 9713263c3bd34ab8a3bfc0a8797ba0b1b88ed733..46363482ec16a9b3ac51f9a77c7e420503489bca 100644
+index 8cde30544e14f8fc2dac32966ae3c21f8cf3a551..2067bf7780aae6390e8bdb10bfa76358b3a43c21 100644
 --- a/src/main/java/com/destroystokyo/paper/Metrics.java
 +++ b/src/main/java/com/destroystokyo/paper/Metrics.java
 @@ -593,7 +593,7 @@ public class Metrics {
              boolean logFailedRequests = config.getBoolean("logFailedRequests", false);
              // Only start Metrics, if it's enabled in the config
              if (config.getBoolean("enabled", true)) {
--                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Purpur
-+                Metrics metrics = new Metrics("Sapphire", serverUUID, logFailedRequests, Bukkit.getLogger()); // Sapphire
+-                Metrics metrics = new Metrics("Purpur", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // Purpur
++                Metrics metrics = new Metrics("Sapphire", serverUUID, logFailedRequests, Bukkit.getLogger()); // Pufferfish // Purpur // Sapphire
  
                  metrics.addCustomChart(new Metrics.SimplePie("minecraft_version", () -> {
                      String minecraftVersion = Bukkit.getVersion();
@@ -52,12 +52,12 @@ index 9713263c3bd34ab8a3bfc0a8797ba0b1b88ed733..46363482ec16a9b3ac51f9a77c7e4205
                  metrics.addCustomChart(new Metrics.SingleLineChart("players", () -> Bukkit.getOnlinePlayers().size()));
                  metrics.addCustomChart(new Metrics.SimplePie("online_mode", () -> Bukkit.getOnlineMode() ? "online" : (io.papermc.paper.configuration.GlobalConfiguration.get().proxies.isProxyOnlineMode() ? "bungee" : "offline"))); // Purpur
 -                metrics.addCustomChart(new Metrics.SimplePie("purpur_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Purpur
-+                metrics.addCustomChart(new Metrics.SimplePie("sapphire_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Sapphire
++                metrics.addCustomChart(new Metrics.SimplePie("sapphire_version", () -> (org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() != null) ? org.bukkit.craftbukkit.Main.class.getPackage().getImplementationVersion() : "unknown")); // Purpur // Sapphire
  
                  metrics.addCustomChart(new Metrics.DrilldownPie("java_version", () -> {
                      Map<String, Map<String, Integer>> map = new HashMap<>();
 diff --git a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
-index fba5dbdb7bcbb55400ef18342c9b54612972a718..386ecc103c9935bf640baa3dcac6d85cd6a0efb4 100644
+index 462a6eed350fd660ddaf25d567bb6e97b77d0b2b..da7dba827c3eb28c4751aead49b5731dbccda42c 100644
 --- a/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 +++ b/src/main/java/com/destroystokyo/paper/PaperVersionFetcher.java
 @@ -20,7 +20,7 @@ import java.util.stream.StreamSupport;
@@ -75,8 +75,8 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..386ecc103c9935bf640baa3dcac6d85c
      public Component getVersionMessage(@Nonnull String serverVersion) {
 -        String[] parts = serverVersion.substring("git-Purpur-".length()).split("[-\\s]"); // Purpur
 -        final Component updateMessage = getUpdateStatusMessage("PurpurMC/Purpur", "ver/" + getMinecraftVersion(), parts[0]); // Purpur
-+        String[] parts = serverVersion.substring("git-Sapphire-".length()).split("[-\\s]"); // Sapphire
-+        final Component updateMessage = getUpdateStatusMessage("SapphireMC/Sapphire", "ver/" + getMinecraftVersion(), parts[0]); // Sapphire
++        String[] parts = serverVersion.substring("git-Sapphire-".length()).split("[-\\s]"); // Purpur // Sapphire
++        final Component updateMessage = getUpdateStatusMessage("SapphireMC/Sapphire", "ver/" + getMinecraftVersion(), parts[0]); // Purpur // Sapphire
          final Component history = getHistory();
  
          return history != null ? Component.join(net.kyori.adventure.text.JoinConfiguration.separator(Component.newline()), history, updateMessage) : updateMessage; // Purpur
@@ -85,7 +85,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..386ecc103c9935bf640baa3dcac6d85c
                  mcVer = result.substring(0, result.length() - 2); // strip 'R' anchor and trailing '-'
              } else {
 -                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Purpur!"); // Purpur
-+                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Sapphire!"); // Sapphire
++                org.bukkit.Bukkit.getLogger().warning("Unable to match version to pattern! Report to Sapphire!"); // Purpur // Sapphire
                  org.bukkit.Bukkit.getLogger().warning("Pattern: " + VER_PATTERN.toString());
                  org.bukkit.Bukkit.getLogger().warning("Version: " + org.bukkit.Bukkit.getBukkitVersion());
              }
@@ -111,7 +111,7 @@ index fba5dbdb7bcbb55400ef18342c9b54612972a718..386ecc103c9935bf640baa3dcac6d85c
          switch (distance) {
              case -1:
 diff --git a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
-index 3cb56595822799926a8141e60a42f5d1edfc6de5..1abd60741ece7982bdb6a2d90f81df365f0eb223 100644
+index 3cb56595822799926a8141e60a42f5d1edfc6de5..713df1c9b544a14dddf0e254bfdb24e443c8ead3 100644
 --- a/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 +++ b/src/main/java/com/destroystokyo/paper/console/PaperConsole.java
 @@ -17,7 +17,7 @@ public final class PaperConsole extends SimpleTerminalConsole {
@@ -119,28 +119,28 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..1abd60741ece7982bdb6a2d90f81df36
      protected LineReader buildReader(LineReaderBuilder builder) {
          builder
 -                .appName("Purpur") // Purpur
-+                .appName("Sapphire") // Sapphire
++                .appName("Sapphire") // Purpur // Sapphire
                  .variable(LineReader.HISTORY_FILE, java.nio.file.Paths.get(".console_history"))
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 584596c8849b4dd7f955216f313eefb3229b375c..dd476926948f26f8e92d5991757238be8a9cfb8a 100644
+index bc1a2df0a7ddaf030917e4723994464d77e55d02..567c44f5d05adc2164379661804d810e8e159144 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
+@@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
--    private final String serverName = "Purpur"; // Paper // Purpur
-+    private final String serverName = "Sapphire"; // Paper // Purpur // Sapphire
+-    private final String serverName = "Purpur"; // Paper // Pufferfish // Purpur
++    private final String serverName = "Sapphire"; // Paper // Pufferfish // Purpur // Sapphire
      private final String serverVersion;
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..1dd306acaf08b090c0416508de69fdc2e81e1450 100644
+index ad4bc3f46bb6f02284ecf62e2701bb627e096b15..11bd6c1410f54e1662ee62f1fa724cfb1574fe0b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -292,7 +292,7 @@ public class Main {
+@@ -293,7 +293,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
@@ -150,15 +150,15 @@ index 8a4c8701122edf2f29edbe97e4fa199da2744e9e..1dd306acaf08b090c0416508de69fdc2
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
-index fb87620c742ff7912f5e8ccd2a7930dd605576d9..675f6d0a5f26b26740e898d3bdd7405320af4d4a 100644
+index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..52b687736655c976bc1efca1a8eb3b62f00df25f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 +++ b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 @@ -11,7 +11,7 @@ public final class Versioning {
      public static String getBukkitVersion() {
          String result = "Unknown-Version";
  
--        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Purpur
-+        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/io.sapphiremc.sapphire/sapphire-api/pom.properties"); // Sapphire
+-        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/org.purpurmc.purpur/purpur-api/pom.properties"); // Pufferfish // Purpur
++        InputStream stream = Bukkit.class.getClassLoader().getResourceAsStream("META-INF/maven/io.sapphiremc.sapphire/sapphire-api/pom.properties"); // Pufferfish // Purpur // Sapphire
          Properties properties = new Properties();
  
          if (stream != null) {

@@ -5,7 +5,7 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc400dea306 100644
+index 770fdc9e52247b6fe0e23e8d9a5678ee66e4c68f..be44e3b3336eaa1e00f37e6916e7037d2e00c6b4 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 @@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
@@ -70,10 +70,10 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index b91bf50a1f450a78c8d16cf5b8772687120e9119..32e73857d1cbe20f9ebca8d6021dc41f88706613 100644
+index 74238a87d1ff3391aac5812b24b84af228baeaa4..c7dbeeeb840f3e5062c50b257853dc45d2f7b4bf 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -273,6 +273,7 @@ public class ServerPlayer extends Player {
+@@ -279,6 +279,7 @@ public class ServerPlayer extends Player {
      private boolean ramBar = false; // Purpur
      private boolean tpsBar = false; // Purpur
      private boolean compassBar = false; // Purpur
@@ -82,10 +82,10 @@ index b91bf50a1f450a78c8d16cf5b8772687120e9119..32e73857d1cbe20f9ebca8d6021dc41f
      public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
          super(world, world.getSharedSpawnPos(), world.getSharedSpawnAngle(), profile);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index f5e1361c04d44ae7f82376aff6e5f01aaf45cfdd..8c28eaab3cb19dd89ab6807b3b13049e18f37c52 100644
+index ae3c1bd67c144fe971d4df6df2ca171b431b6fc5..307a819579153126de2bb53c365b32868fe3bb00 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3627,6 +3627,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3642,6 +3642,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index f5e1361c04d44ae7f82376aff6e5f01aaf45cfdd..8c28eaab3cb19dd89ab6807b3b13049e
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3658,6 +3659,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3673,6 +3674,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,10 +108,10 @@ index f5e1361c04d44ae7f82376aff6e5f01aaf45cfdd..8c28eaab3cb19dd89ab6807b3b13049e
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 08649f51adb40fa69d45b95c2d13aa918fff41bf..1932119d5dda63effb3cb81f33ac8ae60a0c57a5 100644
+index 2b647aeb75e2207186bf9506fba0d92a745cfae8..a536424d79e7ef9437fc90f5b4257f862e089d2e 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3205,4 +3205,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3272,4 +3272,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(packet);
      }
      // Purpur end

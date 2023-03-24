@@ -5,7 +5,7 @@ Subject: [PATCH] Add item stuck sleep config
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index f0f30a085313bb5af290fa674c226fcd4583e9bc..b74b5365b99e73426a2b0f93e9edb87b22bb056a 100644
+index e10bc38b0a6ec0ddf93b4d5b121d979e2ff96ee3..445c4e3c88465a55497a1f17947281633c946387 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 @@ -129,8 +129,10 @@ public class SapphireConfig {
@@ -20,10 +20,10 @@ index f0f30a085313bb5af290fa674c226fcd4583e9bc..b74b5365b99e73426a2b0f93e9edb87b
  
      public static boolean playerCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 9c3db8f774e5c11df18d2c317c874e8ac26e7f8e..41a13f76d82f7173358e8029d06c9bd6ba00c03e 100644
+index 52a14af24e3c51c53b40fdb6594b1664eef6d486..22e0cc38893c02ff37fbae4704be0089837b1da4 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -146,7 +146,7 @@ public class ItemEntity extends Entity {
+@@ -155,7 +155,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
  
              if (this.level.isClientSide) {
                  this.noPhysics = false;

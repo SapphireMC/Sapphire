@@ -5,7 +5,7 @@ Subject: [PATCH] Option for simpler Villagers
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index b74b5365b99e73426a2b0f93e9edb87b22bb056a..77a17cf5b8c008d9e8d5890cff4759e1b7a5de5f 100644
+index 445c4e3c88465a55497a1f17947281633c946387..f353cfd6bbc4155ca6a4ac1369952a3fbac5ee13 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 @@ -135,6 +135,13 @@ public class SapphireConfig {
@@ -23,7 +23,7 @@ index b74b5365b99e73426a2b0f93e9edb87b22bb056a..77a17cf5b8c008d9e8d5890cff4759e1
      public static boolean animalCollisions = true;
      public static boolean ambientCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 832469e39901d9ec666ddaf3aff77419f6195b1c..43a7f60fff5d87d62d581fa3eb9465f7a3e88dc9 100644
+index 26857b0e5134f56df47115031727e0ad68216bc6..e4f79184237875b0eb52373d142d5063ddecebca 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
 @@ -100,6 +100,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;
@@ -138,7 +138,7 @@ index 832469e39901d9ec666ddaf3aff77419f6195b1c..43a7f60fff5d87d62d581fa3eb9465f7
          if (this.assignProfessionWhenSpawned) {
              this.assignProfessionWhenSpawned = false;
          }
-@@ -795,6 +861,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -807,6 +873,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      private void tellWitnessesThatIWasMurdered(Entity killer) {
@@ -146,7 +146,7 @@ index 832469e39901d9ec666ddaf3aff77419f6195b1c..43a7f60fff5d87d62d581fa3eb9465f7
          Level world = this.level;
  
          if (world instanceof ServerLevel) {
-@@ -813,6 +880,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -825,6 +892,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      public void releasePoi(MemoryModuleType<GlobalPos> pos) {
