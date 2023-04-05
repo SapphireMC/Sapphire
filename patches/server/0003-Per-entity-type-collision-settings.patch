@@ -130,10 +130,10 @@ index 0000000000000000000000000000000000000000..bb4d50c1aa0fb76bc3413b49e2cc21f7
 +    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index e29a3721812c302749d47cf0bb21723e43d2fb0b..e10bc38b0a6ec0ddf93b4d5b121d979e2ff96ee3 100644
+index 7b482c1275ae9bcd028d4ffa8367daae02a170c3..795e5b12ec00187e420025c05ee3b979838abd10 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -132,4 +132,38 @@ public class SapphireConfig {
+@@ -130,4 +130,38 @@ public class SapphireConfig {
      private static void settings() {
          disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
      }

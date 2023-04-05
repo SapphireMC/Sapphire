@@ -5,10 +5,10 @@ Subject: [PATCH] Add item stuck sleep config
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index e10bc38b0a6ec0ddf93b4d5b121d979e2ff96ee3..445c4e3c88465a55497a1f17947281633c946387 100644
+index 795e5b12ec00187e420025c05ee3b979838abd10..a8cf5e06636f047c9d54fd9f7567434bc7b3c418 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -129,8 +129,10 @@ public class SapphireConfig {
+@@ -127,8 +127,10 @@ public class SapphireConfig {
      }
  
      public static boolean disableEntityStuckChecks = false;

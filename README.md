@@ -26,7 +26,7 @@ repositories {
 ```kotlin
 dependencies {
     // For API use sapphire-api, for Server use sapphire-server
-    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.3-R0.1-SNAPSHOT")
+    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.4-R0.1-SNAPSHOT")
 }
 ```
 
@@ -42,7 +42,7 @@ repositories {
 ```groovy
 dependencies {
     // For API use sapphire-api, for Server use sapphire-server
-    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.3-R0.1-SNAPSHOT'
+    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.4-R0.1-SNAPSHOT'
 }
 ```
 
@@ -58,7 +58,7 @@ dependencies {
     <groupId>io.sapphiremc.sapphire</groupId>
     <!-- For API use sapphire-api, for Server use sapphire-server -->
     <artifactId>sapphire-api</artifactId>
-    <version>1.19.3-R0.1-SNAPSHOT</version>
+    <version>1.19.4-R0.1-SNAPSHOT</version>
     <scope>provided</scope>
 </dependency>
 ```

@@ -124,7 +124,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..713df1c9b544a14dddf0e254bfdb24e4
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index bc1a2df0a7ddaf030917e4723994464d77e55d02..567c44f5d05adc2164379661804d810e8e159144 100644
+index 5ace171b786e5b5a9a33b51e9b93e6d71159c29b..80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
@@ -137,10 +137,10 @@ index bc1a2df0a7ddaf030917e4723994464d77e55d02..567c44f5d05adc2164379661804d810e
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index ad4bc3f46bb6f02284ecf62e2701bb627e096b15..11bd6c1410f54e1662ee62f1fa724cfb1574fe0b 100644
+index ab05f4151e6ec7404a85ddb3a141ed39d9ed86d7..272e39f51a8016c2dc426eeed958d1dc19a8f643 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -293,7 +293,7 @@ public class Main {
+@@ -299,7 +299,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
