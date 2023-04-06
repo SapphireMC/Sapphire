@@ -5,19 +5,25 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..9698359517bc7f0f6f72f91ec017ca3f75757e14 100644
+index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..7164390adbc289ecceab4aba8336b1d92c489844 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -7,7 +7,7 @@ plugins {
+@@ -7,8 +7,12 @@ plugins {
  }
  
  dependencies {
 -    implementation(project(":purpur-api")) // Purpur
+-    implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
 +    implementation(project(":sapphire-api")) // Sapphire
-     implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
++    // Sapphire start - exclude paper-api from build
++    implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") { // Purpur
++        exclude("io.papermc.paper", "paper-api")
++    }
++    // Sapphire end - exclude paper-api from build
      // Paper start
      implementation("org.jline:jline-terminal-jansi:3.21.0")
-@@ -81,7 +81,7 @@ tasks.jar {
+     implementation("net.minecrell:terminalconsoleappender:1.3.0")
+@@ -81,7 +85,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -26,7 +32,7 @@ index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..9698359517bc7f0f6f72f91ec017ca3f
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -99,6 +99,7 @@ tasks.jar {
+@@ -99,6 +103,7 @@ tasks.jar {
  publishing {
      publications.create<MavenPublication>("maven") {
          artifact(tasks.shadowJar)
