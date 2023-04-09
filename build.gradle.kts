@@ -6,8 +6,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent
 plugins {
     java
     `maven-publish`
-    id("com.github.johnrengelman.shadow") version "8.1.0" apply false
-    id("io.papermc.paperweight.patcher") version "1.5.3"
+    id("com.github.johnrengelman.shadow") version "8.1.1" apply false
+    id("io.papermc.paperweight.patcher") version "1.5.4"
 }
 
 repositories {
@@ -76,10 +76,10 @@ paperweight {
             baseName("Purpur")
 
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
-            apiOutputDir.set(layout.projectDirectory.dir("sapphire-api"))
+            apiOutputDir.set(layout.projectDirectory.dir("Sapphire-API"))
 
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
-            serverOutputDir.set(layout.projectDirectory.dir("sapphire-server"))
+            serverOutputDir.set(layout.projectDirectory.dir("Sapphire-Server"))
         }
     }
 }
@@ -111,8 +111,6 @@ tasks.register<Copy>("renamedReobfPaperclipJar") {
 val env: Map<String, String> = System.getenv()
 
 allprojects {
-    // Publishing API:
-    // ./gradlew :sapphire-api:publish[ToMavenLocal]
     publishing {
         repositories {
             if (env.containsKey("MAVEN_URL")) {
@@ -131,11 +129,11 @@ allprojects {
 }
 
 publishing {
-    //if (project.hasProperty("publishDevBundle")) {
+    if (project.hasProperty("publishDevBundle")) {
         publications.create<MavenPublication>("devBundle") {
             artifact(tasks.generateDevelopmentBundle) {
                 artifactId = "dev-bundle"
             }
         }
-    //}
+    }
 }

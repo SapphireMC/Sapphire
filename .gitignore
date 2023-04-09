@@ -24,7 +24,6 @@ dependency-reduced-pom.xml
 .*.sw[a-p]
 
 # various other potential build files
-build/
 bin/
 dist/
 manifest.mf
@@ -40,17 +39,18 @@ manifest.mf
 .idea/
 out/
 
+# JetBrains Fleet
+.fleet/
+
 # Linux temp files
 *~
 
 # other stuff
 run/
 
-sapphire-server
-sapphire-api
+Sapphire-Server
+Sapphire-API
 
 !gradle/wrapper/gradle-wrapper.jar
 
 test-plugin.settings.gradle.kts
-
-.fleet/
