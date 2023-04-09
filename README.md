@@ -1,4 +1,3 @@
-[website]: https://denaryworld.ru
 [downloads]: https://github.com/SapphireMC/Sapphire/releases/
 [wiki]: https://github.com/SapphireMC/Sapphire/wiki/
 
@@ -18,9 +17,7 @@ Another purpur fork
 #### Gradle kotlin
 ```kotlin
 repositories {
-    maven("http://repo.denaryworld.ru/snapshots/") {
-        isAllowInsecureProtocol = true
-    }
+    maven("https://the-planet.fun/repo/snapshots/")
 }
 ```
 ```kotlin
@@ -34,8 +31,7 @@ dependencies {
 ```groovy
 repositories {
     maven {
-        url 'http://repo.denaryworld.ru/snapshots/'
-        allowInsecureProtocol = true
+        url 'https://the-planet.fun/repo/snapshots/'
     }
 }
 ```
@@ -50,7 +46,7 @@ dependencies {
 ```xml
 <repository>
     <id>sapphiremc</id>
-    <url>http://repo.denaryworld.ru/snapshots/</url>
+    <url>https://the-planet.fun/repo/snapshots/</url>
 </repository>
 ```
 ```xml
@@ -77,7 +73,7 @@ Run the following command in the root directory:
 #### Compiling
 
 Use the command `./gradlew build` to build the API and server. Compiled JARs
-will be placed under `sapphire-api/build/libs` and `sapphire-server/build/libs`.
+will be placed under `Sapphire-API/build/libs` and `Sapphire-Server/build/libs`.
 
 To get a Paperclip jar, run `./gradlew renamedReobfPaperclipJar`.
 

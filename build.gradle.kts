@@ -92,7 +92,7 @@ tasks.generateDevelopmentBundle {
             "https://repo.maven.apache.org/maven2/",
             "https://repo.papermc.io/repository/maven-public/",
             "https://maven.quiltmc.org/repository/release/",
-            "http://repo.denaryworld.ru/snapshots/",
+            "https://the-planet.fun/repo/snapshots/",
         )
     )
 }
