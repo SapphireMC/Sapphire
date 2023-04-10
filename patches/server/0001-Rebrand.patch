@@ -130,7 +130,7 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..713df1c9b544a14dddf0e254bfdb24e4
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 5ace171b786e5b5a9a33b51e9b93e6d71159c29b..80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9 100644
+index b4d174e3603a45f768add973796d603f4ed8f976..c0b3507e2f3aead35c12614470538c33b207e2f7 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
@@ -143,15 +143,15 @@ index 5ace171b786e5b5a9a33b51e9b93e6d71159c29b..80ac42fbb460296d2fb33bb01ac4ea3e
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index ab05f4151e6ec7404a85ddb3a141ed39d9ed86d7..272e39f51a8016c2dc426eeed958d1dc19a8f643 100644
+index d2e20a03bf031011b64d0ae15c09ab7105e0cffa..c8b6e546824d575c5b1cbb0557d957e3675148fb 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -299,7 +299,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
--                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads ***"); // Paper
-+                        System.err.println("*** Please download a new build from https://github.com/SapphireMC/Sapphire/releases/latest ***"); // Sapphire
+-                        System.err.println("*** Please download a new build as per instructions from https://papermc.io/downloads/paper ***"); // Paper
++                        System.err.println("*** Please download a new build from https://github.com/SapphireMC/Sapphire/releases/latest ***"); // Paper // Sapphire
                          //System.err.println("*** Server will start in 20 seconds ***");
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End

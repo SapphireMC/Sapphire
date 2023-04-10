@@ -91,6 +91,7 @@ tasks.generateDevelopmentBundle {
         listOf(
             "https://repo.maven.apache.org/maven2/",
             "https://repo.papermc.io/repository/maven-public/",
+            "https://repo.purpurmc.org/snapshots",
             "https://maven.quiltmc.org/repository/release/",
             "https://the-planet.fun/repo/snapshots/",
         )

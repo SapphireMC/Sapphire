@@ -70,7 +70,7 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 8a4be66f967dfd6b57ab542ae9b06c840647486d..cd1d30121c7b89fcd4378875a1258dedd3268368 100644
+index be8bb3f48971e76a3637b9da0706281f352c318b..7b1efb6d6d2500e7e60bca74f7465ff0d330a8fd 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -280,6 +280,7 @@ public class ServerPlayer extends Player {
@@ -82,10 +82,10 @@ index 8a4be66f967dfd6b57ab542ae9b06c840647486d..cd1d30121c7b89fcd4378875a1258ded
      public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
          super(world, world.getSharedSpawnPos(), world.getSharedSpawnAngle(), profile);
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 21211e2790cd667ec389353fb90fb700f33421cc..9800098c0bd2a77e40307c985456548ec850957b 100644
+index 177090697e42fcca84dbfdf04ca5118a2c5e7be2..65b7f6e732d4d6856d3cd13eac7db06a3e0ac0b5 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3651,6 +3651,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3652,6 +3652,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index 21211e2790cd667ec389353fb90fb700f33421cc..9800098c0bd2a77e40307c985456548e
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3682,6 +3683,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3683,6 +3684,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,10 +108,10 @@ index 21211e2790cd667ec389353fb90fb700f33421cc..9800098c0bd2a77e40307c985456548e
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index b7f1382d48a66f78c4492b0f8b90c16116a90220..2c3dfa099febb7f4c2d4118cb0b27e86fdb4c252 100644
+index c38cbce95cc0623c3b4981b0f40ad44d2d3c549f..85585caa48389c01d0b487a9ced3856e8a280642 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3285,4 +3285,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3313,4 +3313,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(packet);
      }
      // Purpur end
