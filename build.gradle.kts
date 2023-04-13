@@ -117,8 +117,6 @@ allprojects {
             if (env.containsKey("MAVEN_URL")) {
                 maven(env["MAVEN_URL"]!!) {
                     name = "SapphireMC"
-                    if (env["MAVEN_URL"]!!.startsWith("http://"))
-                        isAllowInsecureProtocol = true
                     credentials {
                         username = env["MAVEN_USERNAME"]
                         password = env["MAVEN_PASSWORD"]
@@ -130,7 +128,7 @@ allprojects {
 }
 
 publishing {
-    if (project.hasProperty("publishDevBundle")) {
+    if (project.property("publishDevBundle")!! == "true") {
         publications.create<MavenPublication>("devBundle") {
             artifact(tasks.generateDevelopmentBundle) {
                 artifactId = "dev-bundle"
