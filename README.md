@@ -10,74 +10,67 @@ Another purpur fork
 ## License
 [![GPL-3.0-only License](https://img.shields.io/github/license/SapphireMC/Sapphire?&logo=github)](LICENSE)
 
-## API
+## Plugin development
 
-### Dependency Information
+- We recommend using [gradle](https://gradle.org) with kotlin dsl as the build system for your plugin.
 
-#### Gradle kotlin
+### API
+
 ```kotlin
 repositories {
     maven("https://the-planet.fun/repo/snapshots/")
+    // Other repositories
 }
 ```
 ```kotlin
 dependencies {
-    // For API use sapphire-api, for Server use sapphire-server
     compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.4-R0.1-SNAPSHOT")
+    // Other dependencies
 }
 ```
 
-#### Gradle groovy
-```groovy
+- Also includes all API provided by
+  [Purpur](https://github.com/PurpurMC/Purpur),
+  [Pufferfish](https://github.com/pufferfish-gg/Pufferfish),
+  [Paper](https://github.com/PaperMC/Paper),
+  [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot), and
+  [Bukkit](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/bukkit).
+
+### Dev bundle
+
+```kotlin
+plugins {
+    `java-library`
+    id("io.papermc.paperweight.userdev") version "1.5.4"
+    // Other plugins
+}
+```
+```kotlin
 repositories {
-    maven {
-        url 'https://the-planet.fun/repo/snapshots/'
-    }
+    maven("https://the-planet.fun/repo/snapshots")
+    // Other repositories
 }
 ```
-```groovy
+```kotlin
 dependencies {
-    // For API use sapphire-api, for Server use sapphire-server
-    compileOnly 'io.sapphiremc.sapphire:sapphire-api:1.19.4-R0.1-SNAPSHOT'
+    paperweight.devBundle("io.sapphiremc.sapphire", "1.19.4-R0.1-SNAPSHOT")
+    // Other dependencies
 }
 ```
 
-#### Maven
-```xml
-<repository>
-    <id>sapphiremc</id>
-    <url>https://the-planet.fun/repo/snapshots/</url>
-</repository>
-```
-```xml
-<dependency>
-    <groupId>io.sapphiremc.sapphire</groupId>
-    <!-- For API use sapphire-api, for Server use sapphire-server -->
-    <artifactId>sapphire-api</artifactId>
-    <version>1.19.4-R0.1-SNAPSHOT</version>
-    <scope>provided</scope>
-</dependency>
-```
+- For more details see [this repo](https://github.com/PaperMC/paperweight-test-plugin)
 
-Yes, this also includes all API provided by Purpur, Pufferfish, Paper, Spigot, and Bukkit.
+## Setting up and building
 
-## Building and setting up
+### Initial setup
+- Run `./gradlew applyPatches` in the root directory
 
-#### Initial setup
-Run the following command in the root directory:
+### Compiling
+- Use the command `./gradlew build` to build the API and server.
+> Compiled JARs will be placed under `Sapphire-API/build/libs` and `Sapphire-Server/build/libs`.
 
-```shell
-./gradlew applyPatches
-```
+- To get a Paperclip jar, run `./gradlew renamedReobfPaperclipJar`.
+- To get a Bundler jar, run `./gradlew createReobfBundlerJar`
+>Compiled JAR (Paperclip or Bundler) will be placed under `build/libs/`
 
-#### Compiling
-
-Use the command `./gradlew build` to build the API and server. Compiled JARs
-will be placed under `Sapphire-API/build/libs` and `Sapphire-Server/build/libs`.
-
-To get a Paperclip jar, run `./gradlew renamedReobfPaperclipJar`.
-
-To get a Bundled jar, run `./gradlew createReobfBundlerJar`
-
-To install the `sapphire-api` and `sapphire-server` dependencies to your local Maven repo, run `./gradlew publishToMavenLocal`
-
+- To install the `sapphire-api` and `dev-bundle` dependencies to your local Maven repo, run `./gradlew publishToMavenLocal`
