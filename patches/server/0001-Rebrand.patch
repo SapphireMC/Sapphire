@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..7164390adbc289ecceab4aba8336b1d92c489844 100644
+index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..8e3d5fd57b488cf9e1b974e14b19d10693987e37 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -7,8 +7,12 @@ plugins {
@@ -32,11 +32,16 @@ index 22470f0ab8354a9f31a0f195f3fe80f2f5ee2f0e..7164390adbc289ecceab4aba8336b1d9
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -99,6 +103,7 @@ tasks.jar {
+@@ -97,8 +101,10 @@ tasks.jar {
+ }
+ 
  publishing {
-     publications.create<MavenPublication>("maven") {
-         artifact(tasks.shadowJar)
-+        artifact(tasks.reobfJar) // Sapphire
+-    publications.create<MavenPublication>("maven") {
+-        artifact(tasks.shadowJar)
++    if (System.getenv("NO_SERVER_PUBLISH") == null) { // Sapphire
++        publications.create<MavenPublication>("maven") {
++            artifact(tasks.shadowJar)
++        }
      }
  }
  
