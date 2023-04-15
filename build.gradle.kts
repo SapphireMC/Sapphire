@@ -10,19 +10,6 @@ plugins {
     id("io.papermc.paperweight.patcher") version "1.5.4"
 }
 
-repositories {
-    mavenCentral()
-    maven("https://repo.papermc.io/repository/maven-public/") {
-        content { onlyForConfigurations("paperclip") }
-    }
-}
-
-dependencies {
-    remapper("net.fabricmc:tiny-remapper:0.8.6:fat")
-    decompiler("org.quiltmc:quiltflower:1.9.0")
-    paperclip("io.papermc:paperclip:3.0.3")
-}
-
 allprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
@@ -33,6 +20,8 @@ allprojects {
         }
     }
 }
+
+val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
 
 subprojects {
     tasks {
@@ -57,16 +46,29 @@ subprojects {
 
     repositories {
         mavenCentral()
-        maven("https://repo.papermc.io/repository/maven-public/")
+        maven(paperMavenPublicUrl)
         maven("https://jitpack.io")
     }
+}
+
+repositories {
+    mavenCentral()
+    maven(paperMavenPublicUrl) {
+        content { onlyForConfigurations("paperclip") }
+    }
+}
+
+dependencies {
+    remapper("net.fabricmc:tiny-remapper:0.8.6:fat")
+    decompiler("net.minecraftforge:forgeflower:2.0.627.2")
+    paperclip("io.papermc:paperclip:3.0.3")
 }
 
 paperweight {
     serverProject.set(project(":sapphire-server"))
 
-    remapRepo.set("https://maven.fabricmc.net/")
-    decompileRepo.set("https://maven.quiltmc.org/repository/release/")
+    remapRepo.set(paperMavenPublicUrl)
+    decompileRepo.set(paperMavenPublicUrl)
 
     useStandardUpstream("purpur") {
         url.set(github("PurpurMC", "Purpur"))
@@ -90,30 +92,17 @@ tasks.generateDevelopmentBundle {
     libraryRepositories.set(
         listOf(
             "https://repo.maven.apache.org/maven2/",
-            "https://repo.papermc.io/repository/maven-public/",
+            paperMavenPublicUrl,
             "https://repo.purpurmc.org/snapshots",
-            "https://maven.quiltmc.org/repository/release/",
             "https://the-planet.fun/repo/snapshots/",
         )
     )
 }
 
-tasks.register<Copy>("renamedReobfPaperclipJar") {
-    group = "sapphire"
-    dependsOn(tasks.createReobfPaperclipJar)
-    from("build/libs/sapphire-paperclip-${project.version}-reobf.jar")
-    into("build/libs")
-
-    rename {
-        it.replace("paperclip-${project.version}-reobf", project.properties["mcVersion"].toString())
-    }
-}
-
-val env: Map<String, String> = System.getenv()
-
 allprojects {
     publishing {
         repositories {
+            val env: Map<String, String> = System.getenv()
             if (env.containsKey("MAVEN_URL")) {
                 maven(env["MAVEN_URL"]!!) {
                     name = "SapphireMC"
@@ -128,11 +117,20 @@ allprojects {
 }
 
 publishing {
-    if (project.property("publishDevBundle")!! == "true") {
-        publications.create<MavenPublication>("devBundle") {
-            artifact(tasks.generateDevelopmentBundle) {
-                artifactId = "dev-bundle"
-            }
+    publications.create<MavenPublication>("devBundle") {
+        artifact(tasks.generateDevelopmentBundle) {
+            artifactId = "dev-bundle"
         }
+    }
+}
+
+tasks.register<Copy>("renamedReobfPaperclipJar") {
+    group = "sapphire"
+    dependsOn(tasks.createReobfPaperclipJar)
+    from("build/libs/sapphire-paperclip-${project.version}-reobf.jar")
+    into("build/libs")
+
+    rename {
+        it.replace("paperclip-${project.version}-reobf", project.properties["mcVersion"].toString())
     }
 }
