@@ -30,8 +30,9 @@ if (!file(".git").exists()) {
 
 rootProject.name = "sapphire"
 
+
 for (name in listOf("Sapphire-API", "Sapphire-Server")) {
-    val projName = name.lowercase(Locale.ENGLISH)
+    val projName = name.toLowercase(Locale.ENGLISH)
     include(projName)
     findProject(":$projName")!!.projectDir = file(name)
 }
