@@ -6,7 +6,7 @@ Subject: [PATCH] Add sapphire command
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..770fdc9e52247b6fe0e23e8d9a5678ee66e4c68f
+index 0000000000000000000000000000000000000000..c337948c82263af20e55570a2c65288aa0123334
 --- /dev/null
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 @@ -0,0 +1,110 @@
@@ -121,10 +121,10 @@ index 0000000000000000000000000000000000000000..770fdc9e52247b6fe0e23e8d9a5678ee
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 41d81fa0d5b08817b6cda367dc62d92dd4740ac6..297c0cf6623f7be66799327b0dc931eafa739829 100644
+index 00aa1b76c785f1858b76552ac91da82ee373be5c..7a2b24f8026513e37bc53d73f4eba4c5be313884 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -234,6 +234,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -235,6 +235,7 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
              DedicatedServer.LOGGER.error("Unable to load server configuration", e);
              return false;
          }

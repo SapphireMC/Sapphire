@@ -135,10 +135,10 @@ index 3cb56595822799926a8141e60a42f5d1edfc6de5..713df1c9b544a14dddf0e254bfdb24e4
                  .completer(new ConsoleCommandCompleter(this.server))
                  .option(LineReader.Option.COMPLETE_IN_WORD, true);
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index b4d174e3603a45f768add973796d603f4ed8f976..c0b3507e2f3aead35c12614470538c33b207e2f7 100644
+index e5bac6bc792196226f975e7f3dd8f147fb14dbad..b94575faec067db1261e3c615ab3608196973747 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -256,7 +256,7 @@ import javax.annotation.Nullable; // Paper
+@@ -257,7 +257,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -148,7 +148,7 @@ index b4d174e3603a45f768add973796d603f4ed8f976..c0b3507e2f3aead35c12614470538c33
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index d2e20a03bf031011b64d0ae15c09ab7105e0cffa..c8b6e546824d575c5b1cbb0557d957e3675148fb 100644
+index 2a8db3527f3680789125fca41097657063efb32d..e8ff3e184206cf37543ed99a0b5d1ec541645631 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -299,7 +299,7 @@ public class Main {
@@ -174,7 +174,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..52b687736655c976bc1efca1a8eb3b62
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 0bcbe1f07ff8e552d2abd6e432af5710005acc04..50669174d0d0ef451a34dce819acc8d4af1f33b3 100644
+index 62ad4c6ad417e11e9152f74636b2ff0d187d0799..291273b8758d8fe15e05da8dec85bf24b7a9ec30 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -227,7 +227,7 @@ public class PurpurConfig {

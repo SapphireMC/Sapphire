@@ -41,7 +41,7 @@ dependencies {
 ```kotlin
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.5.4"
+    id("io.papermc.paperweight.userdev") version "1.5.5"
     // Other plugins
 }
 ```
@@ -58,7 +58,7 @@ dependencies {
 }
 ```
 
-- For more details see [this repo](https://github.com/PaperMC/paperweight-test-plugin)
+- For more details see [paperweight example repo](https://github.com/PaperMC/paperweight-test-plugin)
 
 ## Setting up and building
 

@@ -214,10 +214,10 @@ index 0000000000000000000000000000000000000000..226a5e361f382585f4dcc5e901d2a1bd
 +    }
 +}
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-index 582467e3419c23446b20d3076fbfce22115250a8..14ff9e6b5c4a9c742c4677ce563bf70c92124720 100644
+index 6ecc75621867390738e804e06ac284524664473d..00aa1b76c785f1858b76552ac91da82ee373be5c 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServer.java
-@@ -227,6 +227,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
+@@ -228,6 +228,14 @@ public class DedicatedServer extends MinecraftServer implements ServerInterface
          }
          org.purpurmc.purpur.PurpurConfig.registerCommands();
          // Purpur end
@@ -233,7 +233,7 @@ index 582467e3419c23446b20d3076fbfce22115250a8..14ff9e6b5c4a9c742c4677ce563bf70c
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 8d7c33e16f9eaec2120c5aad75172ff656d1bd17..4d6170cc46bf81f798fd15de0a72ca425af846d4 100644
+index b67660cda74a4754d1701e746aca99bde868c150..77f21bf3212eb2c671a84706d0edef08be471476 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -402,6 +402,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
@@ -265,10 +265,10 @@ index b8001bca2a33ec1e60566948a651400418a6e9e7..4b9f9d2211bc44655ea0f81d65cb75ed
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9..6ea44881f948f43d721bfea28c1897d3ddbe8fc5 100644
+index b94575faec067db1261e3c615ab3608196973747..7ba8f3bc0caa8b450e671a831a47b20e42ca21a4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -971,6 +971,7 @@ public final class CraftServer implements Server {
+@@ -972,6 +972,7 @@ public final class CraftServer implements Server {
          org.spigotmc.SpigotConfig.init((File) console.options.valueOf("spigot-settings")); // Spigot
          this.console.paperConfigurations.reloadConfigs(this.console);
          org.purpurmc.purpur.PurpurConfig.init((File) console.options.valueOf("purpur-settings")); // Purpur
@@ -276,7 +276,7 @@ index 80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9..6ea44881f948f43d721bfea28c1897d3
          for (ServerLevel world : this.console.getAllLevels()) {
              // world.serverLevelData.setDifficulty(config.difficulty); // Paper - per level difficulty
              world.setSpawnSettings(world.serverLevelData.getDifficulty() != Difficulty.PEACEFUL && config.spawnMonsters, config.spawnAnimals); // Paper - per level difficulty (from MinecraftServer#setDifficulty(ServerLevel, Difficulty, boolean))
-@@ -987,6 +988,7 @@ public final class CraftServer implements Server {
+@@ -988,6 +989,7 @@ public final class CraftServer implements Server {
              }
              world.spigotConfig.init(); // Spigot
              world.purpurConfig.init(); // Purpur
@@ -284,7 +284,7 @@ index 80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9..6ea44881f948f43d721bfea28c1897d3
          }
  
          Plugin[] pluginClone = pluginManager.getPlugins().clone(); // Paper
-@@ -2828,6 +2830,13 @@ public final class CraftServer implements Server {
+@@ -2825,6 +2827,13 @@ public final class CraftServer implements Server {
          }
          // Purpur end
  
@@ -299,7 +299,7 @@ index 80ac42fbb460296d2fb33bb01ac4ea3e077ce8f9..6ea44881f948f43d721bfea28c1897d3
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 272e39f51a8016c2dc426eeed958d1dc19a8f643..922dcc6cd4ae3b69ffc8674b47c4efed0e4f0462 100644
+index e8ff3e184206cf37543ed99a0b5d1ec541645631..38285b1edf3eb995d482e7f8dbe3d5a9618ea254 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -187,6 +187,14 @@ public class Main {

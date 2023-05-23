@@ -23,6 +23,9 @@ if (!file(".git").exists()) {
          
          Built Sapphire jars are available for download at
          https://github.com/SapphireMC/Sapphire/releases/
+         
+         See https://github.com/SapphireMC/Sapphire/blob/HEAD/CONTRIBUTING.md
+         for further information on building and modifying Sapphire.
         ===================================================
     """.trimIndent()
     error(errorText)
