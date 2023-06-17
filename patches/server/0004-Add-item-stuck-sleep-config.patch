@@ -20,15 +20,15 @@ index 795e5b12ec00187e420025c05ee3b979838abd10..a8cf5e06636f047c9d54fd9f7567434b
  
      public static boolean playerCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index 52a14af24e3c51c53b40fdb6594b1664eef6d486..22e0cc38893c02ff37fbae4704be0089837b1da4 100644
+index 7bda44003604b8a0ae8dd571c7f3e79eb42a4822..3e54832af7c6d8945f59325dd7b0b17e100ffe6c 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 @@ -155,7 +155,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
  
-             if (this.level.isClientSide) {
+             if (this.level().isClientSide) {
                  this.noPhysics = false;
 -            } else {
 +            } else if (!this.onGround || this.noPhysics || this.age * io.sapphiremc.sapphire.SapphireConfig.itemStuckSleepTicks == 0) { // Sapphire
-                 this.noPhysics = !this.level.noCollision(this, this.getBoundingBox().deflate(1.0E-7D));
+                 this.noPhysics = !this.level().noCollision(this, this.getBoundingBox().deflate(1.0E-7D));
                  if (this.noPhysics) {
                      this.moveTowardsClosestSpace(this.getX(), (this.getBoundingBox().minY + this.getBoundingBox().maxY) / 2.0D, this.getZ());

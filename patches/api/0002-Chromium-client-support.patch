@@ -5,12 +5,12 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index dc437885404ae147a06cac653e519a4674a9a951..7120871ac597e3bc0e3934b96696e61d512eb9f7 100644
+index c6a8068fc9c2a2b9b53363578c2c57abc4f8abb2..7d79e0afcb835fd88b2fda17ea8bdb2fc8f143b1 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3203,4 +3203,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
-      */
-     void sendDeathScreen(@NotNull net.kyori.adventure.text.Component message, @Nullable Entity killer);
+@@ -3256,4 +3256,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+         sendDeathScreen(message);
+     }
      // Purpur end
 +
 +    // Sapphire start

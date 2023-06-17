@@ -25,8 +25,8 @@ jobs:
         uses: marvinpinto/action-automatic-releases@latest
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          automatic_release_tag: 1.19.4
+          automatic_release_tag: 1.20.1
           prerelease: false
-          title: Latest Build for 1.19.4
+          title: Latest Build for 1.20.1
           files: |
-            build/libs/sapphire-1.19.4.jar
+            build/libs/sapphire-1.20.1.jar

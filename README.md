@@ -24,7 +24,7 @@ repositories {
 ```
 ```kotlin
 dependencies {
-    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.19.4-R0.1-SNAPSHOT")
+    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.20.1-R0.1-SNAPSHOT")
     // Other dependencies
 }
 ```
@@ -53,7 +53,7 @@ repositories {
 ```
 ```kotlin
 dependencies {
-    paperweight.devBundle("io.sapphiremc.sapphire", "1.19.4-R0.1-SNAPSHOT")
+    paperweight.devBundle("io.sapphiremc.sapphire", "1.20.1-R0.1-SNAPSHOT")
     // Other dependencies
 }
 ```

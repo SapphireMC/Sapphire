@@ -5,25 +5,19 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 9c01005751c0088f560f96401cdfdebbbda4e7ec..d3dceffa39795a84fc6ef702dd71edbf5b910a61 100644
+index a125c0735cf4814b26ce8a96163bf65f74d23900..0587a26d7466a5422b43125bced90346c369775c 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -7,8 +7,12 @@ plugins {
- }
+@@ -8,7 +8,7 @@ plugins {
  
  dependencies {
--    implementation(project(":purpur-api")) // Purpur
--    implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") // Purpur
+     // Purpur start
+-    implementation(project(":purpur-api"))
 +    implementation(project(":sapphire-api")) // Sapphire
-+    // Sapphire start - exclude paper-api from build
-+    implementation("io.papermc.paper:paper-mojangapi:1.19.4-R0.1-SNAPSHOT") { // Purpur
-+        exclude("io.papermc.paper", "paper-api")
-+    }
-+    // Sapphire end - exclude paper-api from build
-     // Paper start
-     implementation("org.jline:jline-terminal-jansi:3.21.0")
-     implementation("net.minecrell:terminalconsoleappender:1.3.0")
-@@ -81,7 +85,7 @@ tasks.jar {
+     implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
+         exclude("io.papermc.paper", "paper-api")
+     }
+@@ -87,7 +87,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -32,7 +26,7 @@ index 9c01005751c0088f560f96401cdfdebbbda4e7ec..d3dceffa39795a84fc6ef702dd71edbf
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -97,8 +101,10 @@ tasks.jar {
+@@ -103,8 +103,10 @@ tasks.jar {
  }
  
  publishing {
@@ -148,10 +142,10 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..dc73c28f04cba40cace4696edc1a0fed
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index beb05039926e1fb7a656dfcd0c503f82db67fc46..138a2d8da6e0f3a0214901564a3c47f21e24468f 100644
+index 65e0bc8b102e5ad16d2ac919b8c6d1f5497b321b..463d5cd2b76edebe480e0cb190cb292e2a40b627 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
-@@ -930,7 +930,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
+@@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
          shutdownThread = Thread.currentThread();
          org.spigotmc.WatchdogThread.doStop(); // Paper
          if (!isSameThread()) {
@@ -161,10 +155,10 @@ index beb05039926e1fb7a656dfcd0c503f82db67fc46..138a2d8da6e0f3a0214901564a3c47f2
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3310828edcabd2c24e3200dcb89d4e8ebd82cf16..1894b8f23b2233ac42593145f237a4668b757b01 100644
+index 7a388f0e57bc05634be64b16fa66acdb416ac849..242e03f6fc7872b10a67df81d0be5499ecb77db1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
+@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -174,7 +168,7 @@ index 3310828edcabd2c24e3200dcb89d4e8ebd82cf16..1894b8f23b2233ac42593145f237a466
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 288cf98287c6d3c073b9ab6696c3957c999cad32..9976fe7d31380fe6691617729d5f2149f5567f3f 100644
+index 5afc4c3f865a21f3a2799f3a1a690f01768d9b4a..f044e039c833c0f1d4d8b1a8875d3b54733dce2c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -306,7 +306,7 @@ public class Main {
@@ -187,10 +181,10 @@ index 288cf98287c6d3c073b9ab6696c3957c999cad32..9976fe7d31380fe6691617729d5f2149
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 7ef5980f7321662aa7034a74c2f6926846425db9..b5ce40a4fea20690edcce91c4c7249ca05fd20c4 100644
+index 0ea1f2a8f6cb019cebf9f9849f8ba00aa385b18e..6bba8d6b7a06f96bb6608bb514be545c17e7081b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -884,7 +884,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -878,7 +878,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  
@@ -213,7 +207,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..52b687736655c976bc1efca1a8eb3b62
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index be8b44daa0141151c973917a774aa07721647ed1..97bccf66827caa91effdfe5d41e9081a38073860 100644
+index 06fa43b469aea15dc64ce1866d08843327a34965..e00416ef39c8f43e5579cb293e6b444fc2878cc7 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -229,7 +229,7 @@ public class PurpurConfig {
@@ -226,7 +220,7 @@ index be8b44daa0141151c973917a774aa07721647ed1..97bccf66827caa91effdfe5d41e9081a
          serverModName = getString("settings.server-mod-name", serverModName);
      }
 diff --git a/src/main/java/org/spigotmc/WatchdogThread.java b/src/main/java/org/spigotmc/WatchdogThread.java
-index a810bfd3b8d6bd4d8f2ef8797e4281ae4fe8a67f..8383662214ad428ecc5000ea7e550c92274ff3bb 100644
+index 0801dea155048ac5383295f4fef9bd597b678535..e3e67a58e94b9c2b85f48b2754cc962a3128b7fd 100644
 --- a/src/main/java/org/spigotmc/WatchdogThread.java
 +++ b/src/main/java/org/spigotmc/WatchdogThread.java
 @@ -155,14 +155,14 @@ public final class WatchdogThread extends io.papermc.paper.util.TickThread // Pa

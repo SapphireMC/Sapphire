@@ -70,7 +70,7 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index 82402be7bbbf04388339c6a471946a72f09dfe3b..cd03cccff00b862f8b020921b00526412e3c80a0 100644
+index e0e133ab39548b8e671441e3383a6f4df6f6997e..cc8a6949bd372f2ee37cdbd969ab2728811ce339 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -282,6 +282,7 @@ public class ServerPlayer extends Player {
@@ -79,13 +79,13 @@ index 82402be7bbbf04388339c6a471946a72f09dfe3b..cd03cccff00b862f8b020921b0052641
      private boolean compassBar = false; // Purpur
 +    public boolean chromiumClient = false; // Sapphire
  
-     public ServerPlayer(MinecraftServer server, ServerLevel world, GameProfile profile) {
-         super(world, world.getSharedSpawnPos(), world.getSharedSpawnAngle(), profile);
+     private final java.util.concurrent.atomic.AtomicReference<io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances> viewDistances = new java.util.concurrent.atomic.AtomicReference<>(new io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances(-1, -1, -1));
+     public io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.PlayerChunkLoaderData chunkLoader;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index af8cb1f1f0c128923495f51e4828003133ce766b..1d2f7dee132cf99b7c00055ccbbecf5435b9ce10 100644
+index e76eaa121f73cc56b0e3445eb976546daef87f99..3259112476d1d9f350e14c28069469bc6407d2c5 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3659,6 +3659,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3619,6 +3619,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
      private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
@@ -93,7 +93,7 @@ index af8cb1f1f0c128923495f51e4828003133ce766b..1d2f7dee132cf99b7c00055ccbbecf54
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3690,6 +3691,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3650,6 +3651,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
              } catch (Exception ignore) {
              }
          // Purpur end
@@ -108,11 +108,11 @@ index af8cb1f1f0c128923495f51e4828003133ce766b..1d2f7dee132cf99b7c00055ccbbecf54
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index e363891e8ab872ed24c557e3f94110f36c6fb277..f06c1a3a37096a896b72dfbc32b8660ac7d71f15 100644
+index 3d2c4ba68b1fdc10d7592164e1fab9b3a6458187..485b16e94ca5b36baa914766a9401d4c06bd3a64 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3304,4 +3304,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         this.getHandle().connection.send(packet);
+@@ -3268,4 +3268,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket(getEntityId(), io.papermc.paper.adventure.PaperAdventure.asVanilla(message)));
      }
      // Purpur end
 +
