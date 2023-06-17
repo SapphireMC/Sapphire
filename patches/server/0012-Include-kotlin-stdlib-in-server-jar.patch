@@ -1,0 +1,20 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sun, 18 Jun 2023 01:00:42 +0500
+Subject: [PATCH] Include kotlin-stdlib in server jar
+
+
+diff --git a/build.gradle.kts b/build.gradle.kts
+index d3dceffa39795a84fc6ef702dd71edbf5b910a61..b033d07fe47f64183d9337f5ad8af6740f83a84f 100644
+--- a/build.gradle.kts
++++ b/build.gradle.kts
+@@ -46,6 +46,9 @@ dependencies {
+     implementation("org.mozilla:rhino-engine:1.7.14") // Purpur
+     implementation("dev.omega24:upnp4j:1.0") // Purpur
+ 
++    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.22") // Sapphire
++    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22") // Sapphire
++
+     runtimeOnly("org.apache.maven:maven-resolver-provider:3.8.5")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
