@@ -161,10 +161,10 @@ index beb05039926e1fb7a656dfcd0c503f82db67fc46..138a2d8da6e0f3a0214901564a3c47f2
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 3f80b16c8d69f284a26b16cf2513a955005bf458..54e125ef0d0bc21e02b1d7425c7dc655a8a8f9fc 100644
+index 3310828edcabd2c24e3200dcb89d4e8ebd82cf16..1894b8f23b2233ac42593145f237a4668b757b01 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -259,7 +259,7 @@ import javax.annotation.Nullable; // Paper
+@@ -262,7 +262,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -174,10 +174,10 @@ index 3f80b16c8d69f284a26b16cf2513a955005bf458..54e125ef0d0bc21e02b1d7425c7dc655
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 2a8db3527f3680789125fca41097657063efb32d..e8ff3e184206cf37543ed99a0b5d1ec541645631 100644
+index 288cf98287c6d3c073b9ab6696c3957c999cad32..9976fe7d31380fe6691617729d5f2149f5567f3f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -299,7 +299,7 @@ public class Main {
+@@ -306,7 +306,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");
@@ -213,10 +213,10 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..52b687736655c976bc1efca1a8eb3b62
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 62ad4c6ad417e11e9152f74636b2ff0d187d0799..291273b8758d8fe15e05da8dec85bf24b7a9ec30 100644
+index be8b44daa0141151c973917a774aa07721647ed1..97bccf66827caa91effdfe5d41e9081a38073860 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-@@ -227,7 +227,7 @@ public class PurpurConfig {
+@@ -229,7 +229,7 @@ public class PurpurConfig {
          deathMessageOnlyBroadcastToAffectedPlayer = getBoolean("settings.broadcasts.death.only-broadcast-to-affected-player", deathMessageOnlyBroadcastToAffectedPlayer);
      }
  
