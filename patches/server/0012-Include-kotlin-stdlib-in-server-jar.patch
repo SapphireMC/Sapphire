@@ -5,7 +5,7 @@ Subject: [PATCH] Include kotlin-stdlib in server jar
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 41eadea69e81eee59f0e2d67f1fa4ca90d54d19d..2a7c63fe023d8ae76cd6925cd32fb96fa70b23bc 100644
+index 81c24dc5385acd2cbe57caad38ed763c171c6b64..7d90006c4f6f90a98c76087f77aa47f158d5207f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -52,6 +52,9 @@ dependencies {
@@ -17,4 +17,4 @@ index 41eadea69e81eee59f0e2d67f1fa4ca90d54d19d..2a7c63fe023d8ae76cd6925cd32fb96f
 +
      // Pufferfish start
      implementation("org.yaml:snakeyaml:1.32")
-     implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
+     implementation ("com.github.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {

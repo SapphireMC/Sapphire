@@ -26,10 +26,10 @@ index 473b91ab7cf04c0fcb91a7fe7a2265642ec40247..ab4ae9cba2d33a43ec9c610d8b2a09b3
          }
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index cc8a6949bd372f2ee37cdbd969ab2728811ce339..ab2f5642f1afcbd62b2f46d6de0b0a8492a7d510 100644
+ index 475f6bc9639f89559d441525d03745799e9c480b..e40ae262284342cf4a4a20d1b36bb764d413cb56 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -1792,10 +1792,11 @@ public class ServerPlayer extends Player {
+@@ -1793,10 +1793,11 @@ public class ServerPlayer extends Player {
  
      public void disconnect() {
          this.disconnected = true;
@@ -42,7 +42,7 @@ index cc8a6949bd372f2ee37cdbd969ab2728811ce339..ab2f5642f1afcbd62b2f46d6de0b0a84
              this.stopRiding();
          }
          // Paper end
-@@ -1950,6 +1951,7 @@ public class ServerPlayer extends Player {
+@@ -1951,6 +1952,7 @@ public class ServerPlayer extends Player {
          ChunkPos chunkcoordintpair = new ChunkPos(BlockPos.containing(d0, d1, d2));
  
          worldserver.getChunkSource().addRegionTicket(TicketType.POST_TELEPORT, chunkcoordintpair, 1, this.getId());
@@ -50,7 +50,7 @@ index cc8a6949bd372f2ee37cdbd969ab2728811ce339..ab2f5642f1afcbd62b2f46d6de0b0a84
          this.stopRiding();
          if (this.isSleeping()) {
              this.stopSleepInBed(true, true);
-@@ -2008,6 +2010,7 @@ public class ServerPlayer extends Player {
+@@ -2010,6 +2012,7 @@ public class ServerPlayer extends Player {
              this.connection.send(new ClientboundGameEventPacket(ClientboundGameEventPacket.CHANGE_GAME_MODE, (float) gameMode.getId()));
              if (gameMode == GameType.SPECTATOR) {
                  this.removeEntitiesOnShoulder();
@@ -71,7 +71,7 @@ index ebcdf6aee72b817b9bbba8f8d580eae1876fc6e5..c0900258cdff98db2a51f996c984da4b
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 32ec30d916380d2f9cfde35a2406cc3bb4da292d..a9bb4de5b5872441cda1ac1956615c0c59387e25 100644
+index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572f33e0001 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -608,6 +608,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
