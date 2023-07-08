@@ -1,0 +1,114 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: DenaryDev <denaryplanet@gmail.com>
+Date: Sun, 9 Jul 2023 02:57:36 +0500
+Subject: [PATCH] BanList API fix from Paper
+
+
+diff --git a/src/main/java/org/bukkit/BanList.java b/src/main/java/org/bukkit/BanList.java
+index c229d3bc37c4e454a4b5a93eda1fe6466a4f4e8b..adeff14586351edad412a85a5797c28a43aaa9de 100644
+--- a/src/main/java/org/bukkit/BanList.java
++++ b/src/main/java/org/bukkit/BanList.java
+@@ -46,7 +46,7 @@ public interface BanList<T> {
+      */
+     @Deprecated
+     @Nullable
+-    public BanEntry<T> getBanEntry(@NotNull String target);
++    public <E extends BanEntry<? super T>> E getBanEntry(@NotNull String target); // Paper
+ 
+     /**
+      * Gets a {@link BanEntry} by target.
+@@ -75,7 +75,7 @@ public interface BanList<T> {
+      */
+     @Deprecated
+     @Nullable
+-    public BanEntry<T> addBan(@NotNull String target, @Nullable String reason, @Nullable Date expires, @Nullable String source);
++    public <E extends BanEntry<? super T>> E addBan(@NotNull String target, @Nullable String reason, @Nullable Date expires, @Nullable String source); // Paper
+ 
+     /**
+      * Adds a ban to this list. If a previous ban exists, this will
+@@ -108,7 +108,7 @@ public interface BanList<T> {
+      * @return an immutable set containing every entry tracked by this list
+      */
+     @NotNull
+-    public Set<BanEntry<T>> getEntries();
++    public <E extends BanEntry<? super T>> Set<E> getEntries(); // Paper
+ 
+     /**
+      * Gets if a {@link BanEntry} exists for the target, indicating an active
+diff --git a/src/main/java/org/bukkit/OfflinePlayer.java b/src/main/java/org/bukkit/OfflinePlayer.java
+index 8cb7000bc5e4e3c987cb0ac73d113eedb141e178..e2c3271c4b7b8eb5ac14ffd1c4492a4d3c17123c 100644
+--- a/src/main/java/org/bukkit/OfflinePlayer.java
++++ b/src/main/java/org/bukkit/OfflinePlayer.java
+@@ -133,7 +133,7 @@ public interface OfflinePlayer extends ServerOperator, AnimalTamer, Configuratio
+      *     (updated) previous ban
+      */
+     @Nullable
+-    public BanEntry<PlayerProfile> ban(@Nullable String reason, @Nullable Date expires, @Nullable String source);
++    public <E extends BanEntry<? super com.destroystokyo.paper.profile.PlayerProfile>> E ban(@Nullable String reason, @Nullable Date expires, @Nullable String source);
+ 
+     /**
+      * Checks if this player is whitelisted or not
+diff --git a/src/main/java/org/bukkit/ban/ProfileBanList.java b/src/main/java/org/bukkit/ban/ProfileBanList.java
+index e805e629cede1c4c0674282c930cb67852718c3e..f19708daf777d9b4e1ba5c485c13da245c41ad07 100644
+--- a/src/main/java/org/bukkit/ban/ProfileBanList.java
++++ b/src/main/java/org/bukkit/ban/ProfileBanList.java
+@@ -10,7 +10,7 @@ import org.jetbrains.annotations.Nullable;
+ /**
+  * A {@link BanList} targeting player profile bans.
+  */
+-public interface ProfileBanList extends BanList<PlayerProfile> {
++public interface ProfileBanList extends BanList<com.destroystokyo.paper.profile.PlayerProfile> { // Paper
+ 
+     /**
+      * {@inheritDoc}
+@@ -22,9 +22,36 @@ public interface ProfileBanList extends BanList<PlayerProfile> {
+      * @param source source of the ban, null indicates implementation default
+      * @return the entry for the newly created ban, or the entry for the
+      *     (updated) previous ban
++     * @deprecated use {@link #addBan(com.destroystokyo.paper.profile.PlayerProfile, String, Date, String)}
+      * @throws IllegalArgumentException if ProfilePlayer has an invalid UUID
+      */
+     @Nullable
+-    public BanEntry<PlayerProfile> addBan(@NotNull PlayerProfile target, @Nullable String reason, @Nullable Date expires, @Nullable String source);
++    // Paper start
++    @Deprecated
++    public <E extends BanEntry<? super com.destroystokyo.paper.profile.PlayerProfile>> E addBan(@NotNull PlayerProfile target, @Nullable String reason, @Nullable Date expires, @Nullable String source);
+ 
++    /**
++     * @throws IllegalArgumentException if ProfilePlayer has an invalid UUID
++     */
++    @Nullable BanEntry<com.destroystokyo.paper.profile.PlayerProfile> addBan(com.destroystokyo.paper.profile.@NotNull PlayerProfile target, @Nullable String reason, @Nullable Date expires, @Nullable String source);
++
++    // the 3 methods below are added to maintain compat for the PlayerProfile parameter type
++    /**
++     * @deprecated use {@link #getBanEntry(Object)}
++     */
++    @Deprecated
++    @Nullable <E extends BanEntry<? super com.destroystokyo.paper.profile.PlayerProfile>> E getBanEntry(@NotNull PlayerProfile target);
++
++    /**
++     * @deprecated use {@link #isBanned(Object)}
++     */
++    @Deprecated
++    boolean isBanned(@NotNull PlayerProfile target);
++
++    /**
++     * @deprecated use {@link #pardon(Object)}
++     */
++    @Deprecated
++    void pardon(@NotNull PlayerProfile target);
++    // Paper end
+ }
+diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
+index 71ebe8150cb7847fabbd1d619016ecfe916bac35..18e1b4754b86cdb13abd6f456334de7143a4165a 100644
+--- a/src/main/java/org/bukkit/entity/Player.java
++++ b/src/main/java/org/bukkit/entity/Player.java
+@@ -296,7 +296,7 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+      *     (updated) previous ban
+      */
+     @Nullable
+-    public BanEntry<PlayerProfile> ban(@Nullable String reason, @Nullable Date expires, @Nullable String source, boolean kickPlayer);
++    public <E extends BanEntry<? super com.destroystokyo.paper.profile.PlayerProfile>> E ban(@Nullable String reason, @Nullable Date expires, @Nullable String source, boolean kickPlayer); // Paper
+ 
+     /**
+      * Adds this user's current IP address to the {@link IpBanList}. If a previous ban exists, this will
