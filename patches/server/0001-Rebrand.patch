@@ -5,10 +5,10 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 2c5ef872dd62a1ee427d6fd0e70be10a0afcdedd..41eadea69e81eee59f0e2d67f1fa4ca90d54d19d 100644
+index 240394b1d9dd1449674a299aa73fa155be2d3d82..0e5805e0e5a574ef0e313b4281ce2481db9b1a75 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -8,7 +8,7 @@ plugins {
+@@ -14,7 +14,7 @@ val alsoShade: Configuration by configurations.creating
  
  dependencies {
      // Purpur start
@@ -17,7 +17,7 @@ index 2c5ef872dd62a1ee427d6fd0e70be10a0afcdedd..41eadea69e81eee59f0e2d67f1fa4ca9
      implementation("io.papermc.paper:paper-mojangapi:${project.version}") {
          exclude("io.papermc.paper", "paper-api")
      }
-@@ -87,7 +87,7 @@ tasks.jar {
+@@ -95,7 +95,7 @@ tasks.jar {
          attributes(
              "Main-Class" to "org.bukkit.craftbukkit.Main",
              "Implementation-Title" to "CraftBukkit",
@@ -26,7 +26,7 @@ index 2c5ef872dd62a1ee427d6fd0e70be10a0afcdedd..41eadea69e81eee59f0e2d67f1fa4ca9
              "Implementation-Vendor" to date, // Paper
              "Specification-Title" to "Bukkit",
              "Specification-Version" to project.version,
-@@ -103,8 +103,10 @@ tasks.jar {
+@@ -116,8 +116,10 @@ tasks.compileJava {
  }
  
  publishing {
@@ -142,7 +142,7 @@ index b5b6657e52e4f7a630229bd3ba433438af293e22..dc73c28f04cba40cace4696edc1a0fed
          stringbuilder.append("// ");
          stringbuilder.append(CrashReport.getErrorComment());
 diff --git a/src/main/java/net/minecraft/server/MinecraftServer.java b/src/main/java/net/minecraft/server/MinecraftServer.java
-index 1143e2e76ef896ecf54fa0296c66815b6f856740..865b61d7ce65954d7ebb62205fbf3b5c392e29d8 100644
+index 6afdf37406d7dae04a7fec94e0c39d5136521730..b17df918216a06962d234df222ee7305e95f5734 100644
 --- a/src/main/java/net/minecraft/server/MinecraftServer.java
 +++ b/src/main/java/net/minecraft/server/MinecraftServer.java
 @@ -926,7 +926,7 @@ public abstract class MinecraftServer extends ReentrantBlockableEventLoop<TickTa
@@ -155,10 +155,10 @@ index 1143e2e76ef896ecf54fa0296c66815b6f856740..865b61d7ce65954d7ebb62205fbf3b5c
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index da88daa4f5458c9e98cd1f4925745ed7c9242c6a..b771cac7ff63a4352a04b138a673e7a9cf1b65aa 100644
+index 81aee45085a29ceb8e36d7948432e2ca688978c0..6a47406d70945e45ca366d9bfe26c3343dc8dcab 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-@@ -261,7 +261,7 @@ import javax.annotation.Nullable; // Paper
+@@ -264,7 +264,7 @@ import javax.annotation.Nullable; // Paper
  import javax.annotation.Nonnull; // Paper
  
  public final class CraftServer implements Server {
@@ -168,7 +168,7 @@ index da88daa4f5458c9e98cd1f4925745ed7c9242c6a..b771cac7ff63a4352a04b138a673e7a9
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 257d7edd8216cbc983464fb5ca4887d6ede9a66d..7c040ef1370a556e090e7f7859d9da6e70270b8d 100644
+index 0bc9b176a3b86a5b4153a2110621534c692d8240..00108e348904a0ad257d1ac43ee113f1ba297dc5 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
 @@ -306,7 +306,7 @@ public class Main {
@@ -181,10 +181,10 @@ index 257d7edd8216cbc983464fb5ca4887d6ede9a66d..7c040ef1370a556e090e7f7859d9da6e
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-index 73bad77ae58ce6f817c60b28d5f40d637717531b..06c54568fb46eb8acc39590e70cd91acae925692 100644
+index 14c22d5247c8b449ea5dd89292764df491892fde..9f1728fa9fd8f97d38244d46992dbe7b669b0bb4 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftLivingEntity.java
-@@ -885,7 +885,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
+@@ -912,7 +912,7 @@ public class CraftLivingEntity extends CraftEntity implements LivingEntity {
              return EntityCategory.WATER;
          }
  
@@ -207,7 +207,7 @@ index 99597258e8e88cd9e2c901c4ac3ff7faeeabee2b..52b687736655c976bc1efca1a8eb3b62
  
          if (stream != null) {
 diff --git a/src/main/java/org/purpurmc/purpur/PurpurConfig.java b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
-index 06fa43b469aea15dc64ce1866d08843327a34965..e00416ef39c8f43e5579cb293e6b444fc2878cc7 100644
+index b974b59d421cf97bc9547ea75fe4643d89639bc1..4c7bf640d78220fb7f3be26c675488797d846026 100644
 --- a/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 +++ b/src/main/java/org/purpurmc/purpur/PurpurConfig.java
 @@ -229,7 +229,7 @@ public class PurpurConfig {

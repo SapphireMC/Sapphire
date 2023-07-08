@@ -26,7 +26,7 @@ index 473b91ab7cf04c0fcb91a7fe7a2265642ec40247..ab4ae9cba2d33a43ec9c610d8b2a09b3
          }
      }
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
- index 475f6bc9639f89559d441525d03745799e9c480b..e40ae262284342cf4a4a20d1b36bb764d413cb56 100644
+index 475f6bc9639f89559d441525d03745799e9c480b..e40ae262284342cf4a4a20d1b36bb764d413cb56 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -1793,10 +1793,11 @@ public class ServerPlayer extends Player {
@@ -71,7 +71,7 @@ index ebcdf6aee72b817b9bbba8f8d580eae1876fc6e5..c0900258cdff98db2a51f996c984da4b
                  entity.getPassengersAndSelf().forEach((entity1) -> {
                      // Paper start
 diff --git a/src/main/java/net/minecraft/world/entity/Entity.java b/src/main/java/net/minecraft/world/entity/Entity.java
-index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572f33e0001 100644
+index 7f6455d7cee4a634bc3323232f6e5df629eac999..22dd5400a95b2f30aca5aa1e53c981622eac549b 100644
 --- a/src/main/java/net/minecraft/world/entity/Entity.java
 +++ b/src/main/java/net/minecraft/world/entity/Entity.java
 @@ -608,6 +608,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
@@ -90,15 +90,15 @@ index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572
              this.stopRiding();
          }
  
-@@ -2882,6 +2884,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
-                 return false;
-             } else {
+@@ -2904,6 +2906,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+                 }
+                 // Spigot end
                  if (this.isPassenger()) {
 +                    this.dismountReason = org.spigotmc.event.entity.EntityDismountEvent.DismountReason.DEAD_VEHICLE; // Sapphire
                      this.stopRiding();
                  }
  
-@@ -2907,6 +2910,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2929,6 +2932,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      }
  
      public void ejectPassengers() {
@@ -111,7 +111,7 @@ index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572
          for (int i = this.passengers.size() - 1; i >= 0; --i) {
              ((Entity) this.passengers.get(i)).stopRiding();
          }
-@@ -3003,6 +3012,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -2986,6 +2995,8 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
      // Paper start
      protected boolean removePassenger(Entity entity) { return removePassenger(entity, false);}
      protected boolean removePassenger(Entity entity, boolean suppressCancellation) { // CraftBukkit
@@ -120,7 +120,7 @@ index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572
          // Paper end
          if (entity.getVehicle() == this) {
              throw new IllegalStateException("Use x.stopRiding(y), not y.removePassenger(x)");
-@@ -3027,7 +3038,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -3010,7 +3021,7 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              }
              // CraftBukkit end
              // Spigot start
@@ -129,7 +129,7 @@ index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572
              // Suppress during worldgen
              if (this.valid) {
                  Bukkit.getPluginManager().callEvent(event);
-@@ -4844,7 +4855,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
+@@ -4828,7 +4839,12 @@ public abstract class Entity implements Nameable, EntityAccess, CommandSource {
              this.stopRiding();
          }
  
@@ -142,12 +142,12 @@ index 4a8b5139cd13639dca0cc6b341ce43203735fcc7..2d4198790748dea409691e8382146572
 +        // Sapphire end
          this.levelCallback.onRemove(reason);
          // Paper start - Folia schedulers
-         if (!(this instanceof ServerPlayer) && reason != RemovalReason.CHANGED_DIMENSION) {
+         if (!(this instanceof ServerPlayer) && reason != RemovalReason.CHANGED_DIMENSION && !alreadyRemoved) {
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 4bca5c24ccae1c65c56a206d4ba658d2779e7f5c..30fd77aa2b7a15459ee33d10eeae8af36bb80ae5 100644
+index 260cebdca6413a256d3b0e2236c777641cdc2f37..a819d35f6b83d579a064e41fd401067495f7857b 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -459,6 +459,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -458,6 +458,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
                  }
  
                  if (!this.level().isClientSide && this.isPassenger() && this.getVehicle() != null && this.getVehicle().dismountsUnderwater()) {
@@ -155,7 +155,7 @@ index 4bca5c24ccae1c65c56a206d4ba658d2779e7f5c..30fd77aa2b7a15459ee33d10eeae8af3
                      this.stopRiding();
                  }
              } else if (this.getAirSupply() < this.getMaxAirSupply()) {
-@@ -4366,6 +4367,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -4356,6 +4357,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
  
      public void startSleeping(BlockPos pos) {
          if (this.isPassenger()) {

@@ -5,10 +5,10 @@ Subject: [PATCH] Include kotlin-stdlib in server jar
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 81c24dc5385acd2cbe57caad38ed763c171c6b64..7d90006c4f6f90a98c76087f77aa47f158d5207f 100644
+index 0e5805e0e5a574ef0e313b4281ce2481db9b1a75..691dacad4216ef30885b359c116913779ea8d6d1 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -52,6 +52,9 @@ dependencies {
+@@ -60,6 +60,9 @@ dependencies {
      implementation("org.mozilla:rhino-engine:1.7.14") // Purpur
      implementation("dev.omega24:upnp4j:1.0") // Purpur
  

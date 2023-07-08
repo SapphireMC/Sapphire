@@ -70,7 +70,7 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index e0e133ab39548b8e671441e3383a6f4df6f6997e..cc8a6949bd372f2ee37cdbd969ab2728811ce339 100644
+index c9a8556d0aa832f05068c8e14343450d3be159bd..475f6bc9639f89559d441525d03745799e9c480b 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
 @@ -282,6 +282,7 @@ public class ServerPlayer extends Player {
@@ -82,7 +82,7 @@ index e0e133ab39548b8e671441e3383a6f4df6f6997e..cc8a6949bd372f2ee37cdbd969ab2728
      private final java.util.concurrent.atomic.AtomicReference<io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances> viewDistances = new java.util.concurrent.atomic.AtomicReference<>(new io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances(-1, -1, -1));
      public io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.PlayerChunkLoaderData chunkLoader;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index 754063cc43d8adca0f70d76d8a75ec820c62cae6..ae4686340442884664063b07bf241c750a122a88 100644
+index aef4c298961ac4ff4757ff87c1fdbe78f1f872bd..422b0f1d1d8fc753818f6ae26b0be09bfa0df7ed 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 @@ -3620,6 +3620,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
@@ -108,10 +108,10 @@ index 754063cc43d8adca0f70d76d8a75ec820c62cae6..ae4686340442884664063b07bf241c75
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index 3d2c4ba68b1fdc10d7592164e1fab9b3a6458187..485b16e94ca5b36baa914766a9401d4c06bd3a64 100644
+index e21cd8c4015cd726bb10d51545d52c3010381848..fa6f0d5d6c0ca6427fa3a8ad88dc66c9384e27b6 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3268,4 +3268,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+@@ -3297,4 +3297,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
          this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket(getEntityId(), io.papermc.paper.adventure.PaperAdventure.asVanilla(message)));
      }
      // Purpur end
