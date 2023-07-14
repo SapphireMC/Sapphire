@@ -175,6 +175,19 @@ index daed278d1bcf84ee42749f24e311b22b70015d79..0f329d6b8e2d3aa8731b58c6606ac1a1
                          //System.err.println("*** Server will start in 20 seconds ***");
                          //Thread.sleep(TimeUnit.SECONDS.toMillis(20));
                          // Paper End
+diff --git a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+index 1adf1ab6af94b561dc8cbbd3e5746e0bb2a11d41..65d88f39a6e047c72f595b9da783d42baeb59e1b 100644
+--- a/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
++++ b/src/main/java/org/bukkit/craftbukkit/util/CraftMagicNumbers.java
+@@ -470,7 +470,7 @@ public final class CraftMagicNumbers implements UnsafeValues {
+ 
+     @Override
+     public com.destroystokyo.paper.util.VersionFetcher getVersionFetcher() {
+-        return new gg.pufferfish.pufferfish.PufferfishVersionFetcher(); // Pufferfish
++        return new com.destroystokyo.paper.PaperVersionFetcher(); // Pufferfish // Sapphire - back to PaperVersionFetcher
+     }
+ 
+     @Override
 diff --git a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java b/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
 index 80553face9c70c2a3d897681e7761df85b22d464..76278161386b648bcf12188df382cb833bee53f3 100644
 --- a/src/main/java/org/bukkit/craftbukkit/util/Versioning.java
