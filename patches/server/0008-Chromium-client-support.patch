@@ -70,33 +70,33 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
          return aliases;
 diff --git a/src/main/java/net/minecraft/server/level/ServerPlayer.java b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-index c9a8556d0aa832f05068c8e14343450d3be159bd..475f6bc9639f89559d441525d03745799e9c480b 100644
+index 9d46536f80b5b3e6641fd377c02166a431edfd77..c88e0aa5ee8a9c8d429d4dd2bab60343db3e1256 100644
 --- a/src/main/java/net/minecraft/server/level/ServerPlayer.java
 +++ b/src/main/java/net/minecraft/server/level/ServerPlayer.java
-@@ -282,6 +282,7 @@ public class ServerPlayer extends Player {
-     private boolean ramBar = false; // Purpur
-     private boolean tpsBar = false; // Purpur
-     private boolean compassBar = false; // Purpur
+@@ -277,6 +277,7 @@ public class ServerPlayer extends Player {
+     public final com.destroystokyo.paper.util.misc.PooledLinkedHashSets.PooledObjectLinkedOpenHashSet<ServerPlayer> cachedSingleHashSet; // Paper
+     public PlayerNaturallySpawnCreaturesEvent playerNaturallySpawnedEvent; // Paper
+     public org.bukkit.event.player.PlayerQuitEvent.QuitReason quitReason = null; // Paper - there are a lot of changes to do if we change all methods leading to the event
 +    public boolean chromiumClient = false; // Sapphire
  
      private final java.util.concurrent.atomic.AtomicReference<io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances> viewDistances = new java.util.concurrent.atomic.AtomicReference<>(new io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.ViewDistances(-1, -1, -1));
      public io.papermc.paper.chunk.system.RegionizedPlayerChunkLoader.PlayerChunkLoaderData chunkLoader;
 diff --git a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-index aef4c298961ac4ff4757ff87c1fdbe78f1f872bd..422b0f1d1d8fc753818f6ae26b0be09bfa0df7ed 100644
+index 85d6635da9e7cb896d5d507dd9f8fb5d092a740e..2bcb6b7dac2c6a2f9c53248e2c375f336332ced8 100644
 --- a/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
 +++ b/src/main/java/net/minecraft/server/network/ServerGamePacketListenerImpl.java
-@@ -3620,6 +3620,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+@@ -3508,6 +3508,7 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+     private static final ResourceLocation CUSTOM_UNREGISTER = new ResourceLocation("unregister");
  
      private static final ResourceLocation MINECRAFT_BRAND = new ResourceLocation("brand"); // Paper - Brand support
-     private static final ResourceLocation PURPUR_CLIENT = new ResourceLocation("purpur", "client"); // Purpur
 +    private static final ResourceLocation CHROMIUM_CLIENT = new ResourceLocation("chromium", "client"); // Sapphire
  
      @Override
      public void handleCustomPayload(ServerboundCustomPayloadPacket packet) {
-@@ -3651,6 +3652,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
-             } catch (Exception ignore) {
+@@ -3532,6 +3533,13 @@ public class ServerGamePacketListenerImpl implements ServerPlayerConnection, Tic
+                 ServerGamePacketListenerImpl.LOGGER.error("Couldn\'t unregister custom payload", ex);
+                 this.disconnect("Invalid payload UNREGISTER!", org.bukkit.event.player.PlayerKickEvent.Cause.INVALID_PAYLOAD); // Paper - kick event cause
              }
-         // Purpur end
 +        // Sapphire start
 +        } else if (packet.identifier.equals(CHROMIUM_CLIENT)) {
 +            try {
@@ -108,13 +108,13 @@ index aef4c298961ac4ff4757ff87c1fdbe78f1f872bd..422b0f1d1d8fc753818f6ae26b0be09b
              try {
                  byte[] data = new byte[packet.data.readableBytes()];
 diff --git a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-index e21cd8c4015cd726bb10d51545d52c3010381848..fa6f0d5d6c0ca6427fa3a8ad88dc66c9384e27b6 100644
+index dbdeb913e228651cadf5dbd7ec98afc738c80522..de84ed72fc444453dd3ed4e5ec8ca65fe17df47b 100644
 --- a/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/entity/CraftPlayer.java
-@@ -3297,4 +3297,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
-         this.getHandle().connection.send(new net.minecraft.network.protocol.game.ClientboundPlayerCombatKillPacket(getEntityId(), io.papermc.paper.adventure.PaperAdventure.asVanilla(message)));
+@@ -3180,4 +3180,11 @@ public class CraftPlayer extends CraftHumanEntity implements Player {
+         return this.spigot;
      }
-     // Purpur end
+     // Spigot end
 +
 +    // Sapphire start
 +    @Override

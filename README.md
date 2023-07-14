@@ -3,7 +3,7 @@
 
 # Sapphire
 
-Another purpur fork
+Another pufferfish fork
 
 [Downloads][downloads] - [wiki (coming soon)][wiki]
 
@@ -30,7 +30,6 @@ dependencies {
 ```
 
 - Also includes all API provided by
-  [Purpur](https://github.com/PurpurMC/Purpur),
   [Pufferfish](https://github.com/pufferfish-gg/Pufferfish),
   [Paper](https://github.com/PaperMC/Paper),
   [Spigot](https://hub.spigotmc.org/stash/projects/SPIGOT/repos/spigot), and

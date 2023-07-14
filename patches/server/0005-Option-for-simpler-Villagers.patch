@@ -5,10 +5,10 @@ Subject: [PATCH] Option for simpler Villagers
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index a8cf5e06636f047c9d54fd9f7567434bc7b3c418..0bdd441af129546dab3527423431497f715b6da2 100644
+index f124203e74fa6df2d183078d5eb6e4f2e1f45c0b..f679844ac46baf960cdafcd5670d825368af18e8 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -133,6 +133,13 @@ public class SapphireConfig {
+@@ -135,6 +135,13 @@ public class SapphireConfig {
          itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
      }
  
@@ -23,7 +23,7 @@ index a8cf5e06636f047c9d54fd9f7567434bc7b3c418..0bdd441af129546dab3527423431497f
      public static boolean animalCollisions = true;
      public static boolean ambientCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/npc/Villager.java b/src/main/java/net/minecraft/world/entity/npc/Villager.java
-index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64d8362429 100644
+index c4ddf2661bca728d504918171295e10e307b18b4..084334742c2100e0263d68d8a189c3f430f2860d 100644
 --- a/src/main/java/net/minecraft/world/entity/npc/Villager.java
 +++ b/src/main/java/net/minecraft/world/entity/npc/Villager.java
 @@ -101,6 +101,7 @@ import org.bukkit.event.entity.VillagerReplenishTradeEvent;
@@ -34,7 +34,7 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
      private static final EntityDataAccessor<VillagerData> DATA_VILLAGER_DATA = SynchedEntityData.defineId(Villager.class, EntityDataSerializers.VILLAGER_DATA);
      public static final int BREEDING_FOOD_THRESHOLD = 12;
      public static final Map<Item, Integer> FOOD_POINTS = ImmutableMap.of(Items.BREAD, 4, Items.POTATO, 1, Items.CARROT, 1, Items.BEETROOT, 1);
-@@ -152,8 +153,14 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -150,12 +151,47 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      public Villager(EntityType<? extends Villager> entityType, Level world, VillagerType type) {
          super(entityType, world);
          this.gossips = new GossipContainer();
@@ -50,9 +50,6 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
 +        // Sapphire end
          this.setCanPickUpLoot(true);
          this.setVillagerData(this.getVillagerData().setType(type).setProfession(VillagerProfession.NONE));
-         if (level().purpurConfig.villagerFollowEmeraldBlock) this.goalSelector.addGoal(3, new net.minecraft.world.entity.ai.goal.TemptGoal(this, 1.0D, TEMPT_ITEMS, false));
-@@ -196,6 +203,35 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
-         return this.level().purpurConfig.villagerTakeDamageFromWater;
      }
  
 +    // Sapphire start
@@ -85,9 +82,9 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
 +    // Sapphire end
 +
      @Override
-     protected boolean isAlwaysExperienceDropper() {
-         return this.level().purpurConfig.villagerAlwaysDropExp;
-@@ -254,6 +290,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+     public Brain<Villager> getBrain() {
+         return (Brain<Villager>) super.getBrain(); // CraftBukkit - decompile error
+@@ -168,6 +204,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
  
      @Override
      protected Brain<?> makeBrain(Dynamic<?> dynamic) {
@@ -95,7 +92,7 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
          Brain<Villager> behaviorcontroller = this.brainProvider().makeBrain(dynamic);
  
          this.registerBrainGoals(behaviorcontroller);
-@@ -332,6 +369,28 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -246,6 +283,28 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
      // Spigot End
  
@@ -124,10 +121,10 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
      private int behaviorTick = 0; // Pufferfish
      @Override
      @Deprecated // Paper
-@@ -355,6 +414,13 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
-         else if (this.isLobotomized && shouldRestock()) restock();
-         // Purpur end
-         //this.level().getProfiler().pop(); // Purpur
+@@ -262,6 +321,13 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+         }
+         // Pufferfish end
+         this.level().getProfiler().pop();
 +        // Sapphire start
 +        if (simplerVillagersBehavior && this.getVillagerData().getProfession() == VillagerProfession.NONE) {
 +            this.setVillagerData(this.getVillagerData().setProfession(getRandomProfession()));
@@ -138,7 +135,7 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
          if (this.assignProfessionWhenSpawned) {
              this.assignProfessionWhenSpawned = false;
          }
-@@ -804,6 +870,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -710,6 +776,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      private void tellWitnessesThatIWasMurdered(Entity killer) {
@@ -146,7 +143,7 @@ index 2ea19f72dd8e86d5821f734c13ac2dc6f53e9c30..dc1d5d856d8338ea5811e62eb628fa64
          Level world = this.level();
  
          if (world instanceof ServerLevel) {
-@@ -822,6 +889,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
+@@ -728,6 +795,7 @@ public class Villager extends AbstractVillager implements ReputationEventHandler
      }
  
      public void releasePoi(MemoryModuleType<GlobalPos> pos) {

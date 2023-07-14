@@ -129,12 +129,12 @@ index 0000000000000000000000000000000000000000..f425005ac93ab78f967b65bee14f7278
 +    }
 +}
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 7b482c1275ae9bcd028d4ffa8367daae02a170c3..795e5b12ec00187e420025c05ee3b979838abd10 100644
+index 81dbf4ae89d1959996c453c4e15abf046edc0bd9..38deac094eccb6eb6c2305a01f3760e98fc721e4 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -130,4 +130,38 @@ public class SapphireConfig {
-     private static void settings() {
-         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
+@@ -132,4 +132,38 @@ public class SapphireConfig {
+         serverModName = getString("settings.server-mod-name", serverModName);
+         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", disableEntityStuckChecks);
      }
 +
 +    public static boolean playerCollisions = true;
@@ -172,10 +172,10 @@ index 7b482c1275ae9bcd028d4ffa8367daae02a170c3..795e5b12ec00187e420025c05ee3b979
 +    }
  }
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index 0de0b85a54a61f39604600723c07a25b9ba91345..260cebdca6413a256d3b0e2236c777641cdc2f37 100644
+index 64b93ff0b24685db8d40f9855a58c8f214063510..f0363fb325331b44b487f8b3f4956519a1871d6b 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-@@ -3649,7 +3649,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
+@@ -3537,7 +3537,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
                  return;
              }
              // Paper end - don't run getEntities if we're not going to use its result

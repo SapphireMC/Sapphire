@@ -10,7 +10,9 @@ plugins {
     id("io.papermc.paperweight.patcher") version "1.5.5"
 }
 
-allprojects {
+val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
+
+subprojects {
     apply(plugin = "java")
     apply(plugin = "maven-publish")
 
@@ -19,11 +21,7 @@ allprojects {
             languageVersion.set(JavaLanguageVersion.of(17))
         }
     }
-}
 
-val paperMavenPublicUrl = "https://repo.papermc.io/repository/maven-public/"
-
-subprojects {
     tasks {
         withType<JavaCompile> {
             options.encoding = Charsets.UTF_8.name()
@@ -70,16 +68,16 @@ paperweight {
     remapRepo.set(paperMavenPublicUrl)
     decompileRepo.set(paperMavenPublicUrl)
 
-    useStandardUpstream("purpur") {
-        url.set(github("PurpurMC", "Purpur"))
-        ref.set(providers.gradleProperty("purpurCommit"))
+    useStandardUpstream("pufferfish") {
+        url.set(github("pufferfish-gg", "Pufferfish"))
+        ref.set(providers.gradleProperty("pufferfishRef"))
 
         withStandardPatcher {
-            baseName("Purpur")
-
+            apiSourceDirPath.set("pufferfish-api")
             apiPatchDir.set(layout.projectDirectory.dir("patches/api"))
             apiOutputDir.set(layout.projectDirectory.dir("Sapphire-API"))
 
+            serverSourceDirPath.set("pufferfish-server")
             serverPatchDir.set(layout.projectDirectory.dir("patches/server"))
             serverOutputDir.set(layout.projectDirectory.dir("Sapphire-Server"))
         }
@@ -93,7 +91,6 @@ tasks.generateDevelopmentBundle {
         listOf(
             "https://repo.maven.apache.org/maven2/",
             paperMavenPublicUrl,
-            "https://repo.purpurmc.org/snapshots",
             "https://the-planet.fun/repo/snapshots/",
         )
     )
@@ -132,5 +129,17 @@ tasks.register<Copy>("renamedReobfPaperclipJar") {
 
     rename {
         it.replace("paperclip-${project.version}-reobf", project.properties["mcVersion"].toString())
+    }
+}
+
+tasks.register("printMinecraftVersion") {
+    doLast {
+        println(providers.gradleProperty("mcVersion").get().trim())
+    }
+}
+
+tasks.register("printSapphireVersion") {
+    doLast {
+        println(project.version)
     }
 }

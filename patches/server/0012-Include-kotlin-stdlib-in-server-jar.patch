@@ -5,16 +5,16 @@ Subject: [PATCH] Include kotlin-stdlib in server jar
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 0e5805e0e5a574ef0e313b4281ce2481db9b1a75..691dacad4216ef30885b359c116913779ea8d6d1 100644
+index e4264750cf472295e15df26f1b9306e5f1226e0d..d1d605f6e18905a3e202dc42fa01ebca6815e07f 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -60,6 +60,9 @@ dependencies {
-     implementation("org.mozilla:rhino-engine:1.7.14") // Purpur
-     implementation("dev.omega24:upnp4j:1.0") // Purpur
+@@ -56,6 +56,9 @@ dependencies {
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
+     runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
  
-+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.22") // Sapphire
-+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22") // Sapphire
++    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0") // Sapphire
++    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0") // Sapphire
 +
      // Pufferfish start
      implementation("org.yaml:snakeyaml:1.32")
-     implementation ("com.github.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {
+     implementation ("me.carleslc.Simple-YAML:Simple-Yaml:1.8.4") {

@@ -51,12 +51,12 @@ javac 17.0.1
 
 ## Understanding Patches
 
-Sapphire is mostly patches and extensions to Purpur. These patches/extensions are
+Sapphire is mostly patches and extensions to Pufferfish. These patches/extensions are
 split into different directories which target certain parts of the code. These
 directories are:
 
-- `Sapphire-API` - Modifications to `Purpur-API`;
-- `Sapphire-Server` - Modifications to `Purpur-Server`.
+- `Sapphire-API` - Modifications to `Pufferfish-API`;
+- `Sapphire-Server` - Modifications to `Pufferfish-Server`.
 
 Because the entire structure is based on patches and git, a basic understanding
 of how to use git is required. A basic tutorial can be found here:

@@ -5,10 +5,10 @@ Subject: [PATCH] Disable enforce-secure-profile by default
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 1ea3012995c738c67b31e997c138f824f9e69ba1..9994b53ce4c722d22e1dff989d14f977f3e2d365 100644
+index 818289e831e3dad29345c43265e2efd7689bc500..b0fe779e4f1f1da0e6fcff9ee6547bfb6314890b 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-@@ -155,7 +155,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+@@ -154,7 +154,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
          this.textFilteringConfig = this.get("text-filtering-config", "");
          this.playerIdleTimeout = this.getMutable("player-idle-timeout", 0);
          this.whiteList = this.getMutable("white-list", false);

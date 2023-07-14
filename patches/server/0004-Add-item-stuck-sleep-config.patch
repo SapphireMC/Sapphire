@@ -5,25 +5,26 @@ Subject: [PATCH] Add item stuck sleep config
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-index 795e5b12ec00187e420025c05ee3b979838abd10..a8cf5e06636f047c9d54fd9f7567434bc7b3c418 100644
+index 38deac094eccb6eb6c2305a01f3760e98fc721e4..f124203e74fa6df2d183078d5eb6e4f2e1f45c0b 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireConfig.java
-@@ -127,8 +127,10 @@ public class SapphireConfig {
-     }
+@@ -128,9 +128,11 @@ public class SapphireConfig {
  
+     public static String serverModName = "Sapphire";
      public static boolean disableEntityStuckChecks = false;
 +    public static int itemStuckSleepTicks = 1;
      private static void settings() {
-         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", false);
+         serverModName = getString("settings.server-mod-name", serverModName);
+         disableEntityStuckChecks = getBoolean("settings.disable-entity-stuck-checks", disableEntityStuckChecks);
 +        itemStuckSleepTicks = getInt("settings.item-stuck-sleep-ticks", itemStuckSleepTicks);
      }
  
      public static boolean playerCollisions = true;
 diff --git a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-index d045877bfb0f364a43c8448cad21cc39d0565964..3fc3b214c4f84caa29df4787d8f9b69bf5379c3e 100644
+index 80fc7918cb294b0d88a293bd6a920441cb55c3ad..16b07d2bddf65d81cd03804ac1f2554b925387f6 100644
 --- a/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/item/ItemEntity.java
-@@ -156,7 +156,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
+@@ -150,7 +150,7 @@ public class ItemEntity extends Entity implements TraceableEntity {
  
              if (this.level().isClientSide) {
                  this.noPhysics = false;
