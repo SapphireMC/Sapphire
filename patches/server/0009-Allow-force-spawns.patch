@@ -19,10 +19,10 @@ index eac31c3fcc9161711328588ac852fcae1116d8ef..727cc7a5fd26ad081c1f53d48ea218b5
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 9b9a9606e5be94b394606f2306e7b7a5ed781e1d..7b17768af6352a8e28ed23422fe1051975b6e3f3 100644
+index acb38f927c2418c91adf91c7b790ea6869835537..bc39253a54855cfd1d05360622eac45f07e9bb18 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -724,7 +724,7 @@ public class CraftEventFactory {
+@@ -727,7 +727,7 @@ public class CraftEventFactory {
              event = CraftEventFactory.callEntitySpawnEvent(entity);
          }
  
