@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/org/bukkit/entity/Player.java b/src/main/java/org/bukkit/entity/Player.java
-index 4f710a941954a3d94acabe2a83bee050ad1ff052..baa76d894f54cde21d690a0fd3f4d9fd275e9bc8 100644
+index 14c92390aeaeee518f43778ccd5fc820fdc62689..d81da4058e750254e0db1c6439e724301c7d29c1 100644
 --- a/src/main/java/org/bukkit/entity/Player.java
 +++ b/src/main/java/org/bukkit/entity/Player.java
-@@ -3175,4 +3175,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
+@@ -3241,4 +3241,13 @@ public interface Player extends HumanEntity, Conversable, OfflinePlayer, PluginM
      @Override
      Spigot spigot();
      // Spigot end
