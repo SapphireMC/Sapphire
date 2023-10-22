@@ -24,7 +24,7 @@ repositories {
 ```
 ```kotlin
 dependencies {
-    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.20.1-R0.1-SNAPSHOT")
+    compileOnly("io.sapphiremc.sapphire:sapphire-api:1.20.2-R0.1-SNAPSHOT")
     // Other dependencies
 }
 ```
@@ -40,7 +40,7 @@ dependencies {
 ```kotlin
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.5.5"
+    id("io.papermc.paperweight.userdev") version "1.5.8"
     // Other plugins
 }
 ```
@@ -52,12 +52,12 @@ repositories {
 ```
 ```kotlin
 dependencies {
-    paperweight.devBundle("io.sapphiremc.sapphire", "1.20.1-R0.1-SNAPSHOT")
+    paperweight.devBundle("io.sapphiremc.sapphire", "1.20.2-R0.1-SNAPSHOT")
     // Other dependencies
 }
 ```
 
-- For more details see [paperweight example repo](https://github.com/PaperMC/paperweight-test-plugin)
+- For more details see [paperweight test plugin](https://github.com/PaperMC/paperweight-test-plugin)
 
 ## Setting up and building
 

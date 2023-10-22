@@ -5,15 +5,15 @@ Subject: [PATCH] Include kotlin-stdlib in server jar
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index e4264750cf472295e15df26f1b9306e5f1226e0d..d1d605f6e18905a3e202dc42fa01ebca6815e07f 100644
+index 316663e83d09f15024de586651c37064b5752a71..761653acaebbc0788eb58051d6b9f6bcd50e3f84 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -56,6 +56,9 @@ dependencies {
      runtimeOnly("org.apache.maven.resolver:maven-resolver-connector-basic:1.7.3")
      runtimeOnly("org.apache.maven.resolver:maven-resolver-transport-http:1.7.3")
  
-+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.0") // Sapphire
-+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0") // Sapphire
++    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.10") // Sapphire
++    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.10") // Sapphire
 +
      // Pufferfish start
      implementation("org.yaml:snakeyaml:1.32")

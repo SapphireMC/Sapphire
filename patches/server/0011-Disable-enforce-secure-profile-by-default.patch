@@ -5,15 +5,15 @@ Subject: [PATCH] Disable enforce-secure-profile by default
 
 
 diff --git a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-index 818289e831e3dad29345c43265e2efd7689bc500..b0fe779e4f1f1da0e6fcff9ee6547bfb6314890b 100644
+index c5598adb8cbcbcf7277c2fd4dd72c243d44d9700..0c2273d610fe16279ec0aa27f8756b25749e85d9 100644
 --- a/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
 +++ b/src/main/java/net/minecraft/server/dedicated/DedicatedServerProperties.java
-@@ -154,7 +154,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
+@@ -155,7 +155,7 @@ public class DedicatedServerProperties extends Settings<DedicatedServerPropertie
          this.textFilteringConfig = this.get("text-filtering-config", "");
          this.playerIdleTimeout = this.getMutable("player-idle-timeout", 0);
          this.whiteList = this.getMutable("white-list", false);
 -        this.enforceSecureProfile = this.get("enforce-secure-profile", true);
 +        this.enforceSecureProfile = this.get("enforce-secure-profile", false); // Sapphire - disable by default
+         this.logIPs = this.get("log-ips", true);
          String s = this.get("level-seed", "");
          boolean flag = this.get("generate-structures", true);
-         long i = WorldOptions.parseSeed(s).orElse(WorldOptions.randomSeed());
