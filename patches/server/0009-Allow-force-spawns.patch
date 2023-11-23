@@ -6,7 +6,7 @@ Subject: [PATCH] Allow force spawns
 Ported from EmpireCraft
 
 diff --git a/src/main/java/net/minecraft/server/level/ServerLevel.java b/src/main/java/net/minecraft/server/level/ServerLevel.java
-index c1b03e4c37ea85ddf283479682d0eb2eca57ee3c..0375ad7ba6d79c7965e98766ba5cc337c044b93c 100644
+index 945783d090e44ebed1d4968c1d1ec0b68f6d494f..3bbd01f0ae1f190584bc302ba9a184ce04463ac3 100644
 --- a/src/main/java/net/minecraft/server/level/ServerLevel.java
 +++ b/src/main/java/net/minecraft/server/level/ServerLevel.java
 @@ -1630,7 +1630,7 @@ public class ServerLevel extends Level implements WorldGenLevel {
@@ -19,10 +19,10 @@ index c1b03e4c37ea85ddf283479682d0eb2eca57ee3c..0375ad7ba6d79c7965e98766ba5cc337
  
      public void addDuringTeleport(Entity entity, CreatureSpawnEvent.SpawnReason reason) {
 diff --git a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-index 193ad79f57255b1ea4cf7930071b4f4988dc2b04..0dc72f3ef8e7cb42ab05a5327575726b990c73ae 100644
+index 5dc160b743534665c6b3efb10b10f7c36e2da5ab..62babfd61a2c8b50907ff456125d73c0b68819a1 100644
 --- a/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
 +++ b/src/main/java/org/bukkit/craftbukkit/event/CraftEventFactory.java
-@@ -754,7 +754,7 @@ public class CraftEventFactory {
+@@ -756,7 +756,7 @@ public class CraftEventFactory {
              event = CraftEventFactory.callEntitySpawnEvent(entity);
          }
  
