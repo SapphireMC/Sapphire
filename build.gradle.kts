@@ -92,6 +92,7 @@ tasks.generateDevelopmentBundle {
             "https://repo.maven.apache.org/maven2/",
             paperMavenPublicUrl,
             "https://the-planet.fun/repo/snapshots/",
+            "https://jitpack.io/"
         )
     )
 }
