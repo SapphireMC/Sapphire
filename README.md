@@ -18,7 +18,7 @@ Another pufferfish fork
 
 ```kotlin
 repositories {
-    maven("https://the-planet.fun/repo/snapshots/")
+    maven("https://the-planet.fun/repo/public/")
     // Other repositories
 }
 ```
@@ -40,13 +40,13 @@ dependencies {
 ```kotlin
 plugins {
     `java-library`
-    id("io.papermc.paperweight.userdev") version "1.5.8"
+    id("io.papermc.paperweight.userdev") version "1.5.11"
     // Other plugins
 }
 ```
 ```kotlin
 repositories {
-    maven("https://the-planet.fun/repo/snapshots")
+    maven("https://the-planet.fun/repo/public")
     // Other repositories
 }
 ```

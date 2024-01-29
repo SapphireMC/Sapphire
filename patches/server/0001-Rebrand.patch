@@ -5,7 +5,7 @@ Subject: [PATCH] Rebrand
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index b99daeab0d9a22dde4cd8d7395a5471f91ebc9f6..9278a32ff2f8bbbd5631421a6aee8c7d63d11583 100644
+index 17de583c91ab7d236c6ec16813e4ae4c042a33e4..c964dada7618d1bec492ecc64121caf2ba23c248 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
 @@ -13,9 +13,9 @@ configurations.named(log4jPlugins.compileClasspathConfigurationName) {
@@ -150,7 +150,7 @@ index 58d076e2a8fa1cf56c4c8d15a502e85fcf48aa90..3c3130359d0c2b4bd3fcb0a651678670
                  this.getRunningThread().stop();
                  try {
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index 697e74b4d966f7472f0cb3dcaca928cdde4714d7..a3b4d1876d0353e586c9a8f8b8a43578b26c2f37 100644
+index 2ecb8bfd98c141e9f5e7f4e441c8df91e1b9fbc2..3507cc9cced1aa73fa886787af9d74dbd16c080c 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -269,7 +269,7 @@ import javax.annotation.Nullable; // Paper
@@ -163,10 +163,10 @@ index 697e74b4d966f7472f0cb3dcaca928cdde4714d7..a3b4d1876d0353e586c9a8f8b8a43578
      private final String bukkitVersion = Versioning.getBukkitVersion();
      private final Logger logger = Logger.getLogger("Minecraft");
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index 2af0068ef338634d1f44532af5db66c2d0b3dd10..caad939768c9d5094ba2160e783eb343442d15b2 100644
+index c737c5d62407337d3db2899cfc01713a058a6467..ca4d9b3a786b536e0ddb717c01d9c11c07a15e2f 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -300,7 +300,7 @@ public class Main {
+@@ -301,7 +301,7 @@ public class Main {
                      if (buildDate.before(deadline.getTime())) {
                          // Paper start - This is some stupid bullshit
                          System.err.println("*** Warning, you've not updated in a while! ***");

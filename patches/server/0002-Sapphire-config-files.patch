@@ -248,7 +248,7 @@ index e5c955e7e99bc07199feabfe9f0301016ad38b84..df333d76cb1f58c1e0314b7941f28cd1
          io.papermc.paper.brigadier.PaperBrigadierProviderImpl.INSTANCE.getClass(); // init PaperBrigadierProvider
          // Paper end
 diff --git a/src/main/java/net/minecraft/world/entity/LivingEntity.java b/src/main/java/net/minecraft/world/entity/LivingEntity.java
-index d6d86597fbca937a32e74ecb913f569f9740e7d8..8e1def4701029de7eafd0649d8ec2ae721a8b0a1 100644
+index 3b9ee3324a084271862ed790e8fc0d469e877ec1..32ef4ac6c9011fbcde9b7d4df220af3ceecc8240 100644
 --- a/src/main/java/net/minecraft/world/entity/LivingEntity.java
 +++ b/src/main/java/net/minecraft/world/entity/LivingEntity.java
 @@ -413,6 +413,7 @@ public abstract class LivingEntity extends Entity implements Attackable {
@@ -280,7 +280,7 @@ index 99e1c645871be28d130319b65700a1b8db093de4..b25e3c4321943ad9fa5a784087cf2dde
          this.world = new CraftWorld((ServerLevel) this, gen, biomeProvider, env);
  
 diff --git a/src/main/java/org/bukkit/craftbukkit/CraftServer.java b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
-index a3b4d1876d0353e586c9a8f8b8a43578b26c2f37..fef2fdc9c2e853be39c17c63f1990c91bbea959b 100644
+index 3507cc9cced1aa73fa886787af9d74dbd16c080c..20c74e25dc96e9fa922c6ec61c776ca43727f033 100644
 --- a/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 +++ b/src/main/java/org/bukkit/craftbukkit/CraftServer.java
 @@ -1041,6 +1041,7 @@ public final class CraftServer implements Server {
@@ -314,10 +314,10 @@ index a3b4d1876d0353e586c9a8f8b8a43578b26c2f37..fef2fdc9c2e853be39c17c63f1990c91
          public void restart() {
              org.spigotmc.RestartCommand.restart();
 diff --git a/src/main/java/org/bukkit/craftbukkit/Main.java b/src/main/java/org/bukkit/craftbukkit/Main.java
-index caad939768c9d5094ba2160e783eb343442d15b2..fdd509a03381afc7e0708db708784b9b29197adb 100644
+index ca4d9b3a786b536e0ddb717c01d9c11c07a15e2f..95bec1ff7168fcd7ce53ad24d1a3a8504e8cb253 100644
 --- a/src/main/java/org/bukkit/craftbukkit/Main.java
 +++ b/src/main/java/org/bukkit/craftbukkit/Main.java
-@@ -173,6 +173,14 @@ public class Main {
+@@ -174,6 +174,14 @@ public class Main {
                          .describedAs("Jar file");
                  // Paper end
  

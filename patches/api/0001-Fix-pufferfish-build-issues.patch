@@ -5,10 +5,10 @@ Subject: [PATCH] Fix pufferfish build issues
 
 
 diff --git a/build.gradle.kts b/build.gradle.kts
-index 28cd7af9bf15a1f2a3d99b9731c4333010980981..cb0551cef2ba29e303137c631f6bce8e3004ec5b 100644
+index b9c75a190dbd7a90ac5ef0fbc6e6fe34806acc4e..c2c1575ec325826f42f228674df87921cc8ec560 100644
 --- a/build.gradle.kts
 +++ b/build.gradle.kts
-@@ -109,6 +109,8 @@ tasks.jar {
+@@ -126,6 +126,8 @@ tasks.jar {
  }
  
  tasks.withType<Javadoc> {
@@ -18,7 +18,7 @@ index 28cd7af9bf15a1f2a3d99b9731c4333010980981..cb0551cef2ba29e303137c631f6bce8e
      options.overview = "src/main/javadoc/overview.html"
      options.use()
 diff --git a/src/test/java/org/bukkit/AnnotationTest.java b/src/test/java/org/bukkit/AnnotationTest.java
-index 06e96e5c98f1a7a68c8b4b5e527314c1aa774e38..59d42142087010d2e5681b49c94462e7fffd76f4 100644
+index 88f1ca89fa640a686231b8eec87e70419b2d73ef..aa11b751f3acb50ec9f6c3b86eb699e4b3064875 100644
 --- a/src/test/java/org/bukkit/AnnotationTest.java
 +++ b/src/test/java/org/bukkit/AnnotationTest.java
 @@ -57,8 +57,12 @@ public class AnnotationTest {
