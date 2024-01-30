@@ -5,10 +5,10 @@ Subject: [PATCH] Chromium client support
 
 
 diff --git a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc400dea306 100644
+index bbac30b5411a204a59cf291543f05b3d99cfd766..5b1e2eb6e930d26ee16c1499d9c6533319a74361 100644
 --- a/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
 +++ b/src/main/java/io/sapphiremc/sapphire/SapphireCommand.java
-@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
+@@ -9,6 +9,7 @@ import org.bukkit.Bukkit;
  import org.bukkit.Location;
  import org.bukkit.command.Command;
  import org.bukkit.command.CommandSender;
@@ -16,8 +16,8 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  import org.jetbrains.annotations.NotNull;
  import org.jetbrains.annotations.Nullable;
  
-@@ -63,6 +64,22 @@ public class SapphireCommand extends Command {
-                     sender.sendMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
+@@ -65,6 +66,22 @@ public class SapphireCommand extends Command {
+                     sender.sendRichMessage(prefix + "Sapphire config reload complete, but some functions need you to restart the server.");
                  }
              }
 +            case "isChromium" -> {
@@ -25,21 +25,21 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
 +                    Player player = Bukkit.getServer().getPlayer(args[1]);
 +                    if (player != null) {
 +                        if (player.usesChromiumClient()) {
-+                            sender.sendMessage(prefix + "Player %s is using chromium client".formatted(args[1]));
++                            sender.sendRichMessage(prefix + "Player %s is using chromium client".formatted(args[1]));
 +                        } else {
-+                            sender.sendMessage(prefix + "Player %s isn't using chromium client".formatted(args[1]));
++                            sender.sendRichMessage(prefix + "Player %s isn't using chromium client".formatted(args[1]));
 +                        }
 +                    } else {
-+                        sender.sendMessage(prefix + "Player %s is null".formatted(args[1]));
++                        sender.sendRichMessage(prefix + "Player %s is null".formatted(args[1]));
 +                    }
 +                } else {
-+                    sender.sendMessage(prefix + "Usage: /sapphire isChromium <name>");
++                    sender.sendRichMessage(prefix + "Usage: /sapphire isChromium <name>");
 +                }
 +            }
              case "ver", "version" -> {
                  if (args.length == 1) {
-                     sender.sendMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
-@@ -74,7 +91,7 @@ public class SapphireCommand extends Command {
+                     sender.sendRichMessage(prefix + "This server is running " + Bukkit.getName() + " version " + Bukkit.getVersion() + " (Git: " + getGitInfo() + ")");
+@@ -85,7 +102,7 @@ public class SapphireCommand extends Command {
          return true;
      }
  
@@ -48,7 +48,7 @@ index c337948c82263af20e55570a2c65288aa0123334..e59f4a767d04046404c266bafba4ccc4
  
      @Override
      public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args, @Nullable Location location) throws IllegalArgumentException {
-@@ -92,6 +109,20 @@ public class SapphireCommand extends Command {
+@@ -103,6 +120,20 @@ public class SapphireCommand extends Command {
                      .toList()
                  );
              }
